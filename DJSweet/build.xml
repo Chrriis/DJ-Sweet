@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<project name="Build Script" default="createJar">
+
+  <target name="createJar" description="Create the Jar files">
+    <delete file="DJSweet.jar"/>
+    <jar duplicate="preserve" destfile="DJSweet.jar">
+	    <fileset dir="bin"/>
+		</jar>
+  </target>
+
+
+</project>
