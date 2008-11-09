@@ -61,6 +61,8 @@ import chrriis.dj.sweet.NSOption;
  */
 public class JWebBrowser extends Composite {
 
+  private static final boolean IS_DEBUGGING_OPTIONS = Boolean.parseBoolean(System.getProperty("sweet.components.debug.printoptions"));
+
   private static final String COMMAND_PREFIX = "command://";
   
   private static final String USE_XULRUNNER_RUNTIME_OPTION_KEY = "XULRunner Runtime";
@@ -142,7 +144,7 @@ public class JWebBrowser extends Composite {
    */
   public JWebBrowser(Composite parent, NSOption... options) {
     super(parent, SWT.NONE);
-    String xulRunnerPath = System.getProperty("nativeswing.webbrowser.xulrunner.home");
+    String xulRunnerPath = System.getProperty("sweet.webbrowser.xulrunner.home");
     if(xulRunnerPath != null) {
       System.setProperty("org.eclipse.swt.browser.XULRunnerPath", xulRunnerPath);
     } else {
@@ -156,7 +158,29 @@ public class JWebBrowser extends Composite {
     }
     int style = SWT.NONE;
     Map<Object, Object> optionMap = NSOption.createOptionMap(options);
-    if(optionMap.get(USE_XULRUNNER_RUNTIME_OPTION_KEY) != null || "xulrunner".equals(System.getProperty("nativeswing.webbrowser.runtime"))) {
+    if(IS_DEBUGGING_OPTIONS) {
+      StringBuilder sb = new StringBuilder();
+      sb.append("Component ").append(getClass().getName()).append("[").append(hashCode()).append("] options: ");
+      boolean isFirst = true;
+      for(Object key: optionMap.keySet()) {
+        if(isFirst) {
+          isFirst = false;
+        } else {
+          sb.append(", ");
+        }
+        Object value = optionMap.get(key);
+        if(value instanceof NSOption) {
+          sb.append(value);
+        } else {
+          sb.append(key).append('=').append(value);
+        }
+      }
+      if(isFirst) {
+        sb.append("<none>");
+      }
+      System.err.println(sb);
+    }
+    if(optionMap.get(USE_XULRUNNER_RUNTIME_OPTION_KEY) != null || "xulrunner".equals(System.getProperty("sweet.webbrowser.runtime"))) {
       this.isXULRunnerRuntime = true;
       style |= SWT.MOZILLA;
     }

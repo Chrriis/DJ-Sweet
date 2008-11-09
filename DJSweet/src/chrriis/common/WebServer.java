@@ -501,7 +501,7 @@ public class WebServer {
       }
     }
     
-    private static final boolean DEBUG_PRINT_REQUESTS = Boolean.parseBoolean(System.getProperty("nativeswing.webserver.debug.printrequests"));
+    private static final boolean DEBUG_PRINT_REQUESTS = Boolean.parseBoolean(System.getProperty("sweet.webserver.debug.printrequests"));
     
     @Override
     public void run() {
@@ -691,7 +691,7 @@ public class WebServer {
     final ServerSocket serverSocket = new ServerSocket();
     serverSocket.bind(new InetSocketAddress(InetAddress.getByName(WebServer.getHostAddress()), port));
     port = serverSocket.getLocalPort();
-    if(Boolean.parseBoolean(System.getProperty("nativeswing.webserver.debug.printport"))) {
+    if(Boolean.parseBoolean(System.getProperty("sweet.webserver.debug.printport"))) {
       System.err.println("Web Server port: " + port);
     }
     Thread listenerThread = new Thread("WebServer") {
@@ -925,7 +925,7 @@ public class WebServer {
   private static String hostAddress;
   
   static {
-    String hostAddress = System.getProperty("nativeswing.webserver.hostaddress");
+    String hostAddress = System.getProperty("sweet.webserver.hostaddress");
     if("<localhost>".equals(hostAddress)) {
       try {
         hostAddress = InetAddress.getLocalHost().getHostAddress();
@@ -944,7 +944,7 @@ public class WebServer {
    */
   public static void setHostAddress(String hostAddress) {
     WebServer.hostAddress = hostAddress;
-    if(Boolean.parseBoolean(System.getProperty("nativeswing.webserver.debug.printhostaddress"))) {
+    if(Boolean.parseBoolean(System.getProperty("sweet.webserver.debug.printhostaddress"))) {
       System.err.println("Web Server host address: " + hostAddress);
     }
   }
