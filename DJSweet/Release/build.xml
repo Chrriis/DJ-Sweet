@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<project name="DJSweet Build Script" default="createRelease" basedir="..">
+
+  <target name="createRelease" description="Create the release">
+    <delete file="DJSweet.zip"/>
+    <ant antfile="documentation/build.xml" inheritall="false"/>
+    <ant antfile="build.xml" inheritall="false"/>
+    <ant antfile="../DJSweet-Demo/build.xml" inheritall="false"/>
+    <zip duplicate="preserve" destfile="Release/DJSweet.zip">
+      <!-- DJSweet documents -->
+      <zipfileset dir="." includes="licence.txt"/>
+      <zipfileset dir="Release" includes="readme.txt,changelog.txt,SystemProperties.txt"/>
+      <!-- DJSweet binaries -->
+      <zipfileset dir="." includes="DJSweet.jar"/>
+      <zipfileset dir="lib" prefix="lib"/>
+      <!-- DJSweet-Demo sources -->
+      <zipfileset dir="../DJSweet-Demo/src" prefix="src/DJSweet-Demo"/>
+      <!-- DJSweet sources -->
+      <zipfileset dir="src" prefix="src/DJSweet"/>
+      <zipfileset dir="win32" prefix="src/DJSweet"/>
+      <!-- DJSweet documentation -->
+      <zipfileset dir="documentation/javadoc" prefix="api"/>
+    </zip>
+  </target>
+
+</project>
