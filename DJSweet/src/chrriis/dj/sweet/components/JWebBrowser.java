@@ -244,6 +244,45 @@ public class JWebBrowser extends Composite {
     });
     browser.addStatusTextListener(new StatusTextListener() {
       public void changed(StatusTextEvent e) {
+        String newStatus = e.text;
+        if(newStatus.startsWith(COMMAND_PREFIX)) {
+          browser.execute("window.status = decodeURIComponent('" + Utils.encodeURL(status == null? "": status) + "');");
+          String query = newStatus.substring(COMMAND_PREFIX.length());
+          if(query.endsWith("/")) {
+            query = query.substring(0, query.length() - 1);
+          }
+          List<String> queryElementList = new ArrayList<String>();
+          StringTokenizer st = new StringTokenizer(query, "&", true);
+          String lastToken = null;
+          while(st.hasMoreTokens()) {
+            String token = st.nextToken();
+            if("&".equals(token)) {
+              if(lastToken == null) {
+                queryElementList.add("");
+              }
+              lastToken = null;
+            } else {
+              lastToken = token;
+              queryElementList.add(Utils.decodeURL(token));
+            }
+          }
+          if(lastToken == null) {
+            queryElementList.add("");
+          }
+          String command = queryElementList.isEmpty()? "": queryElementList.remove(0);
+          String[] args = queryElementList.toArray(new String[0]);
+          WebBrowserEvent ev = null;
+          for(int i=listenerList.size()-1; i>=0; i--) {
+            if(ev == null) {
+              ev = new WebBrowserEvent(JWebBrowser.this);
+            }
+            listenerList.get(i).commandReceived(ev, command, args);
+          }
+          return;
+        }
+        if(newStatus.equals(status)) {
+          return;
+        }
         status = e.text;
         WebBrowserEvent ev = null;
         for(int i=listenerList.size()-1; i>=0; i--) {
@@ -826,7 +865,7 @@ public class JWebBrowser extends Composite {
     return title == null? "": title;
   }
   
-  private String status;
+  private String status = "";
   
   /**
    * Get the status text.
