@@ -30,6 +30,9 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
+import chrriis.dj.sweet.components.JSyntaxHighlighter;
+import chrriis.dj.sweet.components.JSyntaxHighlighter.ContentLanguage;
+
 /**
  * @author Christopher Deckers
  */
@@ -80,8 +83,8 @@ public class DemoShellContent extends Composite {
             Composite exampleContainer = new Composite(tabFolder, SWT.BORDER);
             exampleContainer.setBackground(display.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
             FillLayout fillLayout = new FillLayout();
-            fillLayout.marginWidth = 5;
-            fillLayout.marginHeight = 5;
+            fillLayout.marginWidth = 2;
+            fillLayout.marginHeight = 2;
             exampleContainer.setLayout(fillLayout);
             exampleItem.setControl(exampleContainer);
             exampleParent = exampleContainer;
@@ -95,7 +98,6 @@ public class DemoShellContent extends Composite {
               public void widgetSelected(SelectionEvent e) {
                 if(e.item == sourceItem) {
                   tabFolder.removeSelectionListener(this);
-                  // TODO: add source viewer with syntax highlighting.
                   try {
                     InputStreamReader reader;
                     try {
@@ -106,8 +108,8 @@ public class DemoShellContent extends Composite {
                     StringWriter writer = new StringWriter();
                     char[] chars = new char[1024];
                     for(int i; (i=reader.read(chars)) >= 0; writer.write(chars, 0, i));
-                    Text sourceText = new Text(sourceComposite, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.READ_ONLY);
-                    sourceText.setText(writer.toString());
+                    JSyntaxHighlighter syntaxHighlighter = new JSyntaxHighlighter(sourceComposite);
+                    syntaxHighlighter.setContent(writer.toString(), ContentLanguage.Java);
                     reader.close();
                   } catch(Exception ex) {
                     ex.printStackTrace();

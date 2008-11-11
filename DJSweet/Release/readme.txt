@@ -24,6 +24,9 @@ Java 5.0 or later is required.
 If you want to use the HTML editor, you need the zip of the FCK editor or the
 Tiny MCE editor in your classpath.
 
+If you want to use the syntax highlighter, you need zip of the SyntaxHighlighter
+in your classpath.
+
 3. Any tutorial or demo?
 
 The DJ Sweet Demo presents all the features of the Sweet library, along with
