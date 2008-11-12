@@ -63,7 +63,11 @@ public class JWebBrowser extends Composite {
 
   private static final boolean IS_DEBUGGING_OPTIONS = Boolean.parseBoolean(System.getProperty("sweet.components.debug.printoptions"));
 
-  private static final String COMMAND_PREFIX = "command://";
+  /** The prefix to use when sending a command from some web content, using a static link or by setting window.location from Javascript. */
+  public static final String COMMAND_LOCATION_PREFIX = "command://";
+  
+  /** The prefix to use when sending a command from some web content, by setting window.status from Javascript. */
+  public static final String COMMAND_STATUS_PREFIX = "scommand://";
   
   private static final String USE_XULRUNNER_RUNTIME_OPTION_KEY = "XULRunner Runtime";
   private static final NSOption XUL_RUNNER_RUNTIME_OPTION = new NSOption(USE_XULRUNNER_RUNTIME_OPTION_KEY);
@@ -245,9 +249,9 @@ public class JWebBrowser extends Composite {
     browser.addStatusTextListener(new StatusTextListener() {
       public void changed(StatusTextEvent e) {
         String newStatus = e.text;
-        if(newStatus.startsWith(COMMAND_PREFIX)) {
+        if(newStatus.startsWith(COMMAND_STATUS_PREFIX)) {
           browser.execute("window.status = decodeURIComponent('" + Utils.encodeURL(status == null? "": status) + "');");
-          String query = newStatus.substring(COMMAND_PREFIX.length());
+          String query = newStatus.substring(COMMAND_STATUS_PREFIX.length());
           if(query.endsWith("/")) {
             query = query.substring(0, query.length() - 1);
           }
@@ -331,9 +335,9 @@ public class JWebBrowser extends Composite {
       }
       public void changing(LocationEvent e) {
         final String location = e.location;
-        if(location.startsWith(COMMAND_PREFIX)) {
+        if(location.startsWith(COMMAND_LOCATION_PREFIX)) {
           e.doit = false;
-          String query = location.substring(COMMAND_PREFIX.length());
+          String query = location.substring(COMMAND_LOCATION_PREFIX.length());
           if(query.endsWith("/")) {
             query = query.substring(0, query.length() - 1);
           }
@@ -990,12 +994,12 @@ public class JWebBrowser extends Composite {
         "  var result = function() {" + javascript + "}();" +
         "  var type = result? typeof(result): '';" +
         "  if('string' == type) {" +
-        "    window.location = 'command://' + encodeURIComponent('[[getScriptResult]]') + '&' + encodeURIComponent(result);" +
+        "    window.location = '" + JWebBrowser.COMMAND_LOCATION_PREFIX + "' + encodeURIComponent('[[getScriptResult]]') + '&' + encodeURIComponent(result);" +
         "  } else {" +
-        "    window.location = 'command://' + encodeURIComponent('[[getScriptResult]]') + '&' + encodeURIComponent(type) + '&' + encodeURIComponent(result);" +
+        "    window.location = '" + JWebBrowser.COMMAND_LOCATION_PREFIX + "' + encodeURIComponent('[[getScriptResult]]') + '&' + encodeURIComponent(type) + '&' + encodeURIComponent(result);" +
         "  }" +
         "} catch(exxxxx) {" +
-        "  window.location = 'command://' + encodeURIComponent('[[getScriptResult]]') + '&&'" +
+        "  window.location = '" + JWebBrowser.COMMAND_LOCATION_PREFIX + "' + encodeURIComponent('[[getScriptResult]]') + '&&'" +
         "}");
     if(result == null) {
       return null;
