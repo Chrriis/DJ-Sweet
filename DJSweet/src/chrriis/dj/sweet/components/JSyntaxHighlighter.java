@@ -40,6 +40,7 @@ public class JSyntaxHighlighter extends Composite {
     }
     setLayout(new FillLayout());
     webBrowser = new JWebBrowser(this, options);
+    webBrowser.setDefaultPopupMenuRegistered(false);
     webBrowser.setBarsVisible(false);
   }
   
