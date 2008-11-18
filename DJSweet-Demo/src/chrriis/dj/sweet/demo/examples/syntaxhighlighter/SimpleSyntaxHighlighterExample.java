@@ -26,7 +26,7 @@ public class SimpleSyntaxHighlighterExample extends Composite {
   public SimpleSyntaxHighlighterExample(Composite parent) {
     super(parent, SWT.NONE);
     setLayout(new FillLayout());
-    final JSyntaxHighlighter syntaxHighlighter = new JSyntaxHighlighter(this);
+    JSyntaxHighlighter syntaxHighlighter = new JSyntaxHighlighter(this);
     syntaxHighlighter.setContent(
         "/************************" + LS +
         " * This is some C# code *" + LS +
