@@ -14,11 +14,11 @@ package chrriis.dj.sweet.components;
  */
 public class VLCAudio {
   
-  private JVLCPlayer vlcPlayer;
+//  private JVLCPlayer vlcPlayer;
   private WebBrowserObject webBrowserObject;
   
   VLCAudio(JVLCPlayer vlcPlayer) {
-    this.vlcPlayer = vlcPlayer;
+//    this.vlcPlayer = vlcPlayer;
     this.webBrowserObject = vlcPlayer.getWebBrowserObject();
   }
   
@@ -28,7 +28,7 @@ public class VLCAudio {
    */
   public void setMute(boolean isMute) {
     webBrowserObject.setObjectProperty("audio.mute", isMute);
-    vlcPlayer.adjustVolumePanel();
+//    vlcPlayer.adjustVolumePanel();
   }
   
   /**
@@ -48,7 +48,7 @@ public class VLCAudio {
       throw new IllegalArgumentException("The volume must be between 0 and 100");
     }
     webBrowserObject.setObjectProperty("audio.volume", Math.round((volume * 1.99 + 1)));
-    vlcPlayer.adjustVolumePanel();
+//    vlcPlayer.adjustVolumePanel();
   }
   
   /**
@@ -126,7 +126,7 @@ public class VLCAudio {
    */
   public void toggleMute() {
     webBrowserObject.invokeObjectFunction("audio.toggleMute");
-    vlcPlayer.adjustVolumePanel();
+//    vlcPlayer.adjustVolumePanel();
   }
   
 }

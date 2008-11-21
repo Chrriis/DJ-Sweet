@@ -22,12 +22,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Scale;
 
 import chrriis.common.WebServer;
 import chrriis.dj.sweet.NSOption;
-import chrriis.dj.sweet.components.VLCInput.VLCMediaState;
 
 /**
  * A native multimedia player. It is a browser-based component, which relies on the VLC plugin.<br/>
@@ -79,101 +76,101 @@ public class JVLCPlayer extends Composite {
     return webBrowserObject;
   }
   
-  private Scale seekBarSlider;
-  private volatile boolean isAdjustingSeekBar;
-  private volatile Thread updateThread;
-  private Label timeLabel;
-  private Button volumeButton;
-  private Scale volumeSlider;
-  private boolean isAdjustingVolume;
+//  private Scale seekBarSlider;
+//  private volatile boolean isAdjustingSeekBar;
+//  private volatile Thread updateThread;
+//  private Label timeLabel;
+//  private Button volumeButton;
+//  private Scale volumeSlider;
+//  private boolean isAdjustingVolume;
 
-  void adjustVolumePanel() {
-    volumeButton.setEnabled(true);
-    VLCAudio vlcAudio = getVLCAudio();
-    boolean isMute = vlcAudio.isMute();
-    if(isMute) {
-      volumeButton.setImage(createImage("VolumeOffIcon"));
-      volumeButton.setToolTipText(RESOURCES.getString("VolumeOffText"));
-    } else {
-      volumeButton.setImage(createImage("VolumeOnIcon"));
-      volumeButton.setToolTipText(RESOURCES.getString("VolumeOnText"));
-    }
-    volumeSlider.setEnabled(!isMute);
-    if(!isMute) {
-      isAdjustingVolume = true;
-      volumeSlider.setSelection(vlcAudio.getVolume());
-      isAdjustingVolume = false;
-    }
-  }
-  
-  private void stopUpdateThread() {
-    updateThread = null;
-  }
-  
-  private void startUpdateThread() {
-    if(updateThread != null) {
-      return;
-    }
-    updateThread = new Thread("NativeSwing - VLC Player control bar update") {
-      @Override
-      public void run() {
-        final Thread currentThread = this;
-        while(currentThread == updateThread) {
-          if(isDisposed()) {
-            stopUpdateThread();
-            return;
-          }
-          try {
-            sleep(1000);
-          } catch(Exception e) {}
-          getDisplay().asyncExec(new Runnable() {
-            public void run() {
-              if(currentThread != updateThread) {
-                return;
-              }
-              if(isDisposed()) {
-                return;
-              }
-              VLCInput vlcInput = getVLCInput();
-              VLCMediaState state = vlcInput.getMediaState();
-              boolean isValid = state == VLCMediaState.OPENING || state == VLCMediaState.BUFFERING || state == VLCMediaState.PLAYING || state == VLCMediaState.PAUSED || state == VLCMediaState.STOPPING;
-              if(isValid) {
-                int time = vlcInput.getAbsolutePosition();
-                int length = vlcInput.getDuration();
-                isValid = time >= 0 && length > 0;
-                if(isValid) {
-                  isAdjustingSeekBar = true;
-                  seekBarSlider.setSelection(Math.round(time * 10000f / length));
-                  isAdjustingSeekBar = false;
-                  timeLabel.setText(formatTime(time, length >= 3600000) + " / " + formatTime(length, false));
-                }
-              }
-              if(!isValid) {
-                timeLabel.setText("");
-              }
-              seekBarSlider.setVisible(isValid);
-            }
-          });
-        }
-      }
-    };
-    updateThread.setDaemon(true);
-    updateThread.start();
-  }
-  
-  private static String formatTime(int milliseconds, boolean showHours) {
-    int seconds = milliseconds / 1000;
-    int hours = seconds / 3600;
-    int minutes = (seconds % 3600) / 60;
-    seconds = seconds % 60;
-    StringBuilder sb = new StringBuilder();
-    if(hours != 0 || showHours) {
-      sb.append(hours).append(':');
-    }
-    sb.append(minutes < 10? "0": "").append(minutes).append(':');
-    sb.append(seconds < 10? "0": "").append(seconds);
-    return sb.toString();
-  }
+//  void adjustVolumePanel() {
+//    volumeButton.setEnabled(true);
+//    VLCAudio vlcAudio = getVLCAudio();
+//    boolean isMute = vlcAudio.isMute();
+//    if(isMute) {
+//      volumeButton.setImage(createImage("VolumeOffIcon"));
+//      volumeButton.setToolTipText(RESOURCES.getString("VolumeOffText"));
+//    } else {
+//      volumeButton.setImage(createImage("VolumeOnIcon"));
+//      volumeButton.setToolTipText(RESOURCES.getString("VolumeOnText"));
+//    }
+//    volumeSlider.setEnabled(!isMute);
+//    if(!isMute) {
+//      isAdjustingVolume = true;
+//      volumeSlider.setSelection(vlcAudio.getVolume());
+//      isAdjustingVolume = false;
+//    }
+//  }
+//  
+//  private void stopUpdateThread() {
+//    updateThread = null;
+//  }
+//  
+//  private void startUpdateThread() {
+//    if(updateThread != null) {
+//      return;
+//    }
+//    updateThread = new Thread("NativeSwing - VLC Player control bar update") {
+//      @Override
+//      public void run() {
+//        final Thread currentThread = this;
+//        while(currentThread == updateThread) {
+//          if(isDisposed()) {
+//            stopUpdateThread();
+//            return;
+//          }
+//          try {
+//            sleep(1000);
+//          } catch(Exception e) {}
+//          getDisplay().asyncExec(new Runnable() {
+//            public void run() {
+//              if(currentThread != updateThread) {
+//                return;
+//              }
+//              if(isDisposed()) {
+//                return;
+//              }
+//              VLCInput vlcInput = getVLCInput();
+//              VLCMediaState state = vlcInput.getMediaState();
+//              boolean isValid = state == VLCMediaState.OPENING || state == VLCMediaState.BUFFERING || state == VLCMediaState.PLAYING || state == VLCMediaState.PAUSED || state == VLCMediaState.STOPPING;
+//              if(isValid) {
+//                int time = vlcInput.getAbsolutePosition();
+//                int length = vlcInput.getDuration();
+//                isValid = time >= 0 && length > 0;
+//                if(isValid) {
+//                  isAdjustingSeekBar = true;
+//                  seekBarSlider.setSelection(Math.round(time * 10000f / length));
+//                  isAdjustingSeekBar = false;
+//                  timeLabel.setText(formatTime(time, length >= 3600000) + " / " + formatTime(length, false));
+//                }
+//              }
+//              if(!isValid) {
+//                timeLabel.setText("");
+//              }
+//              seekBarSlider.setVisible(isValid);
+//            }
+//          });
+//        }
+//      }
+//    };
+//    updateThread.setDaemon(true);
+//    updateThread.start();
+//  }
+//  
+//  private static String formatTime(int milliseconds, boolean showHours) {
+//    int seconds = milliseconds / 1000;
+//    int hours = seconds / 3600;
+//    int minutes = (seconds % 3600) / 60;
+//    seconds = seconds % 60;
+//    StringBuilder sb = new StringBuilder();
+//    if(hours != 0 || showHours) {
+//      sb.append(hours).append(':');
+//    }
+//    sb.append(minutes < 10? "0": "").append(minutes).append(':');
+//    sb.append(seconds < 10? "0": "").append(seconds);
+//    return sb.toString();
+//  }
   
   /**
    * Construct a VLC player.
@@ -193,29 +190,38 @@ public class JVLCPlayer extends Composite {
     vlcPlaylist = new VLCPlaylist(this);
     vlcVideo = new VLCVideo(this);
     controlBarPane = new Composite(this, SWT.NONE);
-    controlBarPane.setLayout(new GridLayout());
+    GridLayout controlBarPaneGridLayout = new GridLayout();
+    controlBarPaneGridLayout.marginWidth = 0;
+    controlBarPaneGridLayout.marginHeight = 0;
+    controlBarPane.setLayout(controlBarPaneGridLayout);
     controlBarPane.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-    seekBarSlider = new Scale(controlBarPane, SWT.NONE);
-    seekBarSlider.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-    seekBarSlider.setMaximum(10000);
-    seekBarSlider.setVisible(false);
-    seekBarSlider.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent e) {
-        if(!isAdjustingSeekBar) {
-          getVLCInput().setRelativePosition(((float)seekBarSlider.getSelection()) / 10000);
-        }
-      }
-    });
+//    seekBarSlider = new Scale(controlBarPane, SWT.NONE);
+//    seekBarSlider.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+//    seekBarSlider.setMaximum(10000);
+//    seekBarSlider.setVisible(false);
+//    seekBarSlider.addSelectionListener(new SelectionAdapter() {
+//      @Override
+//      public void widgetSelected(SelectionEvent e) {
+//        if(!isAdjustingSeekBar) {
+//          getVLCInput().setRelativePosition(((float)seekBarSlider.getSelection()) / 10000);
+//        }
+//      }
+//    });
     Composite buttonBarPanel = new Composite(controlBarPane, SWT.NONE);
-    buttonBarPanel.setLayout(new GridLayout(3, false));
+    GridLayout buttonBarPanelGridLayout = new GridLayout(3, false);
+    buttonBarPanelGridLayout.marginWidth = 0;
+    buttonBarPanelGridLayout.marginHeight = 0;
+    buttonBarPanel.setLayout(buttonBarPanelGridLayout);
     buttonBarPanel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-    timeLabel = new Label(buttonBarPanel, SWT.NONE);
-    timeLabel.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, true, false));
-    timeLabel.setText(" ");
+//    timeLabel = new Label(buttonBarPanel, SWT.NONE);
+//    timeLabel.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, true, false));
+//    timeLabel.setText(" ");
     Composite buttonPanel = new Composite(buttonBarPanel, SWT.NONE);
-    buttonPanel.setLayout(new GridLayout(3, false));
-    buttonPanel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+    GridLayout buttonPanelGridLayout = new GridLayout(3, false);
+    buttonPanelGridLayout.marginWidth = 0;
+    buttonPanelGridLayout.marginHeight = 0;
+    buttonPanel.setLayout(buttonPanelGridLayout);
+    buttonPanel.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
     playButton = new Button(buttonPanel, SWT.PUSH);
     playButton.setImage(createImage("PlayIcon"));
     playButton.setEnabled(false);
@@ -246,35 +252,35 @@ public class JVLCPlayer extends Composite {
         getVLCPlaylist().stop();
       }
     });
-    Composite volumePanel = new Composite(buttonBarPanel, SWT.NONE);
-    volumePanel.setLayout(new GridLayout(2, false));
-    volumePanel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, false));
-    volumeButton = new Button(volumePanel, SWT.PUSH);
-    volumeButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-    volumeButton.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent e) {
-        getVLCAudio().toggleMute();
-      }
-    });
-    volumeSlider = new Scale(volumePanel, SWT.NONE);
-    volumeSlider.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-    volumeSlider.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent e) {
-        if(!isAdjustingVolume) {
-          getVLCAudio().setVolume(volumeSlider.getSelection());
-        }
-      }
-    });
-    adjustVolumePanel();
-    volumeButton.setEnabled(false);
-    volumeSlider.setEnabled(false);
+//    Composite volumePanel = new Composite(buttonBarPanel, SWT.NONE);
+//    volumePanel.setLayout(new GridLayout(2, false));
+//    volumePanel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, false));
+//    volumeButton = new Button(volumePanel, SWT.PUSH);
+//    volumeButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//    volumeButton.addSelectionListener(new SelectionAdapter() {
+//      @Override
+//      public void widgetSelected(SelectionEvent e) {
+//        getVLCAudio().toggleMute();
+//      }
+//    });
+//    volumeSlider = new Scale(volumePanel, SWT.NONE);
+//    volumeSlider.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//    volumeSlider.addSelectionListener(new SelectionAdapter() {
+//      @Override
+//      public void widgetSelected(SelectionEvent e) {
+//        if(!isAdjustingVolume) {
+//          getVLCAudio().setVolume(volumeSlider.getSelection());
+//        }
+//      }
+//    });
+//    adjustVolumePanel();
+//    volumeButton.setEnabled(false);
+//    volumeSlider.setEnabled(false);
     setControlBarVisible(false);
 //    adjustBorder();
     addDisposeListener(new DisposeListener() {
       public void widgetDisposed(DisposeEvent e) {
-        stopUpdateThread();
+//        stopUpdateThread();
       }
     });
   }
@@ -375,10 +381,10 @@ public class JVLCPlayer extends Composite {
     playButton.setEnabled(hasContent);
     pauseButton.setEnabled(hasContent);
     stopButton.setEnabled(hasContent);
-    if(hasContent) {
-      adjustVolumePanel();
-      startUpdateThread();
-    }
+//    if(hasContent) {
+//      adjustVolumePanel();
+//      startUpdateThread();
+//    }
   }
 
   /**
