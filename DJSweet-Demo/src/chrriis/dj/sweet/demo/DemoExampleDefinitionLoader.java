@@ -16,6 +16,7 @@ import chrriis.dj.sweet.demo.examples.flashplayer.VariablesAndFlow;
 import chrriis.dj.sweet.demo.examples.htmleditor.CustomConfiguration;
 import chrriis.dj.sweet.demo.examples.htmleditor.SimpleHTMLEditorExample;
 import chrriis.dj.sweet.demo.examples.htmleditor.TinyMCEExample;
+import chrriis.dj.sweet.demo.examples.introduction.Sweet;
 import chrriis.dj.sweet.demo.examples.syntaxhighlighter.SimpleSyntaxHighlighterExample;
 import chrriis.dj.sweet.demo.examples.vlcplayer.SimpleVLCPlayerExample;
 import chrriis.dj.sweet.demo.examples.webbrowser.ClasspathPages;
@@ -34,14 +35,12 @@ import chrriis.dj.sweet.demo.examples.win32.multimediaplayer.SimpleWMediaPlayerE
 public class DemoExampleDefinitionLoader {
 
   public static List<ExampleGroup> getExampleGroupList() {
-    boolean isXULRunnerPresent = System.getProperty("nativeswing.webbrowser.xulrunner.home") != null || System.getenv("XULRUNNER_HOME") != null;
-    String xulRunnerErrorMessage = "Mozilla XULRunner is required to run this example.\n\nPlease download it and either set the \"XULRUNNER_HOME\" environment variable\nor the \"nativeswing.webbrowser.xulrunner.home\" system property.\n(Make sure that \"javaxpcom.jar\" is part of your XULRunner install)";
+    boolean isXULRunnerPresent = System.getProperty("sweet.webbrowser.xulrunner.home") != null || System.getenv("XULRUNNER_HOME") != null;
+    String xulRunnerErrorMessage = "Mozilla XULRunner is required to run this example.\n\nPlease download it and either set the \"XULRUNNER_HOME\" environment variable\nor the \"sweet.webbrowser.xulrunner.home\" system property.\n(Make sure that \"javaxpcom.jar\" is part of your XULRunner install)";
     List<ExampleGroup> exampleGroupList = new ArrayList<ExampleGroup>();
-//    exampleGroupList.add(new ExampleGroup("Introduction", new Example[] {
-//        new Example("Native Integration", NativeIntegration.class, "First, some background information on the problems of native integration in a Swing-based application.", false),
-//        new Example("The Solution", TheSolution.class, "The DJ Project - NativeSwing.", false),
-//        new Example("Codewise", Codewise.class, "How hard is it to code using this library?", false),
-//    }));
+    exampleGroupList.add(new ExampleGroup("Introduction", new Example[] {
+        new Example("Sweet", Sweet.class, "First, some background information about the DJ Sweet project.", false),
+    }));
     exampleGroupList.add(new ExampleGroup("JWebBrowser", new Example[] {
         new Example("Simple Example", SimpleWebBrowserExample.class, "This is a simple example that shows the basic configuration of an embedded web browser component.", true),
         new Example("Setting Content", SettingContent.class, "Set any HTML content to the web browser.", true),
