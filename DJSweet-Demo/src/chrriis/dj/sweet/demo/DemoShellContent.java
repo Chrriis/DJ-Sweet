@@ -23,6 +23,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -125,8 +126,14 @@ public class DemoShellContent extends Composite {
             Text descriptionTextField = new Text(exampleWrapper, SWT.BORDER | SWT.WRAP | SWT.READ_ONLY);
             descriptionTextField.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
             descriptionTextField.setText(example.getDescription());
-            Control exampleComponent = componentClass.getConstructor(Composite.class).newInstance(exampleWrapper);
-            exampleComponent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+            if(!example.isAvailable()) {
+              Label notAvailableLabel = new Label(exampleWrapper, SWT.WRAP);
+              notAvailableLabel.setText(example.getNotAvailableMessage());
+              notAvailableLabel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
+            } else {
+              Control exampleComponent = componentClass.getConstructor(Composite.class).newInstance(exampleWrapper);
+              exampleComponent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+            }
           } catch (Exception ex) {
             ex.printStackTrace();
           }
