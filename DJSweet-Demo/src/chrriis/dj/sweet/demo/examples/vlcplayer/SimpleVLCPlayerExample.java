@@ -23,7 +23,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import chrriis.dj.sweet.components.JVLCPlayer;
-import chrriis.dj.sweet.demo.examples.webbrowser.SimpleWebBrowserExample;
 
 /**
  * @author Christopher Deckers
@@ -92,7 +91,7 @@ public class SimpleVLCPlayerExample extends Composite {
     Display display = new Display();
     Shell shell = new Shell(display);
     shell.setLayout(new FillLayout());
-    new SimpleWebBrowserExample(shell);
+    new SimpleVLCPlayerExample(shell);
     shell.setSize(800, 600);
     shell.open();
     while(!shell.isDisposed()) {
