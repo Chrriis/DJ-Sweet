@@ -8,3 +8,4 @@ Licence terms: LGPL (see licence.txt)
 * Version 0.9.7 (xxxxxxxxxxxxxxx):
 
 - DJ Sweet is a pure SWT port of DJ NativeSwing 0.9.7.
+- Updated VLC API to latest (0.9.6).
