@@ -100,11 +100,10 @@ public class DemoShellContent extends Composite {
       final TabFolder tabFolder = new TabFolder(content, SWT.NONE);
       TabItem exampleItem = new TabItem(tabFolder, SWT.NONE);
       exampleItem.setText("Demo");
-      Composite exampleContainer = new Composite(tabFolder, SWT.BORDER);
-      exampleContainer.setBackground(getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+      Composite exampleContainer = new Composite(tabFolder, SWT.NONE);
       FillLayout fillLayout = new FillLayout();
-      fillLayout.marginWidth = 2;
-      fillLayout.marginHeight = 2;
+//      fillLayout.marginWidth = 2;
+//      fillLayout.marginHeight = 2;
       exampleContainer.setLayout(fillLayout);
       exampleItem.setControl(exampleContainer);
       exampleParent = exampleContainer;
@@ -141,8 +140,12 @@ public class DemoShellContent extends Composite {
     }
     try {
       Composite exampleWrapper = new Composite(exampleParent, SWT.NONE);
-      exampleWrapper.setLayout(new GridLayout());
-      Text descriptionTextField = new Text(exampleWrapper, SWT.BORDER | SWT.WRAP | SWT.READ_ONLY);
+      GridLayout layout = new GridLayout();
+      layout.marginWidth = 0;
+      layout.marginHeight = 0;
+      layout.marginTop = 5;
+      exampleWrapper.setLayout(layout);
+      Text descriptionTextField = new Text(exampleWrapper, SWT.WRAP | SWT.READ_ONLY);
       descriptionTextField.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
       descriptionTextField.setText(example.getDescription());
       if(!example.isAvailable()) {
@@ -150,8 +153,11 @@ public class DemoShellContent extends Composite {
         notAvailableLabel.setText(example.getNotAvailableMessage());
         notAvailableLabel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
       } else {
-        Control exampleComponent = componentClass.getConstructor(Composite.class).newInstance(exampleWrapper);
-        exampleComponent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        Composite parent = new Composite(exampleWrapper, SWT.BORDER);
+        parent.setBackground(getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+        parent.setLayout(new FillLayout());
+        parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        componentClass.getConstructor(Composite.class).newInstance(parent);
       }
     } catch (Exception ex) {
       ex.printStackTrace();
