@@ -117,7 +117,7 @@ public class JVLCPlayer extends Composite {
 //    if(updateThread != null) {
 //      return;
 //    }
-//    updateThread = new Thread("NativeSwing - VLC Player control bar update") {
+//    updateThread = new Thread("Sweet - VLC Player control bar update") {
 //      @Override
 //      public void run() {
 //        final Thread currentThread = this;

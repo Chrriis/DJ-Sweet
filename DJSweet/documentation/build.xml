@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="DJNativeSwing Build Script" default="createJavadoc" basedir="..">
+<project name="DJSweet Build Script" default="createJavadoc" basedir="..">
 
   <target name="createJavadoc" description="Create the javadoc">
     <delete dir="documentation/javadoc"/>
