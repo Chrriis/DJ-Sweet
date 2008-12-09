@@ -7,6 +7,7 @@
  */
 package chrriis.dj.sweet.components;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -61,13 +62,18 @@ public class JVLCPlayer extends Composite {
       objectHTMLConfiguration.setWindowsInstallationURL("http://downloads.videolan.org/pub/videolan/vlc/latest/win32/axvlc.cab");
       objectHTMLConfiguration.setMimeType("application/x-vlc-plugin");
       objectHTMLConfiguration.setInstallationURL("http://www.videolan.org");
-      objectHTMLConfiguration.setWindowsParamName("Src");
-      objectHTMLConfiguration.setParamName("target");
+//      objectHTMLConfiguration.setWindowsParamName("Src");
+//      objectHTMLConfiguration.setParamName("target");
       objectHTMLConfiguration.setVersion("VideoLAN.VLCPlugin.2");
       vlcPlayer.options = null;
       return objectHTMLConfiguration;
     }
     
+    @Override
+    public String getLocalFileURL(File localFile) {
+      return "file://" + localFile.getAbsolutePath();
+    }
+
   }
   
   private WebBrowserObject webBrowserObject;
@@ -111,7 +117,7 @@ public class JVLCPlayer extends Composite {
 //    if(updateThread != null) {
 //      return;
 //    }
-//    updateThread = new Thread("NativeSwing - VLC Player control bar update") {
+//    updateThread = new Thread("Sweet - VLC Player control bar update") {
 //      @Override
 //      public void run() {
 //        final Thread currentThread = this;
@@ -377,6 +383,10 @@ public class JVLCPlayer extends Composite {
     }
     this.options = options;
     webBrowserObject.load(resourceLocation);
+    VLCPlaylist playlist = getVLCPlaylist();
+    playlist.clear();
+    playlist.addItem(resourceLocation);
+    playlist.play();
     boolean hasContent = webBrowserObject.hasContent();
     playButton.setEnabled(hasContent);
     pauseButton.setEnabled(hasContent);
