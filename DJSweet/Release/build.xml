@@ -11,7 +11,7 @@
       <zipfileset dir="." includes="licence.txt"/>
       <zipfileset dir="Release" includes="readme.txt,changelog.txt,SystemProperties.txt"/>
       <!-- DJSweet binaries -->
-      <zipfileset dir="." includes="DJSweet.jar"/>
+      <zipfileset dir="." includes="DJSweet.jar,DJSweet-Demo.jar"/>
       <zipfileset dir="lib" prefix="lib"/>
       <!-- DJSweet-Demo sources -->
       <zipfileset dir="../DJSweet-Demo/src" prefix="src/DJSweet-Demo"/>
