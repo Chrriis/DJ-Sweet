@@ -384,9 +384,11 @@ public class JVLCPlayer extends Composite {
     this.options = options;
     webBrowserObject.load(resourceLocation);
     VLCPlaylist playlist = getVLCPlaylist();
-    playlist.clear();
-    playlist.addItem(resourceLocation);
-    playlist.play();
+    if(resourceLocation != null && !"".equals(resourceLocation)) {
+      playlist.clear();
+      playlist.addItem(resourceLocation);
+      playlist.play();
+    }
     boolean hasContent = webBrowserObject.hasContent();
     playButton.setEnabled(hasContent);
     pauseButton.setEnabled(hasContent);
