@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -31,27 +31,27 @@ import chrriis.dj.sweet.NSOption;
 /**
  * An HTML editor. It is a browser-based component, which relies on the FCKeditor (the default) or the TinyMCE editor.<br/>
  * Methods execute when this component is initialized. If the component is not initialized, methods will be executed as soon as it gets initialized.
- * If the initialization fails, the methods will not have any effect. The results from methods have relevant values only when the component is valid. 
+ * If the initialization fails, the methods will not have any effect. The results from methods have relevant values only when the component is valid.
  * @author Christopher Deckers
  * @author Jörn Heid (TinyMCE implementation)
  */
 public class JHTMLEditor extends Composite {
 
   static interface JHTMLEditorImplementation {
-    
+
     public WebServerContent getWebServerContent(HTTPRequest httpRequest, String resourcePath, final int instanceID);
-    
+
     public String getHTMLContent();
-    
+
     public void setHTMLContent(String html);
 
   }
-  
+
   private static final String HTML_EDITOR_COMPONENT_OPTION_KEY = "HTML Editor";
   static final String SET_CUSTOM_JAVASCRIPT_CONFIGURATION_OPTION_KEY = "HTML Editor Custom Configuration Script";
-  
+
   public static enum HTMLEditorImplementation { FCKEditor, TinyMCE };
-  
+
   public static NSOption setEditorImplementation(final HTMLEditorImplementation comp) {
     return new NSOption (HTML_EDITOR_COMPONENT_OPTION_KEY) {
       @Override
@@ -60,7 +60,7 @@ public class JHTMLEditor extends Composite {
       }
     };
   }
-   
+
   /**
    * Create an option to set custom configuration for the FCKeditor or the TinyMCE editor.<br/>
    * The list of possible options to set for FCKeditor can be found here: <a href="http://docs.fckeditor.net/FCKeditor_2.x/Developers_Guide/Configuration/Configuration_Options">http://docs.fckeditor.net/FCKeditor_2.x/Developers_Guide/Configuration/Configuration_Options</a>.<br/>
@@ -75,16 +75,16 @@ public class JHTMLEditor extends Composite {
       }
     };
   }
-  
+
   private JWebBrowser webBrowser;
   private int instanceID;
 
   private JHTMLEditorImplementation implementation;
-  
+
   JHTMLEditorImplementation getImplementation() {
     return implementation;
   }
-  
+
   /**
    * Construct an HTML editor.
    * @param options the options to configure the behavior of this component.
@@ -146,7 +146,7 @@ public class JHTMLEditor extends Composite {
     }, 4000);
     removeInitializationListener(initializationListener);
   }
-  
+
   /**
    * Get the web browser that contains this component. The web browser should only be used to add listeners, for example to listen to window creation events.
    * @return the web browser.
@@ -154,7 +154,7 @@ public class JHTMLEditor extends Composite {
   public JWebBrowser getWebBrowser() {
     return webBrowser;
   }
-  
+
   protected static WebServerContent getWebServerContent(final HTTPRequest httpRequest) {
     String resourcePath = httpRequest.getResourcePath();
     int index = resourcePath.indexOf('/');
@@ -170,7 +170,7 @@ public class JHTMLEditor extends Composite {
     JHTMLEditorImplementation implementation = htmlEditor.getImplementation();
     return implementation.getWebServerContent(httpRequest, resourcePath_, instanceID);
   }
-  
+
   /**
    * Get the HTML content.
    * @return the HTML content.
@@ -187,7 +187,7 @@ public class JHTMLEditor extends Composite {
     html = JHTMLEditor.convertLinksFromLocal(html.replaceAll("[\r\n]", " "));
     implementation.setHTMLContent(html);
   }
-  
+
   static String convertLinksToLocal(String html) {
     if(html == null) {
       return html;
@@ -220,9 +220,9 @@ public class JHTMLEditor extends Composite {
     }
     return html;
   }
-  
+
   protected List<HTMLEditorListener> htmlEditorListenerList = new ArrayList<HTMLEditorListener>();
-  
+
   /**
    * Add an HTML editor listener.
    * @param listener The HTML editor listener to add.
@@ -230,7 +230,7 @@ public class JHTMLEditor extends Composite {
   public void addHTMLEditorListener(HTMLEditorListener listener) {
     htmlEditorListenerList.add(listener);
   }
-  
+
   /**
    * Remove an HTML editor listener.
    * @param listener the HTML editor listener to remove.
@@ -238,7 +238,7 @@ public class JHTMLEditor extends Composite {
   public void removeHTMLEditorListener(HTMLEditorListener listener) {
     htmlEditorListenerList.remove(listener);
   }
-  
+
   /**
    * Get the HTML editor listeners.
    * @return the HTML editor listeners.
@@ -246,21 +246,21 @@ public class JHTMLEditor extends Composite {
   public HTMLEditorListener[] getHTMLEditorListeners() {
     return htmlEditorListenerList.toArray(new HTMLEditorListener[0]);
   }
-  
+
   private static interface InitializationListener extends EventListener {
     public void objectInitialized();
   }
 
   protected List<InitializationListener> initializationListenerList = new ArrayList<InitializationListener>();
-  
+
   private void addInitializationListener(InitializationListener listener) {
     initializationListenerList.add(listener);
   }
-  
+
   private void removeInitializationListener(InitializationListener listener) {
     initializationListenerList.remove(listener);
   }
-  
+
 //  private InitializationListener[] getInitializationListeners() {
 //    return initializationListenerList.toArray(new InitializationListener[0]);
 //  }

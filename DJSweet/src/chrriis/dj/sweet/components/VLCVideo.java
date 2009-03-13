@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -13,13 +13,13 @@ package chrriis.dj.sweet.components;
  * @author Christopher Deckers
  */
 public class VLCVideo {
-  
+
   private WebBrowserObject webBrowserObject;
-  
+
   VLCVideo(JVLCPlayer vlcPlayer) {
-    this.webBrowserObject = vlcPlayer.getWebBrowserObject();
+    webBrowserObject = vlcPlayer.getWebBrowserObject();
   }
-  
+
   /**
    * Get the width of the video.
    * @return the width, or -1 in case of failure.
@@ -28,7 +28,7 @@ public class VLCVideo {
     Object value = webBrowserObject.getObjectProperty("video.width");
     return value == null? -1: ((Number)value).intValue();
   }
-  
+
   /**
    * Get the height of the video.
    * @return the height, or -1 in case of failure.
@@ -37,7 +37,7 @@ public class VLCVideo {
     Object value = webBrowserObject.getObjectProperty("video.height");
     return value == null? -1: ((Number)value).intValue();
   }
-  
+
   /**
    * Set whether the video is playing in full screen mode.
    * @param isFullScreen true if the full screen mode should be active, false otherwise.
@@ -45,7 +45,7 @@ public class VLCVideo {
   public void setFullScreen(boolean isFullScreen) {
     webBrowserObject.setObjectProperty("video.fullscreen", isFullScreen);
   }
-  
+
   /**
    * Indicate whether the video is in full screen mode.
    * @return true if the video is in full screen mode.
@@ -53,7 +53,7 @@ public class VLCVideo {
   public boolean isFullScreen() {
     return Boolean.TRUE.equals(webBrowserObject.getObjectProperty("video.fullscreen"));
   }
-  
+
   /**
    * An aspect ratio.
    * @author Christopher Deckers
@@ -61,7 +61,7 @@ public class VLCVideo {
   public enum VLCAspectRatio {
     _1x1, _4x3, _16x9, _16x10, _221x100, _5x4,
   }
-  
+
   /**
    * Set the aspect ration of the video.
    * @param aspectRatio the aspect ratio.
@@ -79,22 +79,34 @@ public class VLCVideo {
     }
     webBrowserObject.setObjectProperty("video.aspectRatio", value);
   }
-  
+
   /**
    * Get the aspect ratio of the video media.
    * @return the aspect ratio, or null in case of failure.
    */
   public VLCAspectRatio getAspectRatio() {
     String value = (String)webBrowserObject.getObjectProperty("video.aspectRatio");
-    if("1:1".equals(value)) return VLCAspectRatio._1x1;
-    if("4:3".equals(value)) return VLCAspectRatio._4x3;
-    if("16:9".equals(value)) return VLCAspectRatio._16x9;
-    if("16:10".equals(value)) return VLCAspectRatio._16x10;
-    if("221:100".equals(value)) return VLCAspectRatio._221x100;
-    if("5:4".equals(value)) return VLCAspectRatio._5x4;
+    if("1:1".equals(value)) {
+      return VLCAspectRatio._1x1;
+    }
+    if("4:3".equals(value)) {
+      return VLCAspectRatio._4x3;
+    }
+    if("16:9".equals(value)) {
+      return VLCAspectRatio._16x9;
+    }
+    if("16:10".equals(value)) {
+      return VLCAspectRatio._16x10;
+    }
+    if("221:100".equals(value)) {
+      return VLCAspectRatio._221x100;
+    }
+    if("5:4".equals(value)) {
+      return VLCAspectRatio._5x4;
+    }
     return null;
   }
-  
+
   /**
    * Set the track of the subtitles.
    * @param subtitleTrack The track of the subtitles, or 0 to disable them.
@@ -102,7 +114,7 @@ public class VLCVideo {
   public void setSubtitleTrack(int subtitleTrack) {
     webBrowserObject.setObjectProperty("video.subtitle", subtitleTrack);
   }
-  
+
   /**
    * Get the track of the subtitles.
    * @return the track of the subtitles, or 0 if disabled, or -1 in case of failure.
@@ -111,12 +123,12 @@ public class VLCVideo {
     Object value = webBrowserObject.getObjectProperty("video.subtitle");
     return value == null? -1: ((Number)value).intValue();
   }
-  
+
   /**
    * Toggle full screen mode.
    */
   public void toggleFullScreen() {
     webBrowserObject.invokeObjectFunction("video.toggleFullscreen");
   }
-  
+
 }

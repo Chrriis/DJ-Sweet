@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Control;
 class BorderUtils {
 
   private BorderUtils() {}
-  
+
   public static void addLoweredBevelBorderPaintListener(final Control control) {
     control.addPaintListener(new PaintListener() {
       public void paintControl(PaintEvent e) {
@@ -44,5 +44,5 @@ class BorderUtils {
       }
     });
   }
-  
+
 }

@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -28,7 +28,7 @@ public class ClasspathPages extends Composite {
     webBrowser.navigate(WebServer.getDefaultWebServer().getClassPathResourceURL(getClass().getName(), "resource/page1.html"));
     webBrowser.setBarsVisible(false);
   }
-  
+
   /* Standard main method to try that test as a standalone application. */
   public static void main(String[] args) {
     Display display = new Display();
@@ -44,5 +44,5 @@ public class ClasspathPages extends Composite {
     }
     display.dispose();
   }
-  
+
 }

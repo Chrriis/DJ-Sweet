@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -41,7 +41,7 @@ public class DemoShellContent extends Composite {
 
   private Composite content;
   private Example lastSelectedExample;
-  
+
   public DemoShellContent(Composite parent) {
     super(parent, SWT.NONE);
     Display display = getDisplay();
@@ -85,7 +85,7 @@ public class DemoShellContent extends Composite {
     tree.select(firstItem);
     selectExample(firstExample);
   }
-  
+
   private void selectExample(Example example) {
     if(example.equals(lastSelectedExample)) {
       return;
@@ -126,7 +126,9 @@ public class DemoShellContent extends Composite {
               }
               StringWriter writer = new StringWriter();
               char[] chars = new char[1024];
-              for(int i; (i=reader.read(chars)) >= 0; writer.write(chars, 0, i));
+              for(int i; (i=reader.read(chars)) >= 0; writer.write(chars, 0, i)) {
+                ;
+              }
               JSyntaxHighlighter syntaxHighlighter = new JSyntaxHighlighter(sourceComposite);
               syntaxHighlighter.setContent(writer.toString(), ContentLanguage.Java);
               reader.close();
@@ -188,5 +190,5 @@ public class DemoShellContent extends Composite {
     }
     display.dispose();
   }
-  
+
 }

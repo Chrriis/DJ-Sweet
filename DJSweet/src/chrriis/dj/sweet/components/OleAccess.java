@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -35,20 +35,20 @@ import chrriis.common.Utils;
 public abstract class OleAccess {
 
   private OleClientSite site;
-  
+
   /**
    * Construct an OLE native component.
    */
   public OleAccess(Composite parent) {
     site = createControl(parent);
   }
-  
+
   protected abstract OleClientSite createControl(Composite parent);
-  
+
   protected static void configureOleFrame(OleClientSite site, OleFrame frame) {
     frame.setData("NS_site", site);
   }
-  
+
   protected static OleClientSite getSite(OleFrame frame) {
     OleClientSite oleClientSite = (OleClientSite)frame.getData("NS_site");
     if(oleClientSite == null) {
@@ -56,7 +56,7 @@ public abstract class OleAccess {
     }
     return oleClientSite;
   }
-  
+
   private Object invokeOleFunction_(boolean isWithResult, String[] propertyPath, Object[] vargs) {
     OleAutomation automation = new OleAutomation(site);
     int[] ids;
@@ -95,23 +95,23 @@ public abstract class OleAccess {
     automation.dispose();
     return null;
   }
-  
+
   public void invokeOleFunction(String functionName, Object... args) {
     invokeOleFunction(new String[] {functionName}, args);
   }
-  
+
   public void invokeOleFunction(String[] functionPath, Object... args) {
     invokeOleFunction_(false, functionPath, args);
   }
-  
+
   public Object invokeOleFunctionWithResult(String functionName, Object... args) {
     return invokeOleFunctionWithResult(new String[] {functionName}, args);
   }
-  
+
   public Object invokeOleFunctionWithResult(String[] functionPath, Object... args) {
     return invokeOleFunction_(true, functionPath, args);
   }
-  
+
   private Object setOleProperty_(String[] propertyPath, Object[] args) {
     OleAutomation automation = new OleAutomation(site);
     int[] ids;
@@ -142,15 +142,15 @@ public abstract class OleAccess {
     automation.dispose();
     return false;
   }
-  
+
   public void setOleProperty(String property, Object... args) {
     setOleProperty(new String[] {property}, args);
   }
-  
+
   public void setOleProperty(String[] propertyPath, Object... args) {
     setOleProperty_(propertyPath, args);
   }
-  
+
   private Object getOleProperty_(String[] propertyPath, Object[] args) {
     OleAutomation automation = new OleAutomation(site);
     int[] ids;
@@ -183,15 +183,15 @@ public abstract class OleAccess {
     automation.dispose();
     return null;
   }
-  
+
   public Object getOleProperty(String property, Object... args) {
     return getOleProperty(new String[] {property}, args);
   }
-  
+
   public Object getOleProperty(String[] propertyPath, Object... args) {
     return getOleProperty_(propertyPath, args);
   }
-  
+
   protected static Variant createVariant(Object value) {
     if(value instanceof Boolean) {
       return new Variant((Boolean)value);
@@ -216,7 +216,7 @@ public abstract class OleAccess {
     }
     throw new IllegalArgumentException("The value could not be converted to a Variant: " + value);
   }
-  
+
   protected static Object getVariantValue(Variant variant) {
     if(variant == null) {
       return null;
@@ -232,7 +232,7 @@ public abstract class OleAccess {
     }
     throw new IllegalArgumentException("The value could not be converted from a Variant: " + variant);
   }
-  
+
   private void dumpOleInterfaceDefinitions(StringBuilder sb, OleAutomation automation, int index) {
     List<OleFunctionDescription> functionList = new ArrayList<OleFunctionDescription>();
     for(int i=0; ; i++) {
@@ -288,9 +288,9 @@ public abstract class OleAccess {
       dispose(variantProperty);
     }
   }
-  
+
   private Map<Short, String> oleTypeToDescriptionMap;
-  
+
   private String getTypeDescription(short type) {
     String description = oleTypeToDescriptionMap.get(type);
     if(description == null) {
@@ -321,19 +321,19 @@ public abstract class OleAccess {
     System.out.print(sb.toString());
     return null;
   }
-  
+
   private static void dispose(Variant variant) {
     if(variant == null) {
       return;
     }
     variant.dispose();
   }
-  
+
   /**
    * Dump the definitions of the OLE interface (properties and functions) to the output stream.
    */
   public void dumpOleInterfaceDefinitions() {
     dumpOleInterfaceDefinitions_();
   }
-  
+
 }

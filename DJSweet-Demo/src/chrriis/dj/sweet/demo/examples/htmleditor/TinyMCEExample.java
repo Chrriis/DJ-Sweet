@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -77,19 +77,21 @@ public class TinyMCEExample extends Composite {
 //    scrollPane.setPreferredSize(new Dimension(0, 100));
 //    southPanel.add(scrollPane, BorderLayout.CENTER);
     getHTMLButton.addSelectionListener(new SelectionAdapter() {
+      @Override
       public void widgetSelected(SelectionEvent e) {
         htmlTextArea.setText(htmlEditor.getHTMLContent());
 //        htmlTextArea.setCaretPosition(0);
       }
     });
     setHTMLButton.addSelectionListener(new SelectionAdapter() {
+      @Override
       public void widgetSelected(SelectionEvent e) {
         htmlEditor.setHTMLContent(htmlTextArea.getText());
       }
     });
     htmlEditor.setHTMLContent(htmlTextArea.getText());
   }
-  
+
   /* Standard main method to try that test as a standalone application. */
   public static void main(String[] args) {
     Display display = new Display();
@@ -105,5 +107,5 @@ public class TinyMCEExample extends Composite {
     }
     display.dispose();
   }
-  
+
 }

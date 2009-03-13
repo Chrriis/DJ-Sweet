@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -49,6 +49,7 @@ public class XPCOMToggleEditionMode extends Composite {
     designModeCheckBox.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
     designModeCheckBox.setText("Edition Mode (allows to type text or resize elements directly in the page)");
     designModeCheckBox.addSelectionListener(new SelectionAdapter() {
+      @Override
       public void widgetSelected(SelectionEvent e) {
         nsIWebBrowser iWebBrowser = MozillaXPCOM.getWebBrowser(webBrowser);
         if(iWebBrowser == null) {
@@ -65,7 +66,7 @@ public class XPCOMToggleEditionMode extends Composite {
       }
     });
   }
-  
+
   /* Standard main method to try that test as a standalone application. */
   public static void main(String[] args) {
     Display display = new Display();
@@ -81,5 +82,5 @@ public class XPCOMToggleEditionMode extends Composite {
     }
     display.dispose();
   }
-  
+
 }

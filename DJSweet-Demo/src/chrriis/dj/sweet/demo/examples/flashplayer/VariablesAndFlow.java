@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -60,6 +60,7 @@ public class VariablesAndFlow extends Composite {
     Button setButton = new Button(getSetNorthPanel, SWT.PUSH);
     setButton.setText("Set");
     setButton.addSelectionListener(new SelectionAdapter() {
+      @Override
       public void widgetSelected(SelectionEvent e) {
         flashPlayer.setVariable("mytext", setTextField.getText());
       }
@@ -75,13 +76,14 @@ public class VariablesAndFlow extends Composite {
     getLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
     getLabel.setText("-");
     getButton.addSelectionListener(new SelectionAdapter() {
+      @Override
       public void widgetSelected(SelectionEvent e) {
         String value = (String)flashPlayer.getVariable("mytext");
         getLabel.setText(value == null || value.length() == 0? " ": value);
       }
     });
   }
-  
+
   /* Standard main method to try that test as a standalone application. */
   public static void main(String[] args) {
     Display display = new Display();
@@ -97,5 +99,5 @@ public class VariablesAndFlow extends Composite {
     }
     display.dispose();
   }
-  
+
 }

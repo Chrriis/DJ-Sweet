@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -31,16 +31,16 @@ import chrriis.dj.sweet.NSOption;
 public class JWebBrowserWindow extends Shell {
 
   private final ResourceBundle RESOURCES = ResourceBundle.getBundle(JWebBrowserWindow.class.getPackage().getName().replace('.', '/') + "/resource/WebBrowser");
-  
+
   private JWebBrowser webBrowser;
-  
+
   /**
    * Create a web browser shell.
    * @param options the options to configure the behavior of the web browser component.
    */
   public JWebBrowserWindow(NSOption... options) {
     setLayout(new FillLayout());
-    this.webBrowser = new JWebBrowser(this, options);
+    webBrowser = new JWebBrowser(this, options);
     Menu fileMenu = webBrowser.getFileMenu();
     new MenuItem(fileMenu, SWT.SEPARATOR);
     MenuItem fileCloseMenuItem = new MenuItem(fileMenu, SWT.PUSH);
@@ -68,7 +68,7 @@ public class JWebBrowserWindow extends Shell {
     bounds.height = bounds.height * 80 / 100;
     setSize(bounds.width, bounds.height);
   }
-  
+
   /**
    * Get the web browser that this window presents.
    * @return the web browser.
@@ -76,7 +76,7 @@ public class JWebBrowserWindow extends Shell {
   public JWebBrowser getWebBrowser() {
     return webBrowser;
   }
-  
+
   /**
    * Show or hide all the bars at once.
    * @param areBarsVisible true to show all bars, false to hide them all.
@@ -84,7 +84,7 @@ public class JWebBrowserWindow extends Shell {
   public void setBarsVisible(boolean areBarsVisible) {
     webBrowser.setBarsVisible(areBarsVisible);
   }
-  
+
   /**
    * Set whether the status bar is visible.
    * @param isStatusBarVisible true if the status bar should be visible, false otherwise.
@@ -92,7 +92,7 @@ public class JWebBrowserWindow extends Shell {
   public void setStatusBarVisible(boolean isStatusBarVisible) {
     webBrowser.setStatusBarVisible(isStatusBarVisible);
   }
-  
+
   /**
    * Indicate whether the status bar is visible.
    * @return true if the status bar is visible.
@@ -100,7 +100,7 @@ public class JWebBrowserWindow extends Shell {
   public boolean isStatusBarVisisble() {
     return webBrowser.isStatusBarVisible();
   }
-  
+
   /**
    * Set whether the menu bar is visible.
    * @param isMenuBarVisible true if the menu bar should be visible, false otherwise.
@@ -108,7 +108,7 @@ public class JWebBrowserWindow extends Shell {
   public void setMenuBarVisible(boolean isMenuBarVisible) {
     webBrowser.setMenuBarVisible(isMenuBarVisible);
   }
-  
+
   /**
    * Indicate whether the menu bar is visible.
    * @return true if the menu bar is visible.
@@ -116,7 +116,7 @@ public class JWebBrowserWindow extends Shell {
   public boolean isMenuBarVisisble() {
     return webBrowser.isMenuBarVisible();
   }
-  
+
   /**
    * Set whether the button bar is visible.
    * @param isButtonBarVisible true if the button bar should be visible, false otherwise.
@@ -124,7 +124,7 @@ public class JWebBrowserWindow extends Shell {
   public void setButtonBarVisible(boolean isButtonBarVisible) {
     webBrowser.setButtonBarVisible(isButtonBarVisible);
   }
-  
+
   /**
    * Indicate whether the button bar is visible.
    * @return true if the button bar is visible.
@@ -132,7 +132,7 @@ public class JWebBrowserWindow extends Shell {
   public boolean isButtonBarVisisble() {
     return webBrowser.isButtonBarVisible();
   }
-  
+
   /**
    * Set whether the location bar is visible.
    * @param isLocationBarVisible true if the location bar should be visible, false otherwise.
@@ -140,7 +140,7 @@ public class JWebBrowserWindow extends Shell {
   public void setLocationBarVisible(boolean isLocationBarVisible) {
     webBrowser.setLocationBarVisible(isLocationBarVisible);
   }
-  
+
   /**
    * Indicate whether the location bar is visible.
    * @return true if the location bar is visible.
@@ -148,10 +148,10 @@ public class JWebBrowserWindow extends Shell {
   public boolean isLocationBarVisisble() {
     return webBrowser.isLocationBarVisible();
   }
-  
+
   @Override
   protected void checkSubclass() {
     // Do nothing
   }
-  
+
 }

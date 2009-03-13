@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -59,6 +59,7 @@ public class SimpleVLCPlayerExample extends Composite {
     controlBarCheckBox.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
     controlBarCheckBox.setText("Control Bar");
     controlBarCheckBox.addSelectionListener(new SelectionAdapter() {
+      @Override
       public void widgetSelected(SelectionEvent e) {
         player.setControlBarVisible(controlBarCheckBox.getSelection());
       }
@@ -70,11 +71,13 @@ public class SimpleVLCPlayerExample extends Composite {
       }
     };
     playerFileTextField.addSelectionListener(new SelectionAdapter() {
+      @Override
       public void widgetDefaultSelected(SelectionEvent e) {
         loadPlayerFileRunnable.run();
       }
     });
     playerFileButton.addSelectionListener(new SelectionAdapter() {
+      @Override
       public void widgetSelected(SelectionEvent e) {
         FileDialog fileDialog = new FileDialog(getShell(), SWT.OPEN);
         String filePath = fileDialog.open();
@@ -85,7 +88,7 @@ public class SimpleVLCPlayerExample extends Composite {
       }
     });
   }
-  
+
   /* Standard main method to try that test as a standalone application. */
   public static void main(String[] args) {
     Display display = new Display();
@@ -101,5 +104,5 @@ public class SimpleVLCPlayerExample extends Composite {
     }
     display.dispose();
   }
-  
+
 }

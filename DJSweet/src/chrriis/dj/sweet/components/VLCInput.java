@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -13,13 +13,13 @@ package chrriis.dj.sweet.components;
  * @author Christopher Deckers
  */
 public class VLCInput {
-  
+
   private WebBrowserObject webBrowserObject;
-  
+
   VLCInput(JVLCPlayer vlcPlayer) {
-    this.webBrowserObject = vlcPlayer.getWebBrowserObject();
+    webBrowserObject = vlcPlayer.getWebBrowserObject();
   }
-  
+
   /**
    * Get the duration in milliseconds of the current media.
    * @return the duration in milliseconds, or -1 in case of failure.
@@ -28,7 +28,7 @@ public class VLCInput {
     Object value = webBrowserObject.getObjectProperty("input.length");
     return value == null? -1: ((Number)value).intValue();
   }
-  
+
   /**
    * Get the number of frames per second.
    * @return the number of frames per second, or NaN in case of failure.
@@ -37,7 +37,7 @@ public class VLCInput {
     Object value = webBrowserObject.getObjectProperty("input.fps");
     return value == null? Float.NaN: ((Number)value).floatValue();
   }
-  
+
   /**
    * Indicate if a video is currently displayed.
    * @return true if a video is displayed.
@@ -45,7 +45,7 @@ public class VLCInput {
   public boolean isVideoDisplayed() {
     return Boolean.TRUE.equals(webBrowserObject.getObjectProperty("input.isVout"));
   }
-  
+
   /**
    * Set the current relative position on the timeline.
    * @param position A value between 0 and 1.
@@ -57,7 +57,7 @@ public class VLCInput {
     }
     throw new IllegalArgumentException("The position must be between 0 and 1");
   }
-  
+
   /**
    * Get the current relative position on the timeline as a float between 0 and 1.
    * @return the current relative position, or Float.NaN if not available.
@@ -66,7 +66,7 @@ public class VLCInput {
     Object value = webBrowserObject.getObjectProperty("input.position");
     return value == null? Float.NaN: ((Number)value).floatValue();
   }
-  
+
   /**
    * Set the current position on the timeline.
    * @param time The current position in milliseconds.
@@ -74,7 +74,7 @@ public class VLCInput {
   public void setAbsolutePosition(int time) {
     webBrowserObject.setObjectProperty("input.time", time);
   }
-  
+
   /**
    * Get the current position on the timeline.
    * @return the current position in milliseconds, or -1 in case of failure.
@@ -83,7 +83,7 @@ public class VLCInput {
     Object value = webBrowserObject.getObjectProperty("input.time");
     return value == null? -1: ((Number)value).intValue();
   }
-  
+
   /**
    * The state of a media.
    * @author Christopher Deckers
@@ -91,7 +91,7 @@ public class VLCInput {
   public enum VLCMediaState {
     IDLE_CLOSE, OPENING, BUFFERING, PLAYING, PAUSED, STOPPING, ERROR,
   }
-  
+
   /**
    * Get the state.
    * @return the state, or null in case of failure.
@@ -112,7 +112,7 @@ public class VLCInput {
     }
     return null;
   }
-  
+
   /**
    * Set the speed factor that is applied when a media is played.
    * @param speedFactor the speed factor.
@@ -120,7 +120,7 @@ public class VLCInput {
   public void setPlaySpeedFactor(float speedFactor) {
     webBrowserObject.setObjectProperty("input.rate", speedFactor);
   }
-  
+
   /**
    * Get the speed factor that is applied when a media is played.
    * @return the speed factor, or NaN in case of failure.
@@ -129,5 +129,5 @@ public class VLCInput {
     Object value = webBrowserObject.getObjectProperty("input.rate");
     return value == null? Float.NaN: ((Number)value).floatValue();
   }
-  
+
 }

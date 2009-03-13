@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -65,13 +65,13 @@ public class JWebBrowser extends Composite {
 
   /** The prefix to use when sending a command from some web content, using a static link or by setting window.location from Javascript. */
   public static final String COMMAND_LOCATION_PREFIX = "command://";
-  
+
   /** The prefix to use when sending a command from some web content, by setting window.status from Javascript. */
   public static final String COMMAND_STATUS_PREFIX = "scommand://";
-  
+
   private static final String USE_XULRUNNER_RUNTIME_OPTION_KEY = "XULRunner Runtime";
   private static final NSOption XUL_RUNNER_RUNTIME_OPTION = new NSOption(USE_XULRUNNER_RUNTIME_OPTION_KEY);
-  
+
   /**
    * Create an option to make the web browser use the Mozilla XULRunner runtime.
    * @return the option to use the XULRunner runtime.
@@ -79,14 +79,14 @@ public class JWebBrowser extends Composite {
   public static NSOption useXULRunnerRuntime() {
     return XUL_RUNNER_RUNTIME_OPTION;
   }
-  
+
   /**
    * Clear all session cookies from all current web browser instances.
    */
   public static void clearSessionCookies() {
     Browser.clearSessions();
   }
-  
+
   private final ResourceBundle RESOURCES = ResourceBundle.getBundle(JWebBrowser.class.getPackage().getName().replace('.', '/') + "/resource/WebBrowser");
 
   private Composite browserContainer;
@@ -99,17 +99,17 @@ public class JWebBrowser extends Composite {
   private MenuItem statusBarCheckBoxMenuItem;
   private Composite buttonBarPane;
   private Composite locationBarPane;
-  
+
   private Label statusLabel;
   private ProgressBar progressBar;
 
   private Text locationField;
-  
+
   private ToolItem backButton;
   private ToolItem forwardButton;
   private ToolItem reloadButton;
   private ToolItem stopButton;
-  
+
   /**
    * Copy the appearance, the visibility of the various bars, from one web browser to another.
    * @param fromWebBrowser the web browser to copy the appearance from.
@@ -121,7 +121,7 @@ public class JWebBrowser extends Composite {
     toWebBrowser.setMenuBarVisible(fromWebBrowser.isMenuBarVisible());
     toWebBrowser.setStatusBarVisible(fromWebBrowser.isStatusBarVisible());
   }
-  
+
   /**
    * Copy the content, whether a URL or its HTML content, from one web browser to another.
    * @param fromWebBrowser the web browser to copy the content from.
@@ -135,13 +135,13 @@ public class JWebBrowser extends Composite {
       toWebBrowser.navigate(location);
     }
   }
-  
+
   private boolean isXULRunnerRuntime;
-  
+
   private boolean isXULRunnerRuntime() {
     return isXULRunnerRuntime;
   }
-  
+
   /**
    * Construct a new web browser.
    * @param options the options to configure the behavior of this component.
@@ -185,7 +185,7 @@ public class JWebBrowser extends Composite {
       System.err.println(sb);
     }
     if(optionMap.get(USE_XULRUNNER_RUNTIME_OPTION_KEY) != null || "xulrunner".equals(System.getProperty("sweet.webbrowser.runtime"))) {
-      this.isXULRunnerRuntime = true;
+      isXULRunnerRuntime = true;
       style |= SWT.MOZILLA;
     }
     GridLayout gridLayout = new GridLayout();
@@ -525,7 +525,7 @@ public class JWebBrowser extends Composite {
       }
     });
   }
-  
+
   private void createMenuBarContent() {
     JWebBrowserWindow webBrowserWindow = getWebBrowserWindow();
     MenuItem fileMenuItem = new MenuItem(menuBar, SWT.CASCADE);
@@ -608,7 +608,7 @@ public class JWebBrowser extends Composite {
       }
     });
   }
-  
+
   private void createStatusBarContent() {
     GridLayout gridLayout = new GridLayout();
     gridLayout.numColumns = 2;
@@ -632,7 +632,7 @@ public class JWebBrowser extends Composite {
     progressBar.setLayoutData(gridData);
     progressBar.setVisible(false);
   }
-  
+
   private void createButtonBarContent() {
     buttonBarPane.setLayout(new FillLayout());
     ToolBar buttonToolBar = new ToolBar(buttonBarPane, SWT.HORIZONTAL | SWT.FLAT);
@@ -676,7 +676,7 @@ public class JWebBrowser extends Composite {
       }
     });
   }
-  
+
   private void updateNavigationButtons() {
     backButton.setEnabled(isBackNavigationEnabled());
     if(backMenuItem != null) {
@@ -687,7 +687,7 @@ public class JWebBrowser extends Composite {
       forwardMenuItem.setEnabled(isForwardNavigationEnabled());
     }
   }
-  
+
   private void updateStopButton(boolean isForcedOn) {
     boolean isStopEnabled = isForcedOn || getLoadingProgress() != 100;
     stopButton.setEnabled(isStopEnabled);
@@ -760,7 +760,7 @@ public class JWebBrowser extends Composite {
       }
     });
   }
-  
+
   /**
    * Set whether the status bar is visible.
    * @param isStatusBarVisible true if the status bar should be visible, false otherwise.
@@ -777,7 +777,7 @@ public class JWebBrowser extends Composite {
     adjustBorder();
     layout();
   }
-  
+
   /**
    * Indicate whether the status bar is visible.
    * @return true if the status bar is visible.
@@ -785,7 +785,7 @@ public class JWebBrowser extends Composite {
   public boolean isStatusBarVisible() {
     return statusBarPane.getVisible();
   }
-  
+
   /**
    * Set whether the menu bar is visible.
    * @param isMenuBarVisible true if the menu bar should be visible, false otherwise.
@@ -800,7 +800,7 @@ public class JWebBrowser extends Composite {
     }
     adjustBorder();
   }
-  
+
   /**
    * Indicate whether the menu bar is visible.
    * @return true if the menu bar is visible.
@@ -808,7 +808,7 @@ public class JWebBrowser extends Composite {
   boolean isMenuBarVisible() {
     return menuBar != null && menuBar.getVisible();
   }
-  
+
   /**
    * Set whether the button bar is visible.
    * @param isButtonBarVisible true if the button bar should be visible, false otherwise.
@@ -825,7 +825,7 @@ public class JWebBrowser extends Composite {
     adjustBorder();
     layout();
   }
-  
+
   /**
    * Indicate whether the button bar is visible.
    * @return true if the button bar is visible.
@@ -833,7 +833,7 @@ public class JWebBrowser extends Composite {
   public boolean isButtonBarVisible() {
     return buttonBarPane.getVisible();
   }
-  
+
   /**
    * Set whether the location bar is visible.
    * @param isLocationBarVisible true if the location bar should be visible, false otherwise.
@@ -850,7 +850,7 @@ public class JWebBrowser extends Composite {
     adjustBorder();
     layout();
   }
-  
+
   /**
    * Indicate whether the location bar is visible.
    * @return true if the location bar is visible.
@@ -858,9 +858,9 @@ public class JWebBrowser extends Composite {
   public boolean isLocationBarVisible() {
     return locationBarPane.getVisible();
   }
-  
+
   private String title;
-  
+
   /**
    * Get the title of the web page.
    * @return the title of the page.
@@ -868,9 +868,9 @@ public class JWebBrowser extends Composite {
   public String getPageTitle() {
     return title == null? "": title;
   }
-  
+
   private String status = "";
-  
+
   /**
    * Get the status text.
    * @return the status text.
@@ -886,7 +886,7 @@ public class JWebBrowser extends Composite {
   public String getHTMLContent() {
     return browser.getText();
   }
-  
+
   /**
    * Set the HTML content.
    * @param html the HTML content.
@@ -894,7 +894,7 @@ public class JWebBrowser extends Composite {
   public boolean setHTMLContent(String html) {
     return browser.setText(html);
   }
-  
+
   /**
    * Get the location of the resource currently displayed.
    * @return the location.
@@ -902,16 +902,16 @@ public class JWebBrowser extends Composite {
   public String getResourceLocation() {
     return browser.getUrl();
   }
-  
+
   /**
    * Navigate to a resource, with its location specified as a URL or path.
    * @param resourceLocation the URL or path.
-   * @return true if the navigation was successful. 
+   * @return true if the navigation was successful.
    */
   public boolean navigate(String resourceLocation) {
     return browser.setUrl(resourceLocation);
   }
-  
+
   /**
    * Indicate if the web browser Back functionality is enabled.
    * @return true if the web browser Back functionality is enabled.
@@ -919,14 +919,14 @@ public class JWebBrowser extends Composite {
   public boolean isBackNavigationEnabled() {
     return browser.isBackEnabled();
   }
-  
+
   /**
    * Invoke the web browser Back functionality.
    */
   public void navigateBack() {
     browser.back();
   }
-  
+
   /**
    * Indicate if the web browser Forward functionality is enabled.
    * @return true if the web browser Forward functionality is enabled.
@@ -934,55 +934,55 @@ public class JWebBrowser extends Composite {
   public boolean isForwardNavigationEnabled() {
     return browser.isForwardEnabled();
   }
-  
+
   /**
    * Invoke the web browser Forward functionality.
    */
   public void navigateForward() {
     browser.forward();
   }
-  
+
   /**
    * Invoke the web browser Reload functionality.
    */
   public void reloadPage() {
     browser.refresh();
   }
-  
+
   /**
    * Invoke the web browser Stop functionality, to stop all current loading operations.
    */
   public void stopLoading() {
     browser.stop();
   }
-  
+
 //  /**
 //   * Execute some javascript, and wait for the indication of success.
 //   * @param javascript the javascript to execute.
-//   * @return true if the execution succeeded. 
+//   * @return true if the execution succeeded.
 //   */
 //  public boolean executeJavascriptAndWait(String javascript) {
 //    return nativeComponent.executeJavascriptAndWait(javascript);
 //  }
-  
+
   private static Pattern JAVASCRIPT_LINE_COMMENT_PATTERN = Pattern.compile("^\\s*//.*$", Pattern.MULTILINE);
-  
+
   private boolean executeJavascriptAndWait(String javascript) {
     javascript = JAVASCRIPT_LINE_COMMENT_PATTERN.matcher(javascript).replaceAll("");
     return browser.execute(javascript);
   }
-  
+
   /**
    * Execute some javascript.
-   * @param javascript the javascript to execute. 
+   * @param javascript the javascript to execute.
    */
   public void executeJavascript(String javascript) {
     executeJavascriptAndWait(javascript);
   }
-  
+
   /**
    * Execute some javascript, and wait for the result coming from the return statements.
-   * @param javascript the javascript to execute which must contain explicit return statements. 
+   * @param javascript the javascript to execute which must contain explicit return statements.
    * @return the value, potentially a String, Number, Boolean.
    */
   public Object executeJavascriptWithResult(String javascript) {
@@ -1028,7 +1028,7 @@ public class JWebBrowser extends Composite {
     sb.append(")");
     return sb.toString();
   }
-  
+
   /**
    * Convert a Java object to Javascript, to simplify the task of executing scripts. Conversion adds quotes around Strings (with Java escaping and Javascript unescaping around), add brackets to arrays, treats arrays of arrays, and can handle null values.
    * @param o the object to convert, which can be a String, number, boolean, or array.
@@ -1060,7 +1060,7 @@ public class JWebBrowser extends Composite {
     }
     return "decodeURIComponent('" + encodedArg + "')";
   }
-  
+
   private static Object convertJavascriptObjectToJava(String type, String value) {
     if(type.length() == 0) {
       return null;
@@ -1082,7 +1082,7 @@ public class JWebBrowser extends Composite {
     }
     return value;
   }
-  
+
   private String[] executeJavascriptWithCommandResult(final String command, String script) {
     final Object[] resultArray = new Object[] {null};
     WebBrowserAdapter webBrowserListener = new WebBrowserAdapter() {
@@ -1107,9 +1107,9 @@ public class JWebBrowser extends Composite {
     removeWebBrowserListener(webBrowserListener);
     return (String[])resultArray[0];
   }
-  
+
   private int loadingProgress = 100;
-  
+
   /**
    * Get the loading progress, a value between 0 and 100, where 100 means it is fully loaded.
    * @return a value between 0 and 100 indicating the current loading progress.
@@ -1117,7 +1117,7 @@ public class JWebBrowser extends Composite {
   public int getLoadingProgress() {
     return loadingProgress;
   }
-  
+
   /**
    * Show or hide all the bars at once.
    * @param areBarsVisible true to show all bars, false to hide them all.
@@ -1128,7 +1128,7 @@ public class JWebBrowser extends Composite {
     setLocationBarVisible(areBarsVisible);
     setStatusBarVisible(areBarsVisible);
   }
-  
+
   private void adjustBorder() {
     FillLayout layout = (FillLayout)browserContainer.getLayout();
     if(isMenuBarVisible() || isButtonBarVisible() || isLocationBarVisible() || isStatusBarVisible()) {
@@ -1140,7 +1140,7 @@ public class JWebBrowser extends Composite {
     }
     browserContainer.layout();
   }
-  
+
   /**
    * Get the menu bar, which allows to modify the items.
    * @return the menu bar.
@@ -1148,7 +1148,7 @@ public class JWebBrowser extends Composite {
   Menu getMenuBar() {
     return menuBar;
   }
-  
+
   /**
    * Get the file menu, which allows to modify the items.
    * @return the file menu.
@@ -1156,12 +1156,12 @@ public class JWebBrowser extends Composite {
   Menu getFileMenu() {
     return fileMenu;
   }
-  
+
   private Image createIcon(String resourceKey) {
     String value = RESOURCES.getString(resourceKey);
     return value.length() == 0? null: new Image(getDisplay(), new ImageData(JWebBrowser.class.getResourceAsStream(value)));
   }
-  
+
   /**
    * Get the web browser window if the web browser is contained in one.
    * @return the web browser window, or null if the shell that contains the browser is not a web browser window.
@@ -1173,14 +1173,14 @@ public class JWebBrowser extends Composite {
     }
     return null;
   }
-  
+
   private boolean isLoading;
-  
+
   private MenuItem backMenuItem;
   private MenuItem forwardMenuItem;
   private MenuItem reloadMenuItem;
   private MenuItem stopMenuItem;
-  
+
   private void registerDefaultPopupMenu(final Browser browser) {
     Menu oldMenu = browser.getMenu();
     if(oldMenu != null) {
@@ -1237,7 +1237,7 @@ public class JWebBrowser extends Composite {
     });
     browser.setMenu(menu);
   }
-  
+
   /**
    * Set whether this component is able to detect a popup menu gesture to show its default popup menu.
    * @param isDefaultPopupMenuRegistered true if the default popup menu is registered.
@@ -1264,9 +1264,9 @@ public class JWebBrowser extends Composite {
       browser.setMenu(menu);
     }
   }
-  
+
   protected List<WebBrowserListener> listenerList = new ArrayList<WebBrowserListener>();
-  
+
   /**
    * Add a web browser listener.
    * @param listener The web browser listener to add.
@@ -1274,7 +1274,7 @@ public class JWebBrowser extends Composite {
   public void addWebBrowserListener(WebBrowserListener listener) {
     listenerList.add(listener);
   }
-  
+
   /**
    * Remove a web browser listener.
    * @param listener the web browser listener to remove.
@@ -1290,7 +1290,7 @@ public class JWebBrowser extends Composite {
   public WebBrowserListener[] getWebBrowserListeners() {
     return listenerList.toArray(new WebBrowserListener[0]);
   }
-  
+
   /**
    * Get the native component.
    * @return the native componnet.
@@ -1298,5 +1298,5 @@ public class JWebBrowser extends Composite {
   public Browser getNativeComponent() {
     return browser;
   }
-  
+
 }

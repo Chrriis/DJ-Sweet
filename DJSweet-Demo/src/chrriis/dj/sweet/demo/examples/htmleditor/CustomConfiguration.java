@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -31,7 +31,7 @@ public class CustomConfiguration extends Composite {
     JHTMLEditor htmlEditor = new JHTMLEditor(this, JHTMLEditor.setCustomJavascriptConfiguration(configurationScript));
     htmlEditor.setHTMLContent("<p>The toolbar was modified using custom configuration.</p>");
   }
-  
+
   /* Standard main method to try that test as a standalone application. */
   public static void main(String[] args) {
     Display display = new Display();
@@ -47,5 +47,5 @@ public class CustomConfiguration extends Composite {
     }
     display.dispose();
   }
-  
+
 }

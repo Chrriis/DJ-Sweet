@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -44,6 +44,7 @@ public class SimpleWebBrowserExample extends Composite {
     buttonBarCheckBox.setText("Button Bar");
     buttonBarCheckBox.setSelection(webBrowser.isButtonBarVisible());
     buttonBarCheckBox.addSelectionListener(new SelectionAdapter() {
+      @Override
       public void widgetSelected(SelectionEvent e) {
         webBrowser.setButtonBarVisible(buttonBarCheckBox.getSelection());
       }
@@ -53,6 +54,7 @@ public class SimpleWebBrowserExample extends Composite {
     locationBarCheckBox.setText("Location Bar");
     locationBarCheckBox.setSelection(webBrowser.isLocationBarVisible());
     locationBarCheckBox.addSelectionListener(new SelectionAdapter() {
+      @Override
       public void widgetSelected(SelectionEvent e) {
         webBrowser.setLocationBarVisible(locationBarCheckBox.getSelection());
       }
@@ -62,13 +64,14 @@ public class SimpleWebBrowserExample extends Composite {
     statusBarCheckBox.setText("Status Bar");
     statusBarCheckBox.setSelection(webBrowser.isLocationBarVisible());
     statusBarCheckBox.addSelectionListener(new SelectionAdapter() {
+      @Override
       public void widgetSelected(SelectionEvent e) {
         webBrowser.setStatusBarVisible(statusBarCheckBox.getSelection());
       }
     });
     webBrowserPanel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
   }
-  
+
   /* Standard main method to try that test as a standalone application. */
   public static void main(String[] args) {
     Display display = new Display();
@@ -84,5 +87,5 @@ public class SimpleWebBrowserExample extends Composite {
     }
     display.dispose();
   }
-  
+
 }

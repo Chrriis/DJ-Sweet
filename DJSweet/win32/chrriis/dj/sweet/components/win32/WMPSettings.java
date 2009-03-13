@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -14,17 +14,17 @@ import chrriis.dj.sweet.components.OleAccess;
  * @author Christopher Deckers
  */
 public class WMPSettings {
-  
+
   private OleAccess oleAccess;
-  
+
   WMPSettings(JWMediaPlayer wMediaPlayer) {
-    this.oleAccess = wMediaPlayer.getOleAccess();
+    oleAccess = wMediaPlayer.getOleAccess();
   }
-  
+
   void setErrorDialogsEnabled(boolean isErrorDialogEnabled) {
     oleAccess.setOleProperty(new String[] {"settings", "enableErrorDialogs"}, isErrorDialogEnabled);
   }
-  
+
   /**
    * Set the volume.
    * @param volume the new volume, with a value between 0 and 100.
@@ -35,7 +35,7 @@ public class WMPSettings {
     }
     oleAccess.setOleProperty(new String[] {"settings", "volume"}, volume);
   }
-  
+
   /**
    * Get the volume, as a value between 0 and 100.
    * @return the volume, between 0 and 100, or -1 in case of failure. When mute, the volume is still returned.
@@ -50,7 +50,7 @@ public class WMPSettings {
       return -1;
     }
   }
-  
+
   /**
    * Set the play count.
    * @param playCount the new playCount, with a value stricly greater than 0.
@@ -61,7 +61,7 @@ public class WMPSettings {
     }
     oleAccess.setOleProperty(new String[] {"settings", "playCount"}, playCount);
   }
-  
+
   /**
    * Get the playCount, as a value strictly greater than 0.
    * @return the play count, strictly greater than 0, or -1 in case of failure.
@@ -76,7 +76,7 @@ public class WMPSettings {
       return -1;
     }
   }
-  
+
   /**
    * Set the speed factor that is applied when a media is played.
    * @param speedFactor the speed factor, with a value strictly greater than 0.
@@ -87,7 +87,7 @@ public class WMPSettings {
     }
     oleAccess.setOleProperty(new String[]{"settings", "rate"}, (double)speedFactor);
   }
-  
+
   /**
    * Get the speed factor that is applied when a media is played, as a value strictly greater than 0.
    * @return the speed factor, strictly greater than 0, or NaN in case of failure.
@@ -112,7 +112,7 @@ public class WMPSettings {
     }
     oleAccess.setOleProperty(new String[] {"settings", "balance"}, stereoBalance);
   }
-  
+
   /**
    * Get the stereo balance.
    * @return the stereo balance, between -100 and 100, with 0 being the default, or -1 in case of failure. When mute, the balance is still returned.
@@ -127,7 +127,7 @@ public class WMPSettings {
       return -1;
     }
   }
-  
+
   /**
    * Set whether loaded media should automatically start.
    * @param isAutoStart true if the media should start playing automatically when loaded, false otherwise.
@@ -135,7 +135,7 @@ public class WMPSettings {
   public void setAutoStart(boolean isAutoStart) {
     oleAccess.setOleProperty(new String[] {"settings", "autoStart"}, isAutoStart);
   }
-  
+
   /**
    * Indicate whether loading some media should start playing automatically.
    * @return true if loading some media should start playing automatically.
@@ -143,7 +143,7 @@ public class WMPSettings {
   public boolean isAutoStart() {
     return Boolean.TRUE.equals(oleAccess.getOleProperty(new String[] {"settings", "autoStart"}));
   }
-  
+
   /**
    * Set whether audio is mute.
    * @param isMute true if audio should be mute, false otherwise.
@@ -151,7 +151,7 @@ public class WMPSettings {
   public void setMute(boolean isMute) {
     oleAccess.setOleProperty(new String[] {"settings", "mute"}, isMute);
   }
-  
+
   /**
    * Indicate whether audio is mute.
    * @return true if audio is mute.
@@ -159,5 +159,5 @@ public class WMPSettings {
   public boolean isMute() {
     return Boolean.TRUE.equals(oleAccess.getOleProperty(new String[] {"settings", "mute"}));
   }
-  
+
 }

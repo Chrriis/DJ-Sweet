@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -14,13 +14,13 @@ import chrriis.dj.sweet.components.OleAccess;
  * @author Christopher Deckers
  */
 public class WMPControls {
-  
+
   private OleAccess oleAccess;
-  
+
   WMPControls(JWMediaPlayer wMediaPlayer) {
-    this.oleAccess = wMediaPlayer.getOleAccess();
+    oleAccess = wMediaPlayer.getOleAccess();
   }
-  
+
   /**
    * Indicate if the play functionality is enabled.
    * @return true if the play functionality is enabled.
@@ -28,14 +28,14 @@ public class WMPControls {
   public boolean isPlayEnabled() {
     return Boolean.TRUE.equals(oleAccess.getOleProperty(new String[] {"controls", "isAvailable"}, "Play"));
   }
-  
+
   /**
    * Start playing the loaded media.
    */
   public void play() {
     oleAccess.invokeOleFunction(new String[] {"controls", "Play"});
   }
-  
+
   /**
    * Indicate if the stop functionality is enabled.
    * @return true if the stop functionality is enabled.
@@ -43,14 +43,14 @@ public class WMPControls {
   public boolean isStopEnabled() {
     return Boolean.TRUE.equals(oleAccess.getOleProperty(new String[] {"controls", "isAvailable"}, "Stop"));
   }
-  
+
   /**
    * Stop the currently playing media.
    */
   public void stop() {
     oleAccess.invokeOleFunction(new String[] {"controls", "Stop"});
   }
-  
+
   /**
    * Indicate if the pause functionality is enabled.
    * @return true if the pause functionality is enabled.
@@ -58,14 +58,14 @@ public class WMPControls {
   public boolean isPauseEnabled() {
     return Boolean.TRUE.equals(oleAccess.getOleProperty(new String[] {"controls", "isAvailable"}, "Pause"));
   }
-  
+
   /**
    * Pause the currently playing media.
    */
   public void pause() {
     oleAccess.invokeOleFunction(new String[] {"controls", "Pause"});
   }
-  
+
   /**
    * Set the current position on the timeline.
    * @param time The current position in milliseconds.
@@ -73,7 +73,7 @@ public class WMPControls {
   public void setAbsolutePosition(int time) {
     oleAccess.setOleProperty(new String[] {"controls", "currentPosition"}, time / 1000d);
   }
-  
+
   /**
    * Get the current position on the timeline.
    * @return the current position in milliseconds, or -1 in case of failure.
@@ -88,5 +88,5 @@ public class WMPControls {
       return -1;
     }
   }
-  
+
 }

@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -25,13 +25,13 @@ import chrriis.dj.sweet.components.OleAccess;
 /**
  * A multimedia player, based on the Window Media Player (only avaialable on the Windows operating system).<br/>
  * Methods execute when this component is initialized. If the component is not initialized, methods will be executed as soon as it gets initialized.
- * If the initialization fails, the methods will not have any effect. The results from methods have relevant values only when the component is valid. 
+ * If the initialization fails, the methods will not have any effect. The results from methods have relevant values only when the component is valid.
  * @author Christopher Deckers
  */
 public class JWMediaPlayer extends Composite {
 
   private OleAccess oleAccess;
-  
+
   /**
    * Construct a Windows Media Player.
    * @param options the options to configure the behavior of this component.
@@ -40,6 +40,7 @@ public class JWMediaPlayer extends Composite {
     super(parent, SWT.NONE);
     setLayout(new FillLayout());
     oleAccess = new OleAccess(this) {
+      @Override
       protected OleClientSite createControl(Composite parent) {
         OleFrame frame = new OleFrame(parent, SWT.NONE);
         OleClientSite site;
@@ -61,9 +62,9 @@ public class JWMediaPlayer extends Composite {
     wmpSettings.setErrorDialogsEnabled(false);
     setControlBarVisible(true);
   }
-  
+
   private WMPSettings wmpSettings;
-  
+
   /**
    * Get the Media Player object responsible for settings-related actions.
    * @return the Media Player settings object.
@@ -73,7 +74,7 @@ public class JWMediaPlayer extends Composite {
   }
 
   private WMPControls wmpControls;
-  
+
   /**
    * Get the Media Player object responsible for controls-related actions.
    * @return the Media Player controls object.
@@ -83,7 +84,7 @@ public class JWMediaPlayer extends Composite {
   }
 
   private WMPMedia wmpMedia;
-  
+
   /**
    * Get the Media Player object responsible for media-related actions.
    * @return the Media Player media object.
@@ -91,11 +92,11 @@ public class JWMediaPlayer extends Composite {
   public WMPMedia getWMPMedia() {
     return wmpMedia;
   }
-  
+
 //  public String getLoadedResource() {
 //    return (String)nativeComponent.getOleProperty(new String[] {"url"});
 //  }
-  
+
   /**
    * Load a file.
    * @param resourcePath the path or URL to the file.
@@ -103,7 +104,7 @@ public class JWMediaPlayer extends Composite {
   public void load(String resourcePath) {
     oleAccess.setOleProperty("url", resourcePath == null? "": resourcePath);
   }
-  
+
   /**
    * Load a file from the classpath.
    * @param clazz the reference clazz of the file to load.
@@ -113,7 +114,7 @@ public class JWMediaPlayer extends Composite {
     addReferenceClassLoader(clazz.getClassLoader());
     load(WebServer.getDefaultWebServer().getClassPathResourceURL(clazz.getName(), resourcePath));
   }
-  
+
   /**
    * Set whether the control bar is visible.
    * @param isControlBarVisible true if the control bar should be visible, false otherwise.
@@ -129,7 +130,7 @@ public class JWMediaPlayer extends Composite {
   public boolean isControlBarVisible() {
     return Boolean.TRUE.equals("full".equals(oleAccess.getOleProperty("uiMode")));
   }
-  
+
   /**
    * Set whether the video is playing in full screen mode.
    * @param isFullScreen true if the full screen mode should be active, false otherwise.
@@ -169,7 +170,7 @@ public class JWMediaPlayer extends Composite {
   public static enum WMPMediaState {
     UNDEFINED, STOPPED, PAUSED, PLAYING, SCAN_FORWARD, SCAN_REVERSE, BUFFERING, WAITING, MEDIA_ENDED, TRANSITIONING, READY, RECONNECTING
   }
-  
+
   /**
    * Get the state of the media.
    * @return the state of the media.
@@ -198,7 +199,7 @@ public class JWMediaPlayer extends Composite {
   }
 
   private List<ClassLoader> referenceClassLoaderList = new ArrayList<ClassLoader>(1);
-  
+
   private void addReferenceClassLoader(ClassLoader referenceClassLoader) {
     if(referenceClassLoader == null || referenceClassLoader == getClass().getClassLoader() || referenceClassLoaderList.contains(referenceClassLoader)) {
       return;
@@ -207,7 +208,7 @@ public class JWMediaPlayer extends Composite {
     referenceClassLoaderList.add(referenceClassLoader);
     WebServer.getDefaultWebServer().addReferenceClassLoader(referenceClassLoader);
   }
-  
+
   @Override
   protected void finalize() throws Throwable {
     for(ClassLoader referenceClassLoader: referenceClassLoaderList) {
@@ -216,9 +217,9 @@ public class JWMediaPlayer extends Composite {
     referenceClassLoaderList.clear();
     super.finalize();
   }
-  
+
   OleAccess getOleAccess() {
     return oleAccess;
   }
-  
+
 }

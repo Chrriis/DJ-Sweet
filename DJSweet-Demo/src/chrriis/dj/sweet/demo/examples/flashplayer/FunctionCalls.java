@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -62,11 +62,13 @@ public class FunctionCalls extends Composite {
     commandValueLabel.setText("-");
     // Attach the listeners
     getterButton.addSelectionListener(new SelectionAdapter() {
+      @Override
       public void widgetSelected(SelectionEvent e) {
         functionTextField.setText((String)flashPlayer.invokeFlashFunctionWithResult("getMessageX"));
       }
     });
     setterButton.addSelectionListener(new SelectionAdapter() {
+      @Override
       public void widgetSelected(SelectionEvent e) {
         flashPlayer.invokeFlashFunction("setMessageX", functionTextField.getText());
       }
@@ -86,7 +88,7 @@ public class FunctionCalls extends Composite {
       }
     });
   }
-  
+
   /* Standard main method to try that test as a standalone application. */
   public static void main(String[] args) {
     Display display = new Display();
@@ -102,5 +104,5 @@ public class FunctionCalls extends Composite {
     }
     display.dispose();
   }
-  
+
 }

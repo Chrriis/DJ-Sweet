@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -16,7 +16,7 @@ import org.mozilla.interfaces.nsIWebBrowser;
 public class MozillaXPCOM {
 
   private MozillaXPCOM() {}
-  
+
   /**
    * Get the Mozilla JavaXPCOM nsIWebBrowser if it is available.<br/>
    * Availability requires the web browser to be using the XULRunner runtime (version 1.8.1.2 or greater) and the JavaXPCOM classes (version 1.8.1.2 or greater) to be in the classpath.

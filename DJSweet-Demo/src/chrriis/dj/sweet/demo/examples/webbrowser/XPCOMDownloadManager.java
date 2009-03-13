@@ -1,7 +1,7 @@
 /*
  * Christopher Deckers (chrriis@nextencia.net)
  * http://www.nextencia.net
- * 
+ *
  * See the file "readme.txt" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
@@ -81,7 +81,7 @@ public class XPCOMDownloadManager extends Composite {
       messageBox.open();
     }
   }
-  
+
   private static nsITransfer createTransfer(final Composite downloadsPanel) {
     return new nsITransfer() {
       public nsISupports queryInterface(String uuid) {
@@ -103,6 +103,7 @@ public class XPCOMDownloadManager extends Composite {
         cancelDownloadButton.setText("Cancel");
         final String path = target.getPath();
         cancelDownloadButton.addSelectionListener(new SelectionAdapter() {
+          @Override
           public void widgetSelected(SelectionEvent e) {
             cancelable.cancel(Mozilla.NS_ERROR_ABORT);
             removeDownloadComponent();
@@ -136,7 +137,7 @@ public class XPCOMDownloadManager extends Composite {
       public void onLocationChange(nsIWebProgress webProgress, nsIRequest request, nsIURI location) {}
     };
   }
-  
+
   /* Standard main method to try that test as a standalone application. */
   public static void main(String[] args) {
     Display display = new Display();
@@ -152,5 +153,5 @@ public class XPCOMDownloadManager extends Composite {
     }
     display.dispose();
   }
-  
+
 }
