@@ -7,6 +7,7 @@ Licence terms: LGPL (see licence.txt)
 
 * Version 0.9.8 (xxxxxxxxxxxxxxxxx):
 
+- Cookie management is added to the browser.
 - Default web server can be stopped.
 - Some clean up is done for WebBrowserObject internal object registry. 
 - JFlashPlayer flashvars are properly encoded.
