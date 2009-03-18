@@ -88,15 +88,15 @@ public class JWebBrowser extends Composite {
   }
 
   /**
-   * Get a session cookie for a give URL and a given name.
+   * Get a cookie for a given URL and a given name.
    * @return the session cookie or null if it does not exist.
    */
-  public static String getSessionCookie(String url, String name) {
+  public static String getCookie(String url, String name) {
     return Browser.getCookie(name, url);
   }
 
   /**
-   * Set a session cookie for all web browser instances.
+   * Set a cookie for all web browser instances.
    * @param url the url.
    * @param the value, in a cookie form like:
    * <code>foo=bar</code> (basic session cookie)
@@ -104,7 +104,7 @@ public class JWebBrowser extends Composite {
    * <code>foo=bar; expires=Thu, 01-Jan-2030 00:00:01 GMT</code> (persistent cookie)
    * <code>foo=; expires=Thu, 01-Jan-1970 00:00:01 GMT</code> (deletes cookie <code>foo</code>)
    */
-  public static void setSessionCookie(String url, String value) {
+  public static void setCookie(String url, String value) {
     Browser.setCookie(value, url);
   }
 
