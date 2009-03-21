@@ -977,6 +977,23 @@ public class JWebBrowser extends Composite {
     browser.stop();
   }
 
+  /**
+   * Indicate if Javascript will be allowed to run in pages subsequently viewed.
+   * @return true if Javascript is enabled.
+   */
+  public boolean isJavascriptEnabled() {
+    return browser.getJavascriptEnabled();
+  }
+
+  /**
+   * Set whether javascript will be allowed to run in pages subsequently.
+   * Note that setting this value does not affect the running of javascript in the current page.
+   * @param isJavascriptEnabled true to enable Javascript, false otherwise.
+   */
+  public void setJavascriptEnabled(boolean isJavascriptEnabled) {
+    browser.setJavascriptEnabled(isJavascriptEnabled);
+  }
+
 //  /**
 //   * Execute some javascript, and wait for the indication of success.
 //   * @param javascript the javascript to execute.
