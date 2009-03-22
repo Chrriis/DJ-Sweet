@@ -127,7 +127,6 @@ public class DemoShellContent extends Composite {
               StringWriter writer = new StringWriter();
               char[] chars = new char[1024];
               for(int i; (i=reader.read(chars)) >= 0; writer.write(chars, 0, i)) {
-                ;
               }
               JSyntaxHighlighter syntaxHighlighter = new JSyntaxHighlighter(sourceComposite);
               syntaxHighlighter.setContent(writer.toString(), ContentLanguage.Java);
