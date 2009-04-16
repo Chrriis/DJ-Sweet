@@ -5,6 +5,11 @@ Licence terms: LGPL (see licence.txt)
 
 ---------------------------------- Change log ----------------------------------
 
+* Version 0.9.9 (xxxxxxxxxxxxxx):
+
+- Browser window size was incorrectly set if JS specified only width or height.
+
+
 * Version 0.9.8 (March 24, 2009):
 
 - Cookie management is added to the browser.

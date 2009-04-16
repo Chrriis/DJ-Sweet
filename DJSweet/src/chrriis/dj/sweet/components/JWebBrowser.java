@@ -470,10 +470,14 @@ public class JWebBrowser extends Composite {
                 if(e.size != null) {
                   Point windowSize = browserWindow.getSize();
                   Point webBrowserSize = browserWindow.getWebBrowser().getNativeComponent().getSize();
-                  windowSize.x -= webBrowserSize.x;
-                  windowSize.y -= webBrowserSize.y;
-                  windowSize.x += e.size.x;
-                  windowSize.y += e.size.y;
+                  if(e.size.x > 0) {
+                    windowSize.x -= webBrowserSize.x;
+                    windowSize.x += e.size.x;
+                  }
+                  if(e.size.y > 0) {
+                    windowSize.y -= webBrowserSize.y;
+                    windowSize.y += e.size.y;
+                  }
                   browserWindow.setSize(windowSize);
                 }
                 if(e.location != null) {
