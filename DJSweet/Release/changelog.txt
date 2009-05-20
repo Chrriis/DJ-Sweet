@@ -7,6 +7,7 @@ Licence terms: LGPL (see licence.txt)
 
 * Version 0.9.9 (xxxxxxxxxxxxxx):
 
+- VLC and Flash player do not have a loading message (was causing problems).
 - Browser window size was incorrectly set if JS specified only width or height.
 
 

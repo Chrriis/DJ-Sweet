@@ -75,7 +75,6 @@ public class JFlashPlayer extends Composite {
     @Override
     protected ObjectHTMLConfiguration getObjectHtmlConfiguration() {
       ObjectHTMLConfiguration objectHTMLConfiguration = new ObjectHTMLConfiguration();
-      objectHTMLConfiguration.setHTMLLoadingMessage(flashPlayer.RESOURCES.getString("LoadingMessage"));
       if(flashPlayer.options != null) {
         // Possible when debugging and calling the same URL again. No options but better than nothing.
         objectHTMLConfiguration.setHTMLParameters(flashPlayer.options.getHTMLParameters());
