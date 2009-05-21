@@ -43,7 +43,7 @@ public class TinyMCEExample extends Composite {
       "theme_advanced_toolbar_align: 'left'," +
       // Language can be configured when language packs are added to the classpath. Language packs can be found here: http://tinymce.moxiecode.com/download_i18n.php
 //      "language: 'de'," +
-      "plugins: 'table,paste'";
+      "plugins: 'table,paste,contextmenu'";
     final JHTMLEditor htmlEditor = new JHTMLEditor(this,
         JHTMLEditor.setEditorImplementation(JHTMLEditor.HTMLEditorImplementation.TinyMCE),
         JHTMLEditor.setCustomJavascriptConfiguration (configurationScript));
