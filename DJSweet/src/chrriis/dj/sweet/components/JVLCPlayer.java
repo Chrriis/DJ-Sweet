@@ -71,7 +71,7 @@ public class JVLCPlayer extends Composite {
 
     @Override
     public String getLocalFileURL(File localFile) {
-      return "file://" + localFile.getAbsolutePath();
+      return "file:///" + localFile.getAbsolutePath();
     }
 
   }
