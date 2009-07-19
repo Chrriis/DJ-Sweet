@@ -255,6 +255,15 @@ public abstract class WebBrowserObject {
             "embeddedObject.style.width = '100%';" + LS +
             "embeddedObject.style.height = '100%';" + LS +
             "sendCommand('WB_setLoaded');" + LS +
+            "window.document.attachEvent(\"onkeydown\", function() {" + LS +
+            "  switch (event.keyCode) {" + LS +
+                 // F5
+            "    case 116 :" + LS +
+            "      event.returnValue = false;" + LS +
+            "      event.keyCode = 0;" + LS +
+            "      break;" + LS +
+            "  }" + LS +
+            "});" + LS +
             "//-->" + LS;
           return getInputStream(content);
         }
