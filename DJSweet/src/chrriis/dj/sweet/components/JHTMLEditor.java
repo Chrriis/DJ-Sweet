@@ -120,8 +120,8 @@ public class JHTMLEditor extends Composite {
     }
     webBrowser.addWebBrowserListener(new WebBrowserAdapter() {
       @Override
-      public void commandReceived(WebBrowserEvent e, String command, String[] args) {
-        if("JH_setLoaded".equals(command)) {
+      public void commandReceived(WebBrowserEvent e, String command, Object[] args) {
+        if("[Chrriis]JH_setLoaded".equals(command)) {
           for(int i=initializationListenerList.size()-1; i>=0; i--) {
             initializationListenerList.get(i).objectInitialized();
           }

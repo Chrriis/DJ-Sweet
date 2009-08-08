@@ -40,8 +40,8 @@ public abstract class WebBrowserObject {
     webBrowser.setBarsVisible(false);
     webBrowser.addWebBrowserListener(new WebBrowserAdapter() {
       @Override
-      public void commandReceived(WebBrowserEvent e, String command, String[] args) {
-        if("WB_setLoaded".equals(command)) {
+      public void commandReceived(WebBrowserEvent e, String command, Object[] args) {
+        if("[Chrriis]WB_setLoaded".equals(command)) {
           Object[] listeners = listenerList.getListenerList();
           for(int i=listeners.length-2; i>=0; i-=2) {
             if(listeners[i] == InitializationListener.class) {
@@ -141,11 +141,7 @@ public abstract class WebBrowserObject {
             "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>" + LS +
             "    <script language=\"JavaScript\" type=\"text/javascript\">" + LS +
             "      <!--" + LS +
-            "      function sendCommand(command) {" + LS +
-            "        var s = '" + JWebBrowser.COMMAND_LOCATION_PREFIX + "' + encodeURIComponent(command);" + LS +
-            "        for(var i=1; i<arguments.length; s+='&'+encodeURIComponent(arguments[i++]));" + LS +
-            "        window.location = s;" + LS +
-            "      }" + LS +
+            "      var sendCommand = sendSCommand;" + LS +
             "      function postCommand(command) {" + LS +
             "        var elements = new Array();" + LS +
             "        for(var i=1; i<arguments.length; i++) {" + LS +
@@ -254,7 +250,7 @@ public abstract class WebBrowserObject {
             "var embeddedObject = getEmbeddedObject();" + LS +
             "embeddedObject.style.width = '100%';" + LS +
             "embeddedObject.style.height = '100%';" + LS +
-            "sendCommand('WB_setLoaded');" + LS +
+            "sendCommand('[Chrriis]WB_setLoaded');" + LS +
             "window.document.attachEvent(\"onkeydown\", function() {" + LS +
             "  switch (event.keyCode) {" + LS +
                  // F5

@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.BrowserFunction;
 import org.eclipse.swt.browser.LocationEvent;
 import org.eclipse.swt.browser.LocationListener;
 import org.eclipse.swt.browser.OpenWindowListener;
@@ -63,6 +64,9 @@ public class JWebBrowser extends Composite {
 
   private static final boolean IS_DEBUGGING_OPTIONS = Boolean.parseBoolean(System.getProperty("sweet.components.debug.printoptions"));
 
+  /** The function to use when sending a command from some web content using Javascript. */
+  public static final String COMMAND_FUNCTION = "sendSCommand";
+
   /** The prefix to use when sending a command from some web content, using a static link or by setting window.location from Javascript. */
   public static final String COMMAND_LOCATION_PREFIX = "command://";
 
@@ -78,6 +82,40 @@ public class JWebBrowser extends Composite {
    */
   public static NSOption useXULRunnerRuntime() {
     return XUL_RUNNER_RUNTIME_OPTION;
+  }
+
+  private class NSCommandBrowserFunction extends BrowserFunction {
+    public NSCommandBrowserFunction(Browser browser) {
+      super(browser, COMMAND_FUNCTION);
+    }
+    @Override
+    public Object function(Object[] args) {
+      String command = args.length >= 1? args[0] instanceof String? (String)args[0]: "": "";
+      Object[] commandArgs;
+      if(args.length > 1) {
+        commandArgs = new Object[args.length - 1];
+        System.arraycopy(args, 1, commandArgs, 0, commandArgs.length);
+        args = commandArgs;
+      } else {
+        commandArgs = new Object[0];
+      }
+      WebBrowserEvent e = null;
+      boolean isInternal = command.startsWith("[Chrriis]");
+      for(int i=listenerList.size()-1; i>=0; i--) {
+        if(e == null) {
+          e = new WebBrowserEvent(JWebBrowser.this);
+        }
+        WebBrowserListener webBrowserListener = listenerList.get(i);
+        if(!isInternal || webBrowserListener.getClass().getName().startsWith("chrriis.")) {
+          webBrowserListener.commandReceived(e, command, commandArgs);
+        }
+      }
+      return null;
+    }
+  }
+
+  private void configureBrowserFunction(final Browser browser) {
+    new NSCommandBrowserFunction(browser);
   }
 
   /**
@@ -236,6 +274,7 @@ public class JWebBrowser extends Composite {
     BorderUtils.addLoweredBevelBorderPaintListener(browserContainer);
     browserContainer.setLayout(new FillLayout());
     browser = new Browser(browserContainer, style);
+    configureBrowserFunction(browser);
     browserContainer.setLayoutData(gridData);
     gridData = new GridData();
     gridData.grabExcessHorizontalSpace = true;
@@ -271,7 +310,7 @@ public class JWebBrowser extends Composite {
       public void changed(StatusTextEvent e) {
         String newStatus = e.text;
         if(newStatus.startsWith(COMMAND_STATUS_PREFIX)) {
-          browser.execute("window.status = decodeURIComponent('" + Utils.encodeURL(status == null? "": status) + "');");
+          browser.execute(fixJavascript(browser, "window.status = decodeURIComponent('" + Utils.encodeURL(status == null? "": status) + "');"));
           String query = newStatus.substring(COMMAND_STATUS_PREFIX.length());
           if(query.endsWith("/")) {
             query = query.substring(0, query.length() - 1);
@@ -1009,9 +1048,28 @@ public class JWebBrowser extends Composite {
 
   private static Pattern JAVASCRIPT_LINE_COMMENT_PATTERN = Pattern.compile("^\\s*//.*$", Pattern.MULTILINE);
 
+  private static volatile Boolean isFixedJS;
+
+  private static String fixJavascript(Browser browser, String script) {
+    if("mozilla".equals(browser.getBrowserType())) {
+      if(isFixedJS == null) {
+        isFixedJS = "%25".equals(browser.evaluate("return '%25'"));
+      }
+      if(!isFixedJS) {
+        // 2 workarounds for issues that seem to be happening with XULRunner < 1.9.
+        // Remove line comments, because it does not work properly on Mozilla.
+        // cf. bug: https://bugs.eclipse.org/bugs/show_bug.cgi?id=215335
+        script = JAVASCRIPT_LINE_COMMENT_PATTERN.matcher(script).replaceAll("");
+        // encode the script, because it is passed as a URL in Mozilla and gets URI-decoded.
+        // cf. bug: https://bugs.eclipse.org/bugs/show_bug.cgi?id=255462
+        script = Utils.encodeURL(script);
+      }
+    }
+    return script;
+  }
+
   private boolean executeJavascriptAndWait(String javascript) {
-    javascript = JAVASCRIPT_LINE_COMMENT_PATTERN.matcher(javascript).replaceAll("");
-    return browser.execute(javascript);
+    return browser.execute(fixJavascript(browser, javascript));
   }
 
   /**
@@ -1031,25 +1089,16 @@ public class JWebBrowser extends Composite {
     if(!javascript.endsWith(";")) {
       javascript = javascript + ";";
     }
-    String[] result = executeJavascriptWithCommandResult("[[getScriptResult]]",
+    Object[] result = executeJavascriptWithCommandResult("[[getScriptResult]]",
         "try {" +
-        "  var result = function() {" + javascript + "}();" +
-        "  var type = result? typeof(result): '';" +
-        "  if('string' == type) {" +
-        "    window.location = '" + JWebBrowser.COMMAND_LOCATION_PREFIX + "' + encodeURIComponent('[[getScriptResult]]') + '&' + encodeURIComponent(result);" +
-        "  } else {" +
-        "    window.location = '" + JWebBrowser.COMMAND_LOCATION_PREFIX + "' + encodeURIComponent('[[getScriptResult]]') + '&' + encodeURIComponent(type) + '&' + encodeURIComponent(result);" +
-        "  }" +
+        "  " + COMMAND_FUNCTION + "('[[getScriptResult]]', function() {" + javascript + "}());" +
         "} catch(exxxxx) {" +
-        "  window.location = '" + JWebBrowser.COMMAND_LOCATION_PREFIX + "' + encodeURIComponent('[[getScriptResult]]') + '&&'" +
+        "  " + COMMAND_FUNCTION + "('[[getScriptResult]]');" +
         "}");
     if(result == null) {
       return null;
     }
-    if(result.length == 1) {
-      return convertJavascriptObjectToJava("string", result[0]);
-    }
-    return convertJavascriptObjectToJava(result[0], result[1]);
+    return result.length == 0? null: result[0];
   }
 
   /**
@@ -1103,33 +1152,33 @@ public class JWebBrowser extends Composite {
     return "decodeURIComponent('" + encodedArg + "')";
   }
 
-  private static Object convertJavascriptObjectToJava(String type, String value) {
-    if(type.length() == 0) {
-      return null;
-    }
-    if("boolean".equals(type)) {
-      return Boolean.parseBoolean(value);
-    }
-    if("number".equals(type)) {
-      try {
-        return Integer.parseInt(value);
-      } catch(Exception e) {}
-      try {
-        return Float.parseFloat(value);
-      } catch(Exception e) {}
-      try {
-        return Long.parseLong(value);
-      } catch(Exception e) {}
-      throw new IllegalStateException("Could not convert number: " + value);
-    }
-    return value;
-  }
+//  private static Object convertJavascriptObjectToJava(String type, String value) {
+//    if(type.length() == 0) {
+//      return null;
+//    }
+//    if("boolean".equals(type)) {
+//      return Boolean.parseBoolean(value);
+//    }
+//    if("number".equals(type)) {
+//      try {
+//        return Integer.parseInt(value);
+//      } catch(Exception e) {}
+//      try {
+//        return Float.parseFloat(value);
+//      } catch(Exception e) {}
+//      try {
+//        return Long.parseLong(value);
+//      } catch(Exception e) {}
+//      throw new IllegalStateException("Could not convert number: " + value);
+//    }
+//    return value;
+//  }
 
-  private String[] executeJavascriptWithCommandResult(final String command, String script) {
+  private Object[] executeJavascriptWithCommandResult(final String command, String script) {
     final Object[] resultArray = new Object[] {null};
     WebBrowserAdapter webBrowserListener = new WebBrowserAdapter() {
       @Override
-      public void commandReceived(WebBrowserEvent e, String command_, String[] args) {
+      public void commandReceived(WebBrowserEvent e, String command_, Object[] args) {
         if(command.equals(command_)) {
           resultArray[0] = args;
           removeWebBrowserListener(this);
@@ -1147,7 +1196,7 @@ public class JWebBrowser extends Composite {
       }
     }
     removeWebBrowserListener(webBrowserListener);
-    return (String[])resultArray[0];
+    return (Object[])resultArray[0];
   }
 
   private int loadingProgress = 100;

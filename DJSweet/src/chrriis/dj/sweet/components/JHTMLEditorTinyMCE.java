@@ -77,12 +77,7 @@ class JHTMLEditorTinyMCE implements JHTMLEditorImplementation {
             "        }" + LS +
             "        debug (text);" + LS +
             "      };" + LS +
-            "      function sendCommand (command) {" + LS +
-            "        var s = '" + JWebBrowser.COMMAND_STATUS_PREFIX + "' + encodeURIComponent(command);" + LS +
-            "        for(var i=1; i<arguments.length; s+='&'+encodeURIComponent(arguments[i++]));" + LS +
-            // We have to use the status, because if window.location is called too early it may stop page loading.
-            "        window.status = s;" + LS +
-            "      }" + LS +
+            "      var sendCommand = sendSCommand;" + LS +
             "      function JH_setData (html) {" + LS +
             "        tinyMCE.get ('" + EDITOR_INSTANCE + "').setContent (decodeURIComponent (html));" + LS +
             "      }" + LS +
@@ -104,7 +99,7 @@ class JHTMLEditorTinyMCE implements JHTMLEditorImplementation {
             "        save_onsavecallback : 'JH_doSave'," + LS +
             "        setup: function (ed) {" + LS +
             "          ed.onInit.add (function (ed) {" + LS +
-            "            sendCommand ('JH_setLoaded');" + LS +
+            "            sendCommand ('[Chrriis]JH_setLoaded');" + LS +
             "          })" + LS +
             "        }" + LS +
             "      };" + LS +

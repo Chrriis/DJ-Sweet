@@ -51,14 +51,14 @@ public class SendingCommands extends Composite {
     receivedCommandTextField.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
     webBrowser.addWebBrowserListener(new WebBrowserAdapter() {
       @Override
-      public void commandReceived(WebBrowserEvent e, String command, String[] args) {
+      public void commandReceived(WebBrowserEvent e, String command, Object[] args) {
         String commandText = command;
         if(args.length > 0) {
           commandText += " " + Arrays.toString(args);
         }
         receivedCommandTextField.setText(commandText);
         if("store".equals(command)) {
-          String data = args[0];
+          String data = (String)args[0] + " " + (String)args[1];
           MessageBox messageBox = new MessageBox(getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
           messageBox.setText("Data received from the web browser");
           messageBox.setMessage("Do you want to store \"" + data + "\" in a database?\n(Not for real of course!)");
@@ -83,15 +83,15 @@ public class SendingCommands extends Composite {
         "  </head>" + LS +
         "  <body>" + LS +
         "    <a href=\"command://A%20static%20command\">A static link, with a predefined command</a><br/>" + LS +
-        "    <form name=\"form\" onsubmit=\"sendCommand(form.commandField.value); return false\">" + LS +
+        "    <form name=\"form\" onsubmit=\"sendSCommand(form.commandField.value); return false\">" + LS +
         "      A dynamic command, sent through Javascript:<br/>" + LS +
         "      <input name=\"commandField\" type=\"text\" value=\"some command\"/>" + LS +
-        "      <input type=\"button\" value=\"Send\" onclick=\"sendCommand(form.commandField.value)\"/>" + LS +
+        "      <input type=\"button\" value=\"Send\" onclick=\"sendSCommand(form.commandField.value)\"/>" + LS +
         "    </form>" + LS +
-        "    <form name=\"form2\" onsubmit=\"sendCommand('store', form2.commandField.value); return false\">" + LS +
+        "    <form name=\"form2\" onsubmit=\"sendSCommand('store', form2.commandField.value); return false\">" + LS +
         "      A more concrete example: ask the application to store some data in a database, by sending a command with some arguments:<br/>" + LS +
-        "      Client: <input name=\"commandField\" type=\"text\" value=\"John Smith\"/>" + LS +
-        "      <input type=\"button\" value=\"Send\" onclick=\"sendCommand('store', form2.commandField.value)\"/>" + LS +
+        "      Client: <input name=\"commandField1\" type=\"text\" value=\"John\"/> <input name=\"commandField2\" type=\"text\" value=\"Smith\"/>" + LS +
+        "      <input type=\"button\" value=\"Send\" onclick=\"sendSCommand('store', form2.commandField1.value, form2.commandField2.value)\"/>" + LS +
         "    </form>" + LS +
         "  </body>" + LS +
         "</html>");

@@ -67,12 +67,7 @@ class JHTMLEditorFCKeditor implements JHTMLEditorImplementation {
             "      function FCKeditor_IsCompatibleBrowser() {" + LS +
             "        return true;" + LS +
             "      }" + LS +
-            "      function sendCommand(command) {" + LS +
-            "        var s = '" + JWebBrowser.COMMAND_STATUS_PREFIX + "' + encodeURIComponent(command);" + LS +
-            "        for(var i=1; i<arguments.length; s+='&'+encodeURIComponent(arguments[i++]));" + LS +
-            // We have to use the status, because if window.location is called too early it may stop page loading.
-            "        window.status = s;" + LS +
-            "      }" + LS +
+            "      var sendCommand = sendSCommand;" + LS +
             "      function JH_setData(html) {" + LS +
             "        var inst = FCKeditorAPI.GetInstance('" + EDITOR_INSTANCE + "');" + LS +
             "        inst.SetHTML(decodeURIComponent(html));" + LS +
@@ -97,7 +92,7 @@ class JHTMLEditorFCKeditor implements JHTMLEditorImplementation {
             "      }" + LS +
             "      function FCKeditor_OnComplete(editorInstance) {" + LS +
             "        editorInstance.LinkedField.form.onsubmit = JH_doSave;" + LS +
-            "        sendCommand('JH_setLoaded');" + LS +
+            "        sendCommand('[Chrriis]JH_setLoaded');" + LS +
             "      }" + LS +
             "    </script>" + LS +
             "  </head>" + LS +

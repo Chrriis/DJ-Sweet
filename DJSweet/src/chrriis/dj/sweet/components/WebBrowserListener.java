@@ -50,6 +50,6 @@ public interface WebBrowserListener extends SWTEventListener {
    * <code>window.location = 'command://' + encodeURIComponent('somecommand') + '&' + encodeURIComponent('param1') + '&' + encodeURIComponent('param2') + ...</code><br/>
    * or as a static HREF link.
    */
-  public void commandReceived(WebBrowserEvent e, String command, String[] args);
+  public void commandReceived(WebBrowserEvent e, String command, Object[] args);
 
 }
