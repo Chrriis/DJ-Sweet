@@ -200,7 +200,7 @@ public class JFlashPlayer extends Composite {
     return value.length() == 0? null: new Image(getDisplay(), JWebBrowser.class.getResourceAsStream(value));
   }
 
-  private String customJavascriptDefinitions;
+  private volatile String customJavascriptDefinitions;
 
 //  public String getLoadedResource() {
 //    return webBrowserObject.getLoadedResource();
@@ -234,7 +234,7 @@ public class JFlashPlayer extends Composite {
     load(resourceLocation, null);
   }
 
-  private FlashPluginOptions options;
+  private volatile FlashPluginOptions options;
 
   /**
    * Load a file.

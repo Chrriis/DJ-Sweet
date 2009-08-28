@@ -53,7 +53,7 @@ public abstract class WebBrowserObject {
     });
   }
 
-  private String resourcePath;
+  private volatile String resourcePath;
 
   public String getLoadedResource() {
     return "".equals(resourcePath)? null: resourcePath;
@@ -79,7 +79,7 @@ public abstract class WebBrowserObject {
       return;
     }
     instanceID = ObjectRegistry.getInstance().add(this);
-    resourcePath = WebServer.getDefaultWebServer().getDynamicContentURL(WebBrowserObject.class.getName(), "html/" + instanceID);
+    String resourceLocation = WebServer.getDefaultWebServer().getDynamicContentURL(WebBrowserObject.class.getName(), "html/" + instanceID);
     final boolean[] resultArray = new boolean[1];
     InitializationListener initializationListener = new InitializationListener() {
       public void objectInitialized() {
@@ -88,7 +88,7 @@ public abstract class WebBrowserObject {
       }
     };
     addInitializationListener(initializationListener);
-    webBrowser.navigate(resourcePath);
+    webBrowser.navigate(resourceLocation);
     EventDispatchUtils.sleepWithEventDispatch(new EventDispatchUtils.Condition() {
       public boolean getValue() {
         return resultArray[0];
