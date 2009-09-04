@@ -11,6 +11,7 @@ Licence terms: LGPL (see licence.txt)
 - Browser/Flash player commands and arguments do not have a size limit.
 - Browser/Flash player commands now take Object[] as params.
 - JFlashPlayer content can access host files.
+- Browser-based object can have their background set (for transparent content).
 - VLC player now allows VLC options.
 - VLC API improved to work with 1.0.0.
 - VLC and Flash player do not have a loading message (was causing problems).
