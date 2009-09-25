@@ -98,7 +98,7 @@ public class JFlashPlayer extends Composite {
 
   private static class NWebBrowserObject extends WebBrowserObject {
 
-    private JFlashPlayer flashPlayer;
+    private final JFlashPlayer flashPlayer;
 
     NWebBrowserObject(JFlashPlayer flashPlayer) {
       super(flashPlayer.webBrowser);

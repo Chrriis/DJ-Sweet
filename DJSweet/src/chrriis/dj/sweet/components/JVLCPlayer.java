@@ -47,7 +47,7 @@ public class JVLCPlayer extends Composite {
 
   private static class NWebBrowserObject extends WebBrowserObject {
 
-    private JVLCPlayer vlcPlayer;
+    private final JVLCPlayer vlcPlayer;
 
     public NWebBrowserObject(JVLCPlayer vlcPlayer) {
       super(vlcPlayer.webBrowser);
