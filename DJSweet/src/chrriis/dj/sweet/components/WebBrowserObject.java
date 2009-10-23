@@ -37,7 +37,7 @@ import chrriis.dj.sweet.EventDispatchUtils;
 public abstract class WebBrowserObject {
 
   private JWebBrowser webBrowser;
-  private int instanceID;
+  private volatile int instanceID;
 
   public WebBrowserObject(JWebBrowser webBrowser) {
     this.webBrowser = webBrowser;
