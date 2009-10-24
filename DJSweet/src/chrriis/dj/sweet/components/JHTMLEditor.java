@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -130,18 +131,18 @@ public class JHTMLEditor extends Composite {
     });
     webBrowser.setBarsVisible(false);
     instanceID = ObjectRegistry.getInstance().add(this);
-    final boolean[] resultArray = new boolean[1];
+    final AtomicBoolean result = new AtomicBoolean();
     InitializationListener initializationListener = new InitializationListener() {
       public void objectInitialized() {
         removeInitializationListener(this);
-        resultArray[0] = true;
+        result.set(true);
       }
     };
     addInitializationListener(initializationListener);
     webBrowser.navigate(WebServer.getDefaultWebServer().getDynamicContentURL(JHTMLEditor.class.getName(), String.valueOf(instanceID),  "index.html"));
     EventDispatchUtils.sleepWithEventDispatch(new EventDispatchUtils.Condition() {
       public boolean getValue() {
-        return resultArray[0];
+        return result.get();
       }
     }, 4000);
     removeInitializationListener(initializationListener);

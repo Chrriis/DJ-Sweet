@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
 import org.eclipse.swt.SWT;
@@ -1175,12 +1176,12 @@ public class JWebBrowser extends Composite {
 //  }
 
   private Object[] executeJavascriptWithCommandResult(final String command, String script) {
-    final Object[] resultArray = new Object[] {null};
+    final AtomicReference<Object[]> result = new AtomicReference<Object[]>();
     WebBrowserAdapter webBrowserListener = new WebBrowserAdapter() {
       @Override
       public void commandReceived(WebBrowserEvent e, String command_, Object[] args) {
         if(command.equals(command_)) {
-          resultArray[0] = args;
+          result.set(args);
           removeWebBrowserListener(this);
         }
       }
@@ -1190,13 +1191,13 @@ public class JWebBrowser extends Composite {
       for(int i=0; i<20; i++) {
         EventDispatchUtils.sleepWithEventDispatch(new EventDispatchUtils.Condition() {
           public boolean getValue() {
-            return resultArray[0] != null;
+            return result.get() != null;
           }
         }, 50);
       }
     }
     removeWebBrowserListener(webBrowserListener);
-    return (Object[])resultArray[0];
+    return result.get();
   }
 
   private int loadingProgress = 100;

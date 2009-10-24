@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.SwingUtilities;
 import javax.swing.event.EventListenerList;
@@ -89,18 +90,18 @@ public abstract class WebBrowserObject {
     }
     instanceID = ObjectRegistry.getInstance().add(this);
     String resourceLocation = WebServer.getDefaultWebServer().getDynamicContentURL(WebBrowserObject.class.getName(), String.valueOf(instanceID), "html");
-    final boolean[] resultArray = new boolean[1];
+    final AtomicBoolean result = new AtomicBoolean();
     InitializationListener initializationListener = new InitializationListener() {
       public void objectInitialized() {
         removeInitializationListener(this);
-        resultArray[0] = true;
+        result.set(true);
       }
     };
     addInitializationListener(initializationListener);
     webBrowser.navigate(resourceLocation);
     EventDispatchUtils.sleepWithEventDispatch(new EventDispatchUtils.Condition() {
       public boolean getValue() {
-        return resultArray[0];
+        return result.get();
       }
     }, 4000);
     removeInitializationListener(initializationListener);
