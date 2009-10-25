@@ -7,6 +7,8 @@
  */
 package chrriis.dj.sweet;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -60,13 +62,13 @@ public class EventDispatchUtils {
 
   private static void dispatchSWTEvents(Display display) {
     // Send an empy event to make sure there is at least one event to dispatch.
-    final boolean[] isProcessed = new boolean[1];
+    final AtomicBoolean isProcessed = new AtomicBoolean();
     display.asyncExec(new Runnable() {
       public void run() {
-        isProcessed[0] = true;
+        isProcessed.set(true);
       }
     });
-    while(!isProcessed[0]) {
+    while(!isProcessed.get()) {
       display.readAndDispatch();
     }
   }
