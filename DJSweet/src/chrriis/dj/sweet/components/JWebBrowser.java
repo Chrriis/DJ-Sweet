@@ -1357,6 +1357,22 @@ public class JWebBrowser extends Composite {
     }
   }
 
+  /**
+   * Get the type of browser (ie, mozilla, etc.).
+   * @return the browser type.
+   */
+  public String getBrowserType() {
+    return browser.getBrowserType();
+  }
+
+  /**
+   * Get the version of the browser. This is mainly for troubleshooting and may even return null if it fails to detect it.
+   * @return the version or null if it could not be obtained.
+   */
+  public String getBrowserVersion() {
+    return new JSBrowserDetection(browser).browserVersion;
+  }
+
   protected List<WebBrowserListener> listenerList = new ArrayList<WebBrowserListener>();
 
   /**
