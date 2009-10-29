@@ -61,7 +61,7 @@ public class EventDispatchUtils {
   }
 
   private static void dispatchSWTEvents(Display display) {
-    // Send an empy event to make sure there is at least one event to dispatch.
+    // Send an empty event to make sure there is at least one event to dispatch.
     final AtomicBoolean isProcessed = new AtomicBoolean();
     display.asyncExec(new Runnable() {
       public void run() {
