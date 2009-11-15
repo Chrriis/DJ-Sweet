@@ -7,6 +7,9 @@
  */
 package chrriis.dj.sweet.demo.examples.htmleditor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -24,18 +27,38 @@ import org.eclipse.swt.widgets.Text;
 import chrriis.dj.sweet.components.HTMLEditorListener;
 import chrriis.dj.sweet.components.HTMLEditorSaveEvent;
 import chrriis.dj.sweet.components.JHTMLEditor;
+import chrriis.dj.sweet.components.JHTMLEditor.HTMLEditorImplementation;
 
 /**
  * @author Christopher Deckers
  */
-public class SimpleHTMLEditorExample extends Composite {
+public class CKEditorExample extends Composite {
 
   protected static final String LS = System.getProperty("line.separator");
 
-  public SimpleHTMLEditorExample(Composite parent) {
+  public CKEditorExample(Composite parent) {
     super(parent, SWT.NONE);
     setLayout(new GridLayout());
-    final JHTMLEditor htmlEditor = new JHTMLEditor(this);
+    Map<String, String> optionMap = new HashMap<String, String>();
+    optionMap.put("toolbar", "[" +
+        "  ['Source','-','Save','NewPage','Preview','-','Templates']," +
+        "  ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Print', 'SpellChecker', 'Scayt']," +
+        "  ['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat']," +
+        "  ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField']," +
+        "  '/'," +
+        "  ['Bold','Italic','Underline','Strike','-','Subscript','Superscript']," +
+        "  ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote']," +
+        "  ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock']," +
+        "  ['Link','Unlink','Anchor']," +
+        "  ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak']," +
+        "  '/'," +
+        "  ['Styles','Format','Font','FontSize']," +
+        "  ['TextColor','BGColor']," +
+        "  ['Maximize', 'ShowBlocks','-','About']" +
+    "]");
+//    optionMap.put("uiColor", "'#9AB8F3'");
+//    optionMap.put("toolbarCanCollapse", "false");
+    final JHTMLEditor htmlEditor = new JHTMLEditor(this, HTMLEditorImplementation.CKEditor, JHTMLEditor.CKEditorOptions.setOptions(optionMap));
     htmlEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
     htmlEditor.addHTMLEditorListener(new HTMLEditorListener() {
       public void saveHTML(HTMLEditorSaveEvent e) {
@@ -86,7 +109,7 @@ public class SimpleHTMLEditorExample extends Composite {
     Display display = new Display();
     Shell shell = new Shell(display);
     shell.setLayout(new FillLayout());
-    new SimpleHTMLEditorExample(shell);
+    new CKEditorExample(shell);
     shell.setSize(800, 600);
     shell.open();
     while(!shell.isDisposed()) {

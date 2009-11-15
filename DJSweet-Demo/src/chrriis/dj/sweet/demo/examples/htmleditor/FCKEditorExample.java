@@ -7,9 +7,6 @@
  */
 package chrriis.dj.sweet.demo.examples.htmleditor;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -27,29 +24,37 @@ import org.eclipse.swt.widgets.Text;
 import chrriis.dj.sweet.components.HTMLEditorListener;
 import chrriis.dj.sweet.components.HTMLEditorSaveEvent;
 import chrriis.dj.sweet.components.JHTMLEditor;
+import chrriis.dj.sweet.components.JHTMLEditor.HTMLEditorImplementation;
 
 /**
  * @author Christopher Deckers
  */
-public class TinyMCEExample extends Composite {
+public class FCKEditorExample extends Composite {
 
   protected static final String LS = System.getProperty("line.separator");
 
-  public TinyMCEExample(Composite parent) {
+  public FCKEditorExample(Composite parent) {
     super(parent, SWT.NONE);
     setLayout(new GridLayout());
-    Map<String, String> optionMap = new HashMap<String, String>();
-    optionMap.put("theme_advanced_buttons1", "'bold,italic,underline,strikethrough,sub,sup,|,charmap,|,justifyleft,justifycenter,justifyright,justifyfull,|,hr,removeformat'");
-    optionMap.put("theme_advanced_buttons2", "'undo,redo,|,cut,copy,paste,pastetext,pasteword,|,search,replace,|,forecolor,backcolor,bullist,numlist,|,outdent,indent,blockquote,|,table'");
-    optionMap.put("theme_advanced_buttons3", "''");
-    optionMap.put("theme_advanced_toolbar_location", "'top'");
-    optionMap.put("theme_advanced_toolbar_align", "'left'");
-    // Language can be configured when language packs are added to the classpath. Language packs can be found here: http://tinymce.moxiecode.com/download_i18n.php
-    optionMap.put("language", "'de'");
-    optionMap.put("plugins", "'table,paste,contextmenu'");
-    final JHTMLEditor htmlEditor = new JHTMLEditor(this, JHTMLEditor.HTMLEditorImplementation.TinyMCE,
-        JHTMLEditor.TinyMCEOptions.setOptions(optionMap)
-    );
+    // Replace certain default options.
+    String configurationScript =
+      "FCKConfig.ToolbarSets[\"Default\"] = [\n" +
+      "['Source','DocProps','-','Save','NewPage','Preview','-','Templates'],\n" +
+      "['Cut','Copy','Paste','PasteText','PasteWord','-','Print','SpellCheck'],\n" +
+      "['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],\n" +
+      "['Form','Checkbox','Radio','TextField','Textarea','Select','Button','ImageButton','HiddenField'],\n" +
+      "'/',\n" +
+      "['Style','FontFormat','FontName','FontSize'],\n" +
+      "['TextColor','BGColor'],\n" +
+      "'/',\n" +
+      "['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],\n" +
+      "['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],\n" +
+      "['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],\n" +
+      "['Link','Unlink','Anchor'],\n" +
+      "['Image','Flash','Table','Rule','Smiley','SpecialChar','PageBreak', '-', 'ShowBlocks'],\n" +
+      "];\n" +
+      "FCKConfig.ToolbarCanCollapse = false;\n";
+    final JHTMLEditor htmlEditor = new JHTMLEditor(this, HTMLEditorImplementation.FCKEditor, JHTMLEditor.FCKEditorOptions.setCustomJavascriptConfiguration(configurationScript));
     htmlEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
     htmlEditor.addHTMLEditorListener(new HTMLEditorListener() {
       public void saveHTML(HTMLEditorSaveEvent e) {
@@ -100,7 +105,7 @@ public class TinyMCEExample extends Composite {
     Display display = new Display();
     Shell shell = new Shell(display);
     shell.setLayout(new FillLayout());
-    new TinyMCEExample(shell);
+    new FCKEditorExample(shell);
     shell.setSize(800, 600);
     shell.open();
     while(!shell.isDisposed()) {

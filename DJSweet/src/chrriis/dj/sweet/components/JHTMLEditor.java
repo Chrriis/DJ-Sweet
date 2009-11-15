@@ -11,6 +11,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -48,33 +49,91 @@ public class JHTMLEditor extends Composite {
 
   }
 
-  private static final String HTML_EDITOR_COMPONENT_OPTION_KEY = "HTML Editor";
-  static final String SET_CUSTOM_JAVASCRIPT_CONFIGURATION_OPTION_KEY = "HTML Editor Custom Configuration Script";
+  public static enum HTMLEditorImplementation { FCKEditor, CKEditor, TinyMCE };
 
-  public static enum HTMLEditorImplementation { FCKEditor, TinyMCE };
+  public static class TinyMCEOptions {
 
-  public static NSOption setEditorImplementation(final HTMLEditorImplementation comp) {
-    return new NSOption (HTML_EDITOR_COMPONENT_OPTION_KEY) {
-      @Override
-      public Object getOptionValue () {
-        return comp;
-      }
-    };
+    private TinyMCEOptions() {}
+
+    static final String SET_CUSTOM_HTML_HEADERS_OPTION_KEY = "TinyMCE Custom HTML Headers";
+
+    /**
+     * Set custom HTML headers, which is mostly useful when integrating certain TinyMCE plugins.
+     */
+    public static NSOption setCustomHTMLHeaders(final String customHTMLHeaders) {
+      return new NSOption(SET_CUSTOM_HTML_HEADERS_OPTION_KEY) {
+        @Override
+        public Object getOptionValue() {
+          return customHTMLHeaders;
+        }
+      };
+    }
+
+    static final String SET_OPTIONS_OPTION_KEY = "TinyMCE Options";
+
+    /**
+     * Create an option to set TinyMCE editor options.<br/>
+     * The list of possible options to set for TinyMCE can be found here: <a href="http://wiki.moxiecode.com/index.php/TinyMCE:Configuration">http://wiki.moxiecode.com/index.php/TinyMCE:Configuration</a>.
+     * @param optionMap a map containing the key/value pairs accepted by TinyMCE.
+     * @return the option to set the options.
+     */
+    public static NSOption setOptions(Map<String, String> optionMap) {
+      final Map<String, String> optionMap_ = new HashMap<String, String>(optionMap);
+      return new NSOption(SET_OPTIONS_OPTION_KEY) {
+        @Override
+        public Object getOptionValue() {
+          return optionMap_;
+        }
+      };
+    }
+
   }
 
-  /**
-   * Create an option to set custom configuration for the FCKeditor or the TinyMCE editor.<br/>
-   * The list of possible options to set for FCKeditor can be found here: <a href="http://docs.fckeditor.net/FCKeditor_2.x/Developers_Guide/Configuration/Configuration_Options">http://docs.fckeditor.net/FCKeditor_2.x/Developers_Guide/Configuration/Configuration_Options</a>.<br/>
-   * The list of possible options to set for TinyMCE can be found here: <a href="http://wiki.moxiecode.com/index.php/TinyMCE:Configuration">http://wiki.moxiecode.com/index.php/TinyMCE:Configuration</a>.
-   * @return the option to set a custom configuration.
-   */
-  public static NSOption setCustomJavascriptConfiguration(final String javascript) {
-    return new NSOption(SET_CUSTOM_JAVASCRIPT_CONFIGURATION_OPTION_KEY) {
-      @Override
-      public Object getOptionValue() {
-        return javascript;
-      }
-    };
+  public static class FCKEditorOptions {
+
+    private FCKEditorOptions() {}
+
+    static final String SET_CUSTOM_JAVASCRIPT_CONFIGURATION_OPTION_KEY = "FCKEditor Custom Configuration Script";
+
+    /**
+     * Create an option to set custom Javascript configuration for the FCKeditor editor.<br/>
+     * The list of possible options to set for FCKeditor can be found here: <a href="http://docs.fckeditor.net/FCKeditor_2.x/Developers_Guide/Configuration/Configuration_Options">http://docs.fckeditor.net/FCKeditor_2.x/Developers_Guide/Configuration/Configuration_Options</a>.<br/>
+     * @param javascriptConfiguration the javascript configuration.
+     * @return the option to set a custom configuration.
+     */
+    public static NSOption setCustomJavascriptConfiguration(final String javascriptConfiguration) {
+      return new NSOption(SET_CUSTOM_JAVASCRIPT_CONFIGURATION_OPTION_KEY) {
+        @Override
+        public Object getOptionValue() {
+          return javascriptConfiguration;
+        }
+      };
+    }
+
+  }
+
+  public static class CKEditorOptions {
+
+    private CKEditorOptions() {}
+
+    static final String SET_OPTIONS_OPTION_KEY = "CKEditor Options";
+
+    /**
+     * Create an option to set CKEditor editor options.<br/>
+     * The list of possible options to set for CKEditor can be found here: <a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html">http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html</a>.
+     * @param optionMap a map containing the key/value pairs accepted by CKEditor.
+     * @return the option to set the options.
+     */
+    public static NSOption setOptions(Map<String, String> optionMap) {
+      final Map<String, String> optionMap_ = new HashMap<String, String>(optionMap);
+      return new NSOption(SET_OPTIONS_OPTION_KEY) {
+        @Override
+        public Object getOptionValue() {
+          return optionMap_;
+        }
+      };
+    }
+
   }
 
   private JWebBrowser webBrowser;
@@ -90,17 +149,27 @@ public class JHTMLEditor extends Composite {
    * Construct an HTML editor.
    * @param options the options to configure the behavior of this component.
    */
-  public JHTMLEditor(Composite parent, NSOption... options) {
+  public JHTMLEditor(Composite parent, HTMLEditorImplementation editorImplementation, NSOption... options) {
     super(parent, SWT.NONE);
+    if(editorImplementation == null) {
+      throw new NullPointerException("The editor implementation cannot be null!");
+    }
     setLayout(new FillLayout());
     Map<Object, Object> optionMap = NSOption.createOptionMap(options);
     webBrowser = new JWebBrowser(this, options);
-    HTMLEditorImplementation editorImplementation = (HTMLEditorImplementation)optionMap.get(HTML_EDITOR_COMPONENT_OPTION_KEY);
-    HTMLEditorImplementation editorImplementation_ = editorImplementation == null? HTMLEditorImplementation.FCKEditor: editorImplementation;
-    switch(editorImplementation_) {
+    switch(editorImplementation) {
       case FCKEditor:
         try {
           implementation = new JHTMLEditorFCKeditor(this, optionMap);
+          break;
+        } catch(RuntimeException e) {
+          if(editorImplementation != null) {
+            throw e;
+          }
+        }
+      case CKEditor:
+        try {
+          implementation = new JHTMLEditorCKeditor(this, optionMap);
           break;
         } catch(RuntimeException e) {
           if(editorImplementation != null) {

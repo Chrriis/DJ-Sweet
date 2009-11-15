@@ -25,24 +25,38 @@ import chrriis.dj.sweet.components.JHTMLEditor.JHTMLEditorImplementation;
 
 /**
  * @author Christopher Deckers
+ * @author Simon Pope
  */
-class JHTMLEditorFCKeditor implements JHTMLEditorImplementation {
+class JHTMLEditorCKeditor implements JHTMLEditorImplementation {
 
-  private static final String PACKAGE_PREFIX = "/fckeditor/";
+  private static final String PACKAGE_PREFIX = "/ckeditor/";
   private static final String EDITOR_INSTANCE = "HTMLeditor1";
 
   private JHTMLEditor htmlEditor;
-  private String customJavascriptConfiguration;
+  private final String customOptions;
 
-  public JHTMLEditorFCKeditor(JHTMLEditor htmlEditor, Map<Object, Object> optionMap) {
-    if(getClass().getResource(PACKAGE_PREFIX + "fckeditor.js") == null) {
-      throw new IllegalStateException("The FCKEditor distribution is missing from the classpath!");
+  @SuppressWarnings("unchecked")
+  public JHTMLEditorCKeditor(JHTMLEditor htmlEditor, Map<Object, Object> optionMap) {
+    if(getClass().getResource(PACKAGE_PREFIX + "ckeditor.js") == null) {
+      throw new IllegalStateException("The CKEditor distribution is missing from the classpath!");
     }
     this.htmlEditor = htmlEditor;
-    customJavascriptConfiguration = (String)optionMap.get(JHTMLEditor.FCKEditorOptions.SET_CUSTOM_JAVASCRIPT_CONFIGURATION_OPTION_KEY);
+    Map<String, String> customOptionsMap = (Map<String, String>)optionMap.get(JHTMLEditor.CKEditorOptions.SET_OPTIONS_OPTION_KEY);
+    StringBuilder sb = new StringBuilder();
+    for(String key: customOptionsMap.keySet()) {
+      String value = customOptionsMap.get(key);
+      if(value != null && value.length() > 0) {
+        if(sb.length() > 0) {
+          sb.append(',' + LS);
+        }
+        sb.append("          " + key + ": " + value);
+      }
+    }
+    customOptions = sb.length() > 0? sb.toString(): null;
   }
 
-  private static final String LS = Utils.LINE_SEPARATOR;
+  static final String LS = Utils.LINE_SEPARATOR;
+
 
   public WebServerContent getWebServerContent(final HTTPRequest httpRequest, final String resourcePath, final int instanceID) {
     if("index.html".equals(resourcePath)) {
@@ -53,6 +67,7 @@ class JHTMLEditorFCKeditor implements JHTMLEditorImplementation {
           return getDefaultMimeType(index == -1? null: resourcePath.substring(index));
         }
         @Override
+        @SuppressWarnings("nls")
         public InputStream getInputStream() {
           String content =
             "<html>" + LS +
@@ -61,20 +76,17 @@ class JHTMLEditorFCKeditor implements JHTMLEditorImplementation {
             "    <style type=\"text/css\">" + LS +
             "      body, form {margin: 0; padding: 0; overflow: auto;}" + LS +
             "    </style>" + LS +
-            "    <script type=\"text/javascript\" src=\"fckeditor.js\"></script>" + LS +
+            "    <script type=\"text/javascript\" src=\"ckeditor.js\"></script>" + LS +
             "    <script type=\"text/javascript\">" + LS +
-            // We override the FCK editor function because on Linux this may return false if navigator.product is empty (instead of "Gecko")
-            "      function FCKeditor_IsCompatibleBrowser() {" + LS +
-            "        return true;" + LS +
-            "      }" + LS +
             "      var sendCommand = " + JWebBrowser.COMMAND_FUNCTION + ";" + LS +
             "      function JH_setData(html) {" + LS +
-            "        var inst = FCKeditorAPI.GetInstance('" + EDITOR_INSTANCE + "');" + LS +
-            "        inst.SetHTML(decodeURIComponent(html));" + LS +
+            "        var oEditor = CKEDITOR.instances." + EDITOR_INSTANCE + ";" + LS +
+            "        oEditor.setData(decodeURIComponent(html));" + LS +
             "      }" + LS +
             "      function JH_sendData() {" + LS +
             "        document.jhtml_form.action = 'jhtml_sendData';" + LS +
             "        document.jhtml_form.submit();" + LS +
+            "        document.jhtml_form.action = 'jhtml_save';" + LS +
             "        return false;" + LS +
             "      }" + LS +
             "      function JH_doSave() {" + LS +
@@ -82,45 +94,41 @@ class JHTMLEditorFCKeditor implements JHTMLEditorImplementation {
             "        document.jhtml_form.submit();" + LS +
             "        return false;" + LS +
             "      }" + LS +
-            "      function createEditor() {" + LS +
-            "        var oFCKeditor = new FCKeditor('" + EDITOR_INSTANCE + "');" + LS +
-            "        oFCKeditor.Width = \"100%\";" + LS +
-            "        oFCKeditor.Height = \"100%\";" + LS +
-            "        oFCKeditor.BasePath = \"\";" + LS +
-            (customJavascriptConfiguration != null? "        oFCKeditor.Config[\"CustomConfigurationsPath\"] = '" + WebServer.getDefaultWebServer().getDynamicContentURL(JHTMLEditor.class.getName(), String.valueOf(instanceID), "customConfigurationScript.js") + "';" + LS: "") +
-            "        oFCKeditor.Create();" + LS +
-            "      }" + LS +
-            "      function FCKeditor_OnComplete(editorInstance) {" + LS +
-            "        editorInstance.LinkedField.form.onsubmit = JH_doSave;" + LS +
-            "        sendCommand('[Chrriis]JH_setLoaded');" + LS +
-            "      }" + LS +
+            "      CKEDITOR.on('instanceReady'," + LS +
+            "      	 function(evt) {" + LS +
+            "     	   var editor = evt.editor;" + LS +
+            "     	   editor.execCommand('maximize');" + LS +
+            "          sendCommand('[Chrriis]JH_setLoaded');" + LS +
+            "      	 });" + LS +
             "    </script>" + LS +
             "  </head>" + LS +
             "  <body>" + LS +
-            "  <iframe style=\"display:none;\" name=\"j_iframe\"></iframe>" + LS +
-            "  <form name=\"jhtml_form\" method=\"POST\" target=\"j_iframe\">" + LS +
-            "    <script type=\"text/javascript\">" + LS +
-            "      createEditor();" + LS +
-            "    </script>" +
-            "</form>" + LS + // No space at the begining of this line or else a scrollbar appears.
+            "    <iframe style=\"display:none;\" id=\"j_iframe\" name=\"j_iframe\"></iframe>" + LS +
+            "    <form name=\"jhtml_form\" method=\"POST\" target=\"j_iframe\" action=\"jhtml_save\">" + LS +
+            "      <textarea name=\"" + EDITOR_INSTANCE + "\">&lt;p&gt;&lt;/p&gt;</textarea>" + LS +
+            "      <script type=\"text/javascript\">" + LS +
+            "        CKEDITOR.replace('" + EDITOR_INSTANCE + "'" +
+            (customOptions != null? "," + "{" + LS + customOptions + LS + "        });": ");") + LS +
+            "      </script>" + LS +
+            "    </form>" + LS +
             "  </body>" + LS +
-            "</html>" + LS;
-          return getInputStream(content);
+            "</html>";
+            return getInputStream(content);
         }
       };
     }
-    if("customConfigurationScript.js".equals(resourcePath)) {
-      return new WebServerContent () {
-        @Override
-        public String getContentType () {
-          return getDefaultMimeType(".js");
-        }
-        @Override
-        public InputStream getInputStream () {
-          return getInputStream(customJavascriptConfiguration);
-        }
-      };
-    }
+//    if("customConfigurationScript.js".equals(resourcePath)) {
+//      return new WebServerContent () {
+//        @Override
+//        public String getContentType () {
+//          return getDefaultMimeType(".js");
+//        }
+//        @Override
+//        public InputStream getInputStream () {
+//          return getInputStream(customJavascriptConfiguration);
+//        }
+//      };
+//    }
     if("jhtml_save".equals(resourcePath)) {
       SwingUtilities.invokeLater(new Runnable() {
         public void run() {
@@ -147,6 +155,7 @@ class JHTMLEditorFCKeditor implements JHTMLEditorImplementation {
         }
       };
     }
+
     if("jhtml_sendData".equals(resourcePath)) {
       String data = httpRequest.getHTTPPostDataArray()[0].getHeaderMap().get(EDITOR_INSTANCE);
       tempResult = data;
@@ -270,7 +279,7 @@ class JHTMLEditorFCKeditor implements JHTMLEditorImplementation {
     for(int i=0; i<20; i++) {
       EventDispatchUtils.sleepWithEventDispatch(new EventDispatchUtils.Condition() {
         public boolean getValue() {
-          return tempResult != JHTMLEditorFCKeditor.this;
+          return tempResult != JHTMLEditorCKeditor.this;
         }
       }, 50);
       if(tempResult != this) {
