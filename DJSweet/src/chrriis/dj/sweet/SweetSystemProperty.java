@@ -25,18 +25,18 @@ public enum SweetSystemProperty {
   LOCALHOSTADDRESS("sweet.localhostaddress", Type.READ_WRITE),
 
   /**
-   * sweet.debug.printlocalhostaddressdetection
+   * sweet.localhostaddress.debug.printdetection
    * = true/false (default: false)<br/>
    * Set whether to print the steps of local host address detection.
    */
-  DEBUG_PRINTLOCALHOSTADDRESSDETECTION("sweet.debug.printlocalhostaddressdetection", Type.READ_WRITE),
+  LOCALHOSTADDRESS_DEBUG_PRINTDETECTION("sweet.localhostaddress.debug.printdetection", Type.READ_WRITE),
 
   /**
-   * sweet.debug.printlocalhostaddress
+   * sweet.localhostaddress.debug.print
    * = true/false (default: false)<br/>
    * Set whether the address found as the local host address should be printed.
    */
-  DEBUG_PRINTLOCALHOSTADDRESS("sweet.debug.printlocalhostaddress", Type.READ_WRITE),
+  LOCALHOSTADDRESS_DEBUG_PRINT("sweet.localhostaddress.debug.print", Type.READ_WRITE),
 
 
   /**
