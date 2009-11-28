@@ -30,6 +30,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 
+import chrriis.dj.sweet.SweetSystemProperty;
+
 /**
  * @author Christopher Deckers
  */
@@ -506,7 +508,7 @@ public class WebServer {
       }
     }
 
-    private static final boolean DEBUG_PRINT_REQUESTS = Boolean.parseBoolean(System.getProperty("sweet.webserver.debug.printrequests"));
+    private static final boolean DEBUG_PRINT_REQUESTS = Boolean.parseBoolean(SweetSystemProperty.SWEET_WEBSERVER_DEBUG_PRINTREQUESTS.get());
 
     @Override
     public void run() {
@@ -709,7 +711,7 @@ public class WebServer {
     serverSocket = new ServerSocket();
     serverSocket.bind(new InetSocketAddress(InetAddress.getByName(getHostAddress()), port));
     port = serverSocket.getLocalPort();
-    if(Boolean.parseBoolean(System.getProperty("sweet.webserver.debug.printport"))) {
+    if(Boolean.parseBoolean(SweetSystemProperty.SWEET_WEBSERVER_DEBUG_PRINTPORT.get())) {
       System.err.println("Web Server port: " + port);
     }
     Thread listenerThread = new Thread("WebServer") {

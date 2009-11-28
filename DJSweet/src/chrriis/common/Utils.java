@@ -27,6 +27,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
+import chrriis.dj.sweet.SweetSystemProperty;
+
 /**
  * @author Christopher Deckers
  */
@@ -331,7 +333,7 @@ public class Utils {
       if(localHostAddress != null) {
         return "".equals(localHostAddress)? null: localHostAddress;
       }
-      String localHostAddress = System.getProperty("sweet.localhostaddress");
+      String localHostAddress = SweetSystemProperty.SWEET_LOCALHOSTADDRESS.get();
       if("_localhost_".equals(localHostAddress)) {
         try {
           localHostAddress = InetAddress.getLocalHost().getHostAddress();
@@ -340,10 +342,10 @@ public class Utils {
         }
       }
       if(localHostAddress == null) {
-        boolean isDebugging = Boolean.parseBoolean(System.getProperty("sweet.debug.printlocalhostaddressdetection"));
+        boolean isDebugging = Boolean.parseBoolean(SweetSystemProperty.SWEET_DEBUG_PRINTLOCALHOSTADDRESSDETECTION.get());
         localHostAddress = getLocalHostAddress(0, isDebugging);
       }
-      if(Boolean.parseBoolean(System.getProperty("sweet.debug.printlocalhostaddress"))) {
+      if(Boolean.parseBoolean(SweetSystemProperty.SWEET_DEBUG_PRINTLOCALHOSTADDRESS.get())) {
         System.err.println("Local host address: " + localHostAddress);
       }
       Utils.localHostAddress = localHostAddress == null? "": localHostAddress;

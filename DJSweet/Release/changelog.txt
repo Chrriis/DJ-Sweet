@@ -24,6 +24,7 @@ Licence terms: LGPL (see licence.txt)
 - Relative local files can be loaded by the web server.
 - JS line comments and escaping are removed for browsers where it is not needed.
 - Browser window size was incorrectly set if JS specified only width or height.
+- Exposed System properties are in enum classes.
 
 
 * Version 0.9.8 (March 24, 2009):
