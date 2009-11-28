@@ -37,7 +37,7 @@ public enum SweetSystemProperty {
    * = true/false (default: false)<br/>
    * Set whether the address found as the local host address should be printed.
    */
-  LOCALHOSTADDRESS_DEBUG_PRINT("sweet.localhostaddress.debug.print", Type.READ_WRITE),
+  LOCALHOSTADDRESS_DEBUG_PRINT("sweet.localhostAddress.debug.print", Type.READ_WRITE),
 
 
   /**
