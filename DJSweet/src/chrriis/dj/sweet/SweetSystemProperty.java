@@ -22,21 +22,21 @@ public enum SweetSystemProperty {
    * Set the address that is used as the local host address for all the internal
    * communication channels that require a sockets (local web server, etc.).
    */
-  SWEET_LOCALHOSTADDRESS("sweet.localhostaddress", Type.READ_WRITE),
+  LOCALHOSTADDRESS("sweet.localhostaddress", Type.READ_WRITE),
 
   /**
    * sweet.debug.printlocalhostaddressdetection
    * = true/false (default: false)<br/>
    * Set whether to print the steps of local host address detection.
    */
-  SWEET_DEBUG_PRINTLOCALHOSTADDRESSDETECTION("sweet.debug.printlocalhostaddressdetection", Type.READ_WRITE),
+  DEBUG_PRINTLOCALHOSTADDRESSDETECTION("sweet.debug.printlocalhostaddressdetection", Type.READ_WRITE),
 
   /**
    * sweet.debug.printlocalhostaddress
    * = true/false (default: false)<br/>
    * Set whether the address found as the local host address should be printed.
    */
-  SWEET_DEBUG_PRINTLOCALHOSTADDRESS("sweet.debug.printlocalhostaddress", Type.READ_WRITE),
+  DEBUG_PRINTLOCALHOSTADDRESS("sweet.debug.printlocalhostaddress", Type.READ_WRITE),
 
 
   /**
@@ -45,7 +45,7 @@ public enum SweetSystemProperty {
    * Set whether the port that is used by the embedded web server should be
    * printed.
    */
-  SWEET_WEBSERVER_DEBUG_PRINTREQUESTS("sweet.webserver.debug.printrequests", Type.READ_WRITE),
+  WEBSERVER_DEBUG_PRINTREQUESTS("sweet.webserver.debug.printrequests", Type.READ_WRITE),
 
   /**
    * sweet.webserver.debug.printrequests
@@ -53,7 +53,7 @@ public enum SweetSystemProperty {
    * Set whether the web server should print the requests it receives, along with
    * the result (200 or 404).
    */
-  SWEET_WEBSERVER_DEBUG_PRINTPORT("sweet.webserver.debug.printport", Type.READ_WRITE),
+  WEBSERVER_DEBUG_PRINTPORT("sweet.webserver.debug.printport", Type.READ_WRITE),
 
 
   /**
@@ -61,7 +61,7 @@ public enum SweetSystemProperty {
    * = true/false (default: false)<br/>
    * Set whether the options used to create a component should be printed.
    */
-  SWEET_COMPONENTS_DEBUG_PRINTOPTIONS("sweet.components.debug.printoptions", Type.READ_WRITE),
+  COMPONENTS_DEBUG_PRINTOPTIONS("sweet.components.debug.printoptions", Type.READ_WRITE),
 
 
   /**
@@ -69,7 +69,7 @@ public enum SweetSystemProperty {
    * = xulrunner (default: none)<br/>
    * Set the runtime of the web browser. Currently, only XULRunner is supported.
    */
-  SWEET_WEBBROWSER_RUNTIME("sweet.webbrowser.runtime", Type.READ_WRITE),
+  WEBBROWSER_RUNTIME("sweet.webbrowser.runtime", Type.READ_WRITE),
 
   /**
    * sweet.webbrowser.xulrunner.home
@@ -77,7 +77,7 @@ public enum SweetSystemProperty {
    * Set which XULRunner installation is used. This property is taken into account
    * when using the XULRunner runtime.
    */
-  SWEET_WEBBROWSER_XULRUNNER_HOME("sweet.webbrowser.xulrunner.home", Type.READ_WRITE),
+  WEBBROWSER_XULRUNNER_HOME("sweet.webbrowser.xulrunner.home", Type.READ_WRITE),
 
   ;
 

@@ -64,7 +64,7 @@ import chrriis.dj.sweet.SweetSystemProperty;
  */
 public class JWebBrowser extends Composite {
 
-  private static final boolean IS_DEBUGGING_OPTIONS = Boolean.parseBoolean(SweetSystemProperty.SWEET_COMPONENTS_DEBUG_PRINTOPTIONS.get());
+  private static final boolean IS_DEBUGGING_OPTIONS = Boolean.parseBoolean(SweetSystemProperty.COMPONENTS_DEBUG_PRINTOPTIONS.get());
 
   /** The function to use when sending a command from some web content using Javascript. */
   public static final String COMMAND_FUNCTION = "sendSCommand";
@@ -209,7 +209,7 @@ public class JWebBrowser extends Composite {
    */
   public JWebBrowser(Composite parent, NSOption... options) {
     super(parent, SWT.NONE);
-    String xulRunnerPath = SweetSystemProperty.SWEET_WEBBROWSER_XULRUNNER_HOME.get();
+    String xulRunnerPath = SweetSystemProperty.WEBBROWSER_XULRUNNER_HOME.get();
     if(xulRunnerPath != null) {
       System.setProperty("org.eclipse.swt.browser.XULRunnerPath", xulRunnerPath);
     } else {
@@ -245,7 +245,7 @@ public class JWebBrowser extends Composite {
       }
       System.err.println(sb);
     }
-    if(optionMap.get(USE_XULRUNNER_RUNTIME_OPTION_KEY) != null || "xulrunner".equals(SweetSystemProperty.SWEET_WEBBROWSER_RUNTIME.get())) {
+    if(optionMap.get(USE_XULRUNNER_RUNTIME_OPTION_KEY) != null || "xulrunner".equals(SweetSystemProperty.WEBBROWSER_RUNTIME.get())) {
       isXULRunnerRuntime = true;
       style |= SWT.MOZILLA;
     }
