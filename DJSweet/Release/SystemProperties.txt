@@ -5,34 +5,34 @@ are using them get loaded.
 
 --------------------------------------------------------------------------------
 
-* sweet.localhostaddress
+* sweet.localhostAddress
   = <String> or "_localhost_" (default: auto-detect, usually 127.0.0.1)
   Set the address that is used as the local host address for all the internal
   communication channels that require a socket (local web server, etc.).
 
-* sweet.localhostaddress.debug.printdetection
+* sweet.localhostAddress.debug.printDetection
   = true/false (default: false)
   Set whether to print the steps of local host address detection.
 
-* sweet.localhostaddress.debug.print
+* sweet.localhostAddress.debug.print
   = true/false (default: false)
   Set whether the address found as the local host address should be printed.
   
 --------------------------------------------------------------------------------
 
-* sweet.webserver.debug.printport
+* sweet.webserver.debug.printPort
   = true/false (default: false)
   Set whether the port that is used by the embedded web server should be
   printed.
   
-* sweet.webserver.debug.printrequests
+* sweet.webserver.debug.printRequests
   = true/false (default: false)
   Set whether the web server should print the requests it receives, along with
   the result (200 or 404).
 
 --------------------------------------------------------------------------------
 
-* sweet.components.debug.printoptions
+* sweet.components.debug.printOptions
   = true/false (default: false)
   Set whether the options used to create a component should be printed.
 
