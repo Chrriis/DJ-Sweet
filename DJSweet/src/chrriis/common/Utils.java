@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Christopher Deckers
@@ -33,16 +34,18 @@ public class Utils {
 
   private Utils() {}
 
-  public static final boolean IS_JAVA_6_OR_GREATER = System.getProperty("java.version").compareTo("1.6") >= 0;
+  public static final boolean IS_JAVA_6_OR_GREATER = SystemProperty.JAVA_VERSION.get().compareTo("1.6") >= 0;
 
   public static final boolean IS_MAC;
+  public static final boolean IS_WINDOWS;
 
   static {
-    String os = System.getProperty("os.name");
+    String os = SystemProperty.OS_NAME.get();
     IS_MAC = os.startsWith("Mac") || os.startsWith("Darwin");
+    IS_WINDOWS = os.startsWith("Windows");
   }
 
-  public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+  public static final String LINE_SEPARATOR = SystemProperty.LINE_SEPARATOR.get();
 
   public static String decodeURL(String s) {
     try {
@@ -300,6 +303,23 @@ public class Utils {
     return sb.toString();
   }
 
+  public static void dumpStackTraces() {
+    Map<Thread, StackTraceElement[]> allStackTraces = Thread.getAllStackTraces();
+    Thread[] threads = allStackTraces.keySet().toArray(new Thread[0]);
+    Arrays.sort(threads, new Comparator<Thread>() {
+      public int compare(Thread o1, Thread o2) {
+        return o1.getName().compareToIgnoreCase(o2.getName());
+      }
+    });
+    for(Thread t: threads) {
+      System.err.println((t.isDaemon()? "Daemon Thread [": "Thread [") + t.getName() + "] (" + t.getState() + ")");
+      StackTraceElement[] stackTraceElements = allStackTraces.get(t);
+      for (StackTraceElement stackTraceElement: stackTraceElements) {
+        System.err.println("\tat " + stackTraceElement);
+      }
+    }
+  }
+
   private static String localHostAddress;
 
   /**
@@ -307,25 +327,28 @@ public class Utils {
    * @return the local host address that was found, or null.
    */
   public static String getLocalHostAddress() {
-    if(localHostAddress != null) {
-      return "".equals(localHostAddress)? null: localHostAddress;
-    }
-    String localHostAddress = System.getProperty("sweet.localhostaddress");
-    if("_localhost_".equals(localHostAddress)) {
-      try {
-        localHostAddress = InetAddress.getLocalHost().getHostAddress();
-      } catch(Exception e) {
-        localHostAddress = null;
+    synchronized(Utils.class) {
+      if(localHostAddress != null) {
+        return "".equals(localHostAddress)? null: localHostAddress;
       }
+      String localHostAddress = System.getProperty("sweet.localhostaddress");
+      if("_localhost_".equals(localHostAddress)) {
+        try {
+          localHostAddress = InetAddress.getLocalHost().getHostAddress();
+        } catch(Exception e) {
+          localHostAddress = null;
+        }
+      }
+      if(localHostAddress == null) {
+        boolean isDebugging = Boolean.parseBoolean(System.getProperty("sweet.debug.printlocalhostaddressdetection"));
+        localHostAddress = getLocalHostAddress(0, isDebugging);
+      }
+      if(Boolean.parseBoolean(System.getProperty("sweet.debug.printlocalhostaddress"))) {
+        System.err.println("Local host address: " + localHostAddress);
+      }
+      Utils.localHostAddress = localHostAddress == null? "": localHostAddress;
+      return localHostAddress;
     }
-    if(localHostAddress == null) {
-      localHostAddress = getLocalHostAddress(0);
-    }
-    if(Boolean.parseBoolean(System.getProperty("sweet.debug.printlocalhostaddress"))) {
-      System.err.println("Local host address: " + localHostAddress);
-    }
-    Utils.localHostAddress = localHostAddress == null? "": localHostAddress;
-    return localHostAddress;
   }
 
   /**
@@ -334,9 +357,25 @@ public class Utils {
    * @return the local host address that was found, or null.
    */
   public static String getLocalHostAddress(int port) {
+    return getLocalHostAddress(port, false);
+  }
+
+  private static String getLocalHostAddress(int port, boolean isDebugging) {
+    if(isDebugging) {
+      System.err.println("Local host address detection using " + (port == 0? "an automatic port": "port " + port) + ":");
+    }
     String loopbackAddress = "127.0.0.1";
+    if(isDebugging) {
+      System.err.print("  Trying 127.0.0.1: ");
+    }
     if(isLocalHostAddressReachable(loopbackAddress, port)) {
+      if(isDebugging) {
+        System.err.println("success.");
+      }
       return loopbackAddress;
+    }
+    if(isDebugging) {
+      System.err.println("failed.");
     }
     List<InetAddress> inetAddressList = new ArrayList<InetAddress>();
     try {
@@ -370,16 +409,39 @@ public class Utils {
         return o1.getHostAddress().compareTo(o2.getHostAddress());
       }
     });
+    if(isDebugging) {
+      System.err.println("  Trying addresses: " + inetAddressList);
+    }
     for(InetAddress address: inetAddressList) {
       String hostAddress = address.getHostAddress();
+      if(isDebugging) {
+        System.err.print("    " + hostAddress + ": ");
+      }
       if(isLocalHostAddressReachable(hostAddress, port)) {
+        if(isDebugging) {
+          System.err.println("success.");
+        }
         return hostAddress;
+      }
+      if(isDebugging) {
+        System.err.println("failed.");
       }
     }
     try {
+      if(isDebugging) {
+        System.err.print("  Trying LocalHost: ");
+      }
       // This call can take some time.
-      return InetAddress.getLocalHost().getHostAddress();
+      String hostAddress = InetAddress.getLocalHost().getHostAddress();
+      if(isDebugging) {
+        System.err.print("success (" + hostAddress + ").");
+      }
+      return hostAddress;
     } catch(Exception e) {
+    }
+    if(isDebugging) {
+      System.err.println("failed.");
+      System.err.println("  Failed to find a suitable local host address!");
     }
     return null;
   }
