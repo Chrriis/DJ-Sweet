@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import chrriis.dj.sweet.components.HTMLEditorListener;
+import chrriis.dj.sweet.components.HTMLEditorAdapter;
 import chrriis.dj.sweet.components.HTMLEditorSaveEvent;
 import chrriis.dj.sweet.components.JHTMLEditor;
 import chrriis.dj.sweet.components.JHTMLEditor.HTMLEditorImplementation;
@@ -56,7 +56,8 @@ public class FCKEditorExample extends Composite {
       "FCKConfig.ToolbarCanCollapse = false;\n";
     final JHTMLEditor htmlEditor = new JHTMLEditor(this, HTMLEditorImplementation.FCKEditor, JHTMLEditor.FCKEditorOptions.setCustomJavascriptConfiguration(configurationScript));
     htmlEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-    htmlEditor.addHTMLEditorListener(new HTMLEditorListener() {
+    htmlEditor.addHTMLEditorListener(new HTMLEditorAdapter() {
+      @Override
       public void saveHTML(HTMLEditorSaveEvent e) {
         MessageBox messageBox = new MessageBox(getShell(), SWT.ICON_INFORMATION | SWT.OK);
         messageBox.setMessage("The data of the HTML editor could be saved anywhere...");
@@ -81,14 +82,10 @@ public class FCKEditorExample extends Composite {
         "<img alt=\"DJ Project Logo\" src=\"http://djproject.sourceforge.net/common/logo.png\" /><br />" + LS +
         "<a href=\"http://djproject.sourceforge.net/ns/\">DJ Project - Native Swing</a></p>"
     );
-//    htmlTextArea.setCaretPosition(0);
-//    scrollPane.setPreferredSize(new Dimension(0, 100));
-//    southPanel.add(scrollPane, BorderLayout.CENTER);
     getHTMLButton.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
         htmlTextArea.setText(htmlEditor.getHTMLContent());
-//        htmlTextArea.setCaretPosition(0);
       }
     });
     setHTMLButton.addSelectionListener(new SelectionAdapter() {

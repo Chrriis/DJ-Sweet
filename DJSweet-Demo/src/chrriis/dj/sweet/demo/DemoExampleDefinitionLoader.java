@@ -14,6 +14,7 @@ import chrriis.dj.sweet.demo.examples.flashplayer.FunctionCalls;
 import chrriis.dj.sweet.demo.examples.flashplayer.SimpleFlashExample;
 import chrriis.dj.sweet.demo.examples.flashplayer.VariablesAndFlow;
 import chrriis.dj.sweet.demo.examples.htmleditor.CKEditorExample;
+import chrriis.dj.sweet.demo.examples.htmleditor.EditorDirtyExample;
 import chrriis.dj.sweet.demo.examples.htmleditor.FCKEditorExample;
 import chrriis.dj.sweet.demo.examples.htmleditor.TinyMCEExample;
 import chrriis.dj.sweet.demo.examples.introduction.Sweet;
@@ -65,6 +66,7 @@ public class DemoExampleDefinitionLoader {
         new Example("FCKEditor Example", FCKEditorExample.class, "Graphically edit some HTML, get and set the HTML content, using the FCKEditor implementation.", true),
         new Example("CKEditor Example", CKEditorExample.class, "Graphically edit some HTML, get and set the HTML content, using the CKEditor implementation.", true),
         new Example("TinyMCE Example", TinyMCEExample.class, "Graphically edit some HTML, get and set the HTML content, using the TinyMCE implementation.", true),
+        new Example("Dirty Indicator", EditorDirtyExample.class, "Track whether the editor was modified since the last time its content was set.", true),
     }));
     exampleGroupList.add(new ExampleGroup("JSyntaxHighlighter", new Example[] {
         new Example("Simple Example", SimpleSyntaxHighlighterExample.class, "Display some content with syntax highlighting from one of the available languages (C++, C#, css, Delphi, Java, JS, PHP, Python, Ruby, SQL, VB, XML, HTML).", true),

@@ -7,9 +7,6 @@
  */
 package chrriis.dj.sweet.demo.examples.htmleditor;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -20,36 +17,27 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import chrriis.dj.sweet.components.HTMLEditorAdapter;
+import chrriis.dj.sweet.components.HTMLEditorEvent;
 import chrriis.dj.sweet.components.HTMLEditorSaveEvent;
 import chrriis.dj.sweet.components.JHTMLEditor;
 
 /**
  * @author Christopher Deckers
  */
-public class TinyMCEExample extends Composite {
+public class EditorDirtyExample extends Composite {
 
   protected static final String LS = System.getProperty("line.separator");
 
-  public TinyMCEExample(Composite parent) {
+  public EditorDirtyExample(Composite parent) {
     super(parent, SWT.NONE);
     setLayout(new GridLayout());
-    Map<String, String> optionMap = new HashMap<String, String>();
-    optionMap.put("theme_advanced_buttons1", "'bold,italic,underline,strikethrough,sub,sup,|,charmap,|,justifyleft,justifycenter,justifyright,justifyfull,|,hr,removeformat'");
-    optionMap.put("theme_advanced_buttons2", "'undo,redo,|,cut,copy,paste,pastetext,pasteword,|,search,replace,|,forecolor,backcolor,bullist,numlist,|,outdent,indent,blockquote,|,table'");
-    optionMap.put("theme_advanced_buttons3", "''");
-    optionMap.put("theme_advanced_toolbar_location", "'top'");
-    optionMap.put("theme_advanced_toolbar_align", "'left'");
-    // Language can be configured when language packs are added to the classpath. Language packs can be found here: http://tinymce.moxiecode.com/download_i18n.php
-    optionMap.put("language", "'de'");
-    optionMap.put("plugins", "'table,paste,contextmenu'");
-    final JHTMLEditor htmlEditor = new JHTMLEditor(this, JHTMLEditor.HTMLEditorImplementation.TinyMCE,
-        JHTMLEditor.TinyMCEOptions.setOptions(optionMap)
-    );
+    final JHTMLEditor htmlEditor = new JHTMLEditor(this, JHTMLEditor.HTMLEditorImplementation.TinyMCE);
     htmlEditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
     htmlEditor.addHTMLEditorListener(new HTMLEditorAdapter() {
       @Override
@@ -59,18 +47,41 @@ public class TinyMCEExample extends Composite {
         messageBox.open();
       }
     });
-    Group southPanel = new Group(this, SWT.NONE);
-    southPanel.setLayout(new GridLayout());
-    southPanel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-    southPanel.setText("Custom Controls");
-    Composite middlePanel = new Composite(southPanel, SWT.NONE);
-    middlePanel.setLayout(new GridLayout(2, true));
-    middlePanel.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
-    Button setHTMLButton = new Button(middlePanel, SWT.PUSH);
+    Group dirtyPanel = new Group(this, SWT.NONE);
+    dirtyPanel.setLayout(new GridLayout());
+    dirtyPanel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+    dirtyPanel.setText("Dirty State");
+    Composite dirtyMiddlePanel = new Composite(dirtyPanel, SWT.NONE);
+    dirtyMiddlePanel.setLayout(new GridLayout(2, true));
+    dirtyMiddlePanel.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
+    final Label dirtyLabel = new Label(dirtyMiddlePanel, SWT.NONE);
+    dirtyLabel.setText("Dirty: false");
+    htmlEditor.addHTMLEditorListener(new HTMLEditorAdapter() {
+      @Override
+      public void notifyDirtyStateChanged(HTMLEditorEvent e, boolean isDirty) {
+        dirtyLabel.setText("Dirty: " + isDirty);
+      }
+    });
+    Button markAsCleanButton = new Button(dirtyMiddlePanel, SWT.PUSH);
+    markAsCleanButton.setText("Mark as clean");
+    markAsCleanButton.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        htmlEditor.clearDirtyState();
+      }
+    });
+    Group controlsPanel = new Group(this, SWT.NONE);
+    controlsPanel.setLayout(new GridLayout());
+    controlsPanel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+    controlsPanel.setText("Custom Controls");
+    Composite controlsMiddlePanel = new Composite(controlsPanel, SWT.NONE);
+    controlsMiddlePanel.setLayout(new GridLayout(2, true));
+    controlsMiddlePanel.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
+    Button setHTMLButton = new Button(controlsMiddlePanel, SWT.PUSH);
     setHTMLButton.setText("Set HTML");
-    Button getHTMLButton = new Button(middlePanel, SWT.PUSH);
+    Button getHTMLButton = new Button(controlsMiddlePanel, SWT.PUSH);
     getHTMLButton.setText("Get HTML");
-    final Text htmlTextArea = new Text(southPanel, SWT.MULTI | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    final Text htmlTextArea = new Text(controlsPanel, SWT.MULTI | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     htmlTextArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
     htmlTextArea.setText(
         "<p style=\"text-align: center\">This is an <b>HTML editor</b>, in a <u><i>Swing</i></u> application.<br />" + LS +
@@ -97,7 +108,7 @@ public class TinyMCEExample extends Composite {
     Display display = new Display();
     Shell shell = new Shell(display);
     shell.setLayout(new FillLayout());
-    new TinyMCEExample(shell);
+    new EditorDirtyExample(shell);
     shell.setSize(800, 600);
     shell.open();
     while(!shell.isDisposed()) {

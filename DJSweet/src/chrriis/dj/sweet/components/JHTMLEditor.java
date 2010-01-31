@@ -47,6 +47,10 @@ public class JHTMLEditor extends Composite {
 
     public void setHTMLContent(String html);
 
+    public void setDirtyTrackingActive(boolean isDirtyTrackingActive);
+
+    public void clearDirtyIndicator();
+
   }
 
   public static enum HTMLEditorImplementation { FCKEditor, CKEditor, TinyMCE };
@@ -195,6 +199,8 @@ public class JHTMLEditor extends Composite {
           for(int i=initializationListenerList.size()-1; i>=0; i--) {
             initializationListenerList.get(i).objectInitialized();
           }
+        } else if("[Chrriis]JH_setDirty".equals(command)) {
+          setDirty(true);
         }
       }
     });
@@ -264,6 +270,39 @@ public class JHTMLEditor extends Composite {
   public void setHTMLContent(String html) {
     html = JHTMLEditor.convertLinksFromLocal(html.replaceAll("[\r\n]", " "));
     implementation.setHTMLContent(html);
+    setDirty(false);
+  }
+
+  private boolean isDirty;
+
+  /**
+   * Indicate whether the editor is dirty, which means its content has changed since it was last set or the dirty state was cleared.
+   * @return true if the editor is dirty, false otherwise.
+   */
+  public boolean isDirty() {
+    return isDirty;
+  }
+
+  private void setDirty(boolean isDirty) {
+    if(this.isDirty == isDirty) {
+      return;
+    }
+    this.isDirty = isDirty;
+    HTMLEditorEvent e = null;
+    for(HTMLEditorListener listener: getHTMLEditorListeners()) {
+      if(e == null) {
+        e = new HTMLEditorEvent(this);
+      }
+      listener.notifyDirtyStateChanged(e, isDirty);
+    }
+  }
+
+  /**
+   * Clear the dirty state.
+   */
+  public void clearDirtyState() {
+    implementation.clearDirtyIndicator();
+    setDirty(false);
   }
 
   static String convertLinksToLocal(String html) {
