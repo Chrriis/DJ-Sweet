@@ -194,7 +194,8 @@ public class JHTMLEditor extends Composite {
     }
     webBrowser.addWebBrowserListener(new WebBrowserAdapter() {
       @Override
-      public void commandReceived(WebBrowserEvent e, String command, Object[] args) {
+      public void commandReceived(WebBrowserCommandEvent e) {
+        String command = e.getCommand();
         if("[Chrriis]JH_setLoaded".equals(command)) {
           for(int i=initializationListenerList.size()-1; i>=0; i--) {
             initializationListenerList.get(i).objectInitialized();
@@ -288,12 +289,12 @@ public class JHTMLEditor extends Composite {
       return;
     }
     this.isDirty = isDirty;
-    HTMLEditorEvent e = null;
+    HTMLEditorDirtyStateEvent e = null;
     for(HTMLEditorListener listener: getHTMLEditorListeners()) {
       if(e == null) {
-        e = new HTMLEditorEvent(this);
+        e = new HTMLEditorDirtyStateEvent(this, isDirty);
       }
-      listener.notifyDirtyStateChanged(e, isDirty);
+      listener.notifyDirtyStateChanged(e);
     }
   }
 

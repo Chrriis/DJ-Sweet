@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Text;
 
 import chrriis.dj.sweet.components.JWebBrowser;
 import chrriis.dj.sweet.components.WebBrowserAdapter;
-import chrriis.dj.sweet.components.WebBrowserEvent;
+import chrriis.dj.sweet.components.WebBrowserCommandEvent;
 
 /**
  * @author Christopher Deckers
@@ -51,14 +51,12 @@ public class SendingCommands extends Composite {
     receivedCommandTextField.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
     webBrowser.addWebBrowserListener(new WebBrowserAdapter() {
       @Override
-      public void commandReceived(WebBrowserEvent e, String command, Object[] args) {
-        String commandText = command;
-        if(args.length > 0) {
-          commandText += " " + Arrays.toString(args);
-        }
-        receivedCommandTextField.setText(commandText);
+      public void commandReceived(WebBrowserCommandEvent e) {
+        String command = e.getCommand();
+        Object[] parameters = e.getParameters();
+        receivedCommandTextField.setText(command + (parameters.length > 0? " " + Arrays.toString(parameters): ""));
         if("store".equals(command)) {
-          String data = (String)args[0] + " " + (String)args[1];
+          String data = (String)parameters[0] + " " + (String)parameters[1];
           MessageBox messageBox = new MessageBox(getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
           messageBox.setText("Data received from the web browser");
           messageBox.setMessage("Do you want to store \"" + data + "\" in a database?\n(Not for real of course!)");

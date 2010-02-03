@@ -101,15 +101,15 @@ public class JWebBrowser extends Composite {
       } else {
         commandArgs = new Object[0];
       }
-      WebBrowserEvent e = null;
+      WebBrowserCommandEvent e = null;
       boolean isInternal = command.startsWith("[Chrriis]");
       for(int i=listenerList.size()-1; i>=0; i--) {
         if(e == null) {
-          e = new WebBrowserEvent(JWebBrowser.this);
+          e = new WebBrowserCommandEvent(JWebBrowser.this, command, commandArgs);
         }
         WebBrowserListener webBrowserListener = listenerList.get(i);
         if(!isInternal || webBrowserListener.getClass().getName().startsWith("chrriis.")) {
-          webBrowserListener.commandReceived(e, command, commandArgs);
+          webBrowserListener.commandReceived(e);
         }
       }
       return null;
@@ -337,12 +337,12 @@ public class JWebBrowser extends Composite {
           }
           String command = queryElementList.isEmpty()? "": queryElementList.remove(0);
           String[] args = queryElementList.toArray(new String[0]);
-          WebBrowserEvent ev = null;
+          WebBrowserCommandEvent ev = null;
           for(int i=listenerList.size()-1; i>=0; i--) {
             if(ev == null) {
-              ev = new WebBrowserEvent(JWebBrowser.this);
+              ev = new WebBrowserCommandEvent(JWebBrowser.this, command, args);
             }
-            listenerList.get(i).commandReceived(ev, command, args);
+            listenerList.get(i).commandReceived(ev);
           }
           return;
         }
@@ -423,12 +423,12 @@ public class JWebBrowser extends Composite {
           }
           String command = queryElementList.isEmpty()? "": queryElementList.remove(0);
           String[] args = queryElementList.toArray(new String[0]);
-          WebBrowserEvent ev = null;
+          WebBrowserCommandEvent ev = null;
           for(int i=listenerList.size()-1; i>=0; i--) {
             if(ev == null) {
-              ev = new WebBrowserEvent(JWebBrowser.this);
+              ev = new WebBrowserCommandEvent(JWebBrowser.this, command, args);
             }
-            listenerList.get(i).commandReceived(ev, command, args);
+            listenerList.get(i).commandReceived(ev);
           }
           return;
         }
@@ -1180,9 +1180,9 @@ public class JWebBrowser extends Composite {
     final AtomicReference<Object[]> result = new AtomicReference<Object[]>();
     WebBrowserAdapter webBrowserListener = new WebBrowserAdapter() {
       @Override
-      public void commandReceived(WebBrowserEvent e, String command_, Object[] args) {
-        if(command.equals(command_)) {
-          result.set(args);
+      public void commandReceived(WebBrowserCommandEvent e) {
+        if(command.equals(e.getCommand())) {
+          result.set(e.getParameters());
           removeWebBrowserListener(this);
         }
       }

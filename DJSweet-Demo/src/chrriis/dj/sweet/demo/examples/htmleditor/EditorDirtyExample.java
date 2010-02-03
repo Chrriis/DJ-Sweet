@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import chrriis.dj.sweet.components.HTMLEditorAdapter;
-import chrriis.dj.sweet.components.HTMLEditorEvent;
+import chrriis.dj.sweet.components.HTMLEditorDirtyStateEvent;
 import chrriis.dj.sweet.components.HTMLEditorSaveEvent;
 import chrriis.dj.sweet.components.JHTMLEditor;
 
@@ -58,8 +58,8 @@ public class EditorDirtyExample extends Composite {
     dirtyLabel.setText("Dirty: false");
     htmlEditor.addHTMLEditorListener(new HTMLEditorAdapter() {
       @Override
-      public void notifyDirtyStateChanged(HTMLEditorEvent e, boolean isDirty) {
-        dirtyLabel.setText("Dirty: " + isDirty);
+      public void notifyDirtyStateChanged(HTMLEditorDirtyStateEvent e) {
+        dirtyLabel.setText("Dirty: " + e.isDirty());
       }
     });
     Button markAsCleanButton = new Button(dirtyMiddlePanel, SWT.PUSH);

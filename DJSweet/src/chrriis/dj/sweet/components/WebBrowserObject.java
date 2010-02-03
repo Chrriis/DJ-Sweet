@@ -47,8 +47,8 @@ public abstract class WebBrowserObject {
     webBrowser.setBarsVisible(false);
     webBrowser.addWebBrowserListener(new WebBrowserAdapter() {
       @Override
-      public void commandReceived(WebBrowserEvent e, String command, Object[] args) {
-        if("[Chrriis]WB_setLoaded".equals(command)) {
+      public void commandReceived(WebBrowserCommandEvent e) {
+        if("[Chrriis]WB_setLoaded".equals(e.getCommand())) {
           Object[] listeners = listenerList.getListenerList();
           for(int i=listeners.length-2; i>=0; i-=2) {
             if(listeners[i] == InitializationListener.class) {
@@ -284,12 +284,12 @@ public abstract class WebBrowserObject {
       SwingUtilities.invokeLater(new Runnable() {
         public void run() {
           WebBrowserListener[] webBrowserListeners = webBrowserObject.webBrowser.getWebBrowserListeners();
-          WebBrowserEvent e = null;
+          WebBrowserCommandEvent e = null;
           for(int i=webBrowserListeners.length-1; i>= 0; i--) {
             if(e == null) {
-              e = new WebBrowserEvent(webBrowserObject.webBrowser);
+              e = new WebBrowserCommandEvent(webBrowserObject.webBrowser, command, arguments);
             }
-            webBrowserListeners[i].commandReceived(e, command, arguments);
+            webBrowserListeners[i].commandReceived(e);
           }
         }
       });
