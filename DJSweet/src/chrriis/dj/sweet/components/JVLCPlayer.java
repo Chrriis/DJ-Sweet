@@ -24,6 +24,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
+import chrriis.common.Utils;
 import chrriis.common.WebServer;
 import chrriis.dj.sweet.NSOption;
 
@@ -74,11 +75,43 @@ public class JVLCPlayer extends Composite {
 
     @Override
     public String getLocalFileURL(File localFile) {
+      String s;
       try {
-        return "file://" + localFile.toURI().toURL().toString().substring("file:".length());
+        s = "file://" + localFile.toURI().toURL().toString().substring("file:".length());
       } catch (Exception e) {
-        return "file:///" + localFile.getAbsolutePath();
+        s = "file:///" + localFile.getAbsolutePath();
+        if(Utils.IS_WINDOWS) {
+          s = s.replace('\\', '/');
+        }
       }
+      // We have to convert all special remaining characters (e.g. letters with accents).
+      StringBuffer sb = new StringBuffer();
+      for(int i=0; i<s.length(); i++) {
+        char c = s.charAt(i);
+        boolean isToEncode = false;
+        if((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c < '0' || c > '9')) {
+          switch(c) {
+            case '.':
+            case '-':
+            case '*':
+            case '_':
+            case '+':
+            case '%':
+            case ':':
+            case '/':
+              break;
+            default:
+              isToEncode = true;
+              break;
+          }
+        }
+        if(isToEncode) {
+          sb.append(Utils.encodeURL(String.valueOf(c)));
+        } else {
+          sb.append(c);
+        }
+      }
+      return sb.toString();
     }
 
   }
