@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
+import org.eclipse.swt.browser.CloseWindowListener;
 import org.eclipse.swt.browser.LocationEvent;
 import org.eclipse.swt.browser.LocationListener;
 import org.eclipse.swt.browser.OpenWindowListener;
@@ -296,6 +297,21 @@ public class JWebBrowser extends Composite {
     }
     adjustBorder();
     // Listeners
+    browser.addCloseWindowListener(new CloseWindowListener() {
+      public void close(WindowEvent e) {
+        WebBrowserEvent ev = null;
+        for(int i=listenerList.size()-1; i>=0; i--) {
+          if(ev == null) {
+            ev = new WebBrowserEvent(JWebBrowser.this);
+          }
+          listenerList.get(i).windowClosing(ev);
+        }
+        JWebBrowserWindow browserWindow = getWebBrowserWindow();
+        if(browserWindow != null) {
+          browserWindow.dispose();
+        }
+      }
+    });
     browser.addTitleListener(new TitleListener() {
       public void changed(TitleEvent e) {
         title = e.title;
