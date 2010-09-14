@@ -28,7 +28,7 @@ public class ObjectRegistry {
       public void run() {
         while(true) {
           try {
-            sleep(5000);
+            sleep(1000);
           } catch(Exception e) {
           }
           synchronized(ObjectRegistry.this) {
@@ -113,10 +113,6 @@ public class ObjectRegistry {
    */
   public synchronized void remove(int instanceID) {
     instanceIDToObjectReferenceMap.remove(instanceID);
-    if(instanceIDToObjectReferenceMap.isEmpty() && cleanUpThread != null) {
-      cleanUpThread.interrupt();
-      cleanUpThread = null;
-    }
   }
 
   /**
