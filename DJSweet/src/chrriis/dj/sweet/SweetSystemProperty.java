@@ -56,6 +56,13 @@ public enum SweetSystemProperty {
    */
   WEBSERVER_DEBUG_PRINTREQUESTS("sweet.webserver.debug.printRequests", Type.READ_WRITE),
 
+  /**
+   * sweet.webserver.debug.printData
+   * = true/false (default: false)<br/>
+   * Set whether the web server should print the data it sends.
+   */
+  WEBSERVER_DEBUG_PRINTDATA("sweet.webserver.debug.printData", Type.READ_WRITE),
+
 
   /**
    * sweet.components.debug.printOptions
