@@ -136,10 +136,10 @@ public class JFlashPlayer extends Composite {
     protected String getJavascriptDefinitions() {
       String javascriptDefinitions = flashPlayer.customJavascriptDefinitions;
       return
-        "function " + getEmbeddedObjectJavascriptName() + "_DoFScommand(command, args) {" + LS +
-        "  sendCommand(command, args);" + LS +
-        "}" + LS +
-        (javascriptDefinitions == null? "": javascriptDefinitions);
+        "      function " + getEmbeddedObjectJavascriptName() + "_DoFScommand(command, args) {" + LS +
+        "        sendCommand(command, args);" + LS +
+        "      }" +
+        (javascriptDefinitions == null? "": LS + javascriptDefinitions);
     }
 
     @Override
