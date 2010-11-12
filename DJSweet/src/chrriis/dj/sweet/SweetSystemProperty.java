@@ -58,8 +58,9 @@ public enum SweetSystemProperty {
 
   /**
    * sweet.webserver.debug.printData
-   * = true/false (default: false)<br/>
-   * Set whether the web server should print the data it sends.
+   * = true/false/<long> (default: false)<br/>
+   * Set whether the web server should print the data it sends (or how many bytes to
+   * print).
    */
   WEBSERVER_DEBUG_PRINTDATA("sweet.webserver.debug.printData", Type.READ_WRITE),
 
