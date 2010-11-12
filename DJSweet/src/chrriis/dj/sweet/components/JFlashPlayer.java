@@ -143,6 +143,18 @@ public class JFlashPlayer extends Composite {
     }
 
     @Override
+    protected String getAdditionalHeadDefinitions() {
+      return
+      "    <script language=\"VBScript\">" + LS +
+      "    <!-- " + LS +
+      "    Sub " + getEmbeddedObjectJavascriptName() + "_FSCommand(ByVal command, ByVal args)" + LS +
+      "      call " + getEmbeddedObjectJavascriptName() + "_DoFSCommand(command, args)" + LS +
+      "    end sub" + LS +
+      "    //-->" + LS +
+      "    </script>";
+    }
+
+    @Override
     public String getLocalFileURL(File localFile) {
       // Local files cannot be played due to security restrictions. We need to proxy.
       // Moreover, we need to double encode non ASCII characters.
