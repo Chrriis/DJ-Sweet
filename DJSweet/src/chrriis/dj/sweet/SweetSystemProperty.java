@@ -88,6 +88,24 @@ public enum SweetSystemProperty {
    */
   WEBBROWSER_XULRUNNER_HOME("sweet.webbrowser.xulrunner.home", Type.READ_WRITE),
 
+
+  /**
+   * sweet.htmleditor.getHTMLContent.timeout
+   * = &lt;integer&gt; (default: 1500)<br/>
+   * Under heavy load, getHTLMContent may not complete in time, so for such systems
+   * it is desirable to increase the timeout.
+   */
+  HTMLEDITOR_GETHTMLCONTENT_TIMEOUT("sweet.htmleditor.getHTMLContent.timeout", Type.READ_WRITE),
+
+
+  /**
+   * nativeswing.vlcplayer.fixPlaylistAutoPlayNext
+   * = true/false (default: true)<br/>
+   * VLC seems to have a bug: it does not automatically play the next queued item.
+   * The fix that was added can be deactivated with this system property.
+   */
+  VLCPLAYER_FIXPLAYLISTAUTOPLAYNEXT("nativeswing.vlcplayer.fixPlaylistAutoPlayNext", Type.READ_WRITE),
+
   ;
 
   //private static final org.slf4j.Logger log = org.slf4j.LoggerFactory

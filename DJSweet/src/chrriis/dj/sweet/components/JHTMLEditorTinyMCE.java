@@ -19,6 +19,7 @@ import chrriis.common.WebServer;
 import chrriis.common.WebServer.HTTPRequest;
 import chrriis.common.WebServer.WebServerContent;
 import chrriis.dj.sweet.EventDispatchUtils;
+import chrriis.dj.sweet.SweetSystemProperty;
 import chrriis.dj.sweet.components.JHTMLEditor.JHTMLEditorImplementation;
 
 /**
@@ -243,7 +244,9 @@ class JHTMLEditorTinyMCE implements JHTMLEditorImplementation {
     JWebBrowser webBrowser = htmlEditor.getWebBrowser();
     tempResult = this;
     webBrowser.executeJavascript("JH_sendData();");
-    for(int i=0; i<20; i++) {
+    int timeout = Integer.parseInt(SweetSystemProperty.HTMLEDITOR_GETHTMLCONTENT_TIMEOUT.get("1500"));
+    long start = System.currentTimeMillis();
+    while(true) {
       EventDispatchUtils.sleepWithEventDispatch(new EventDispatchUtils.Condition() {
         public boolean getValue() {
           return tempResult != JHTMLEditorTinyMCE.this;
@@ -251,6 +254,9 @@ class JHTMLEditorTinyMCE implements JHTMLEditorImplementation {
       }, 50);
       if(tempResult != this) {
         return (String)tempResult;
+      }
+      if(System.currentTimeMillis() - start > timeout) {
+        break;
       }
     }
     return null;

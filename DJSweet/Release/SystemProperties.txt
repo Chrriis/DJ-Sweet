@@ -35,7 +35,6 @@ are using them get loaded.
  Set whether the web server should print the data it sends (or how many bytes to
  print).
 
-
 --------------------------------------------------------------------------------
 
 * sweet.components.debug.printOptions
@@ -53,3 +52,9 @@ are using them get loaded.
   Set which XULRunner installation is used. This property is taken into account
   when using the XULRunner runtime. 
 
+--------------------------------------------------------------------------------
+
+* nativeswing.htmleditor.getHTMLContent.timeout
+  = &lt;integer&gt; (default: 1500)<br/>
+  Under heavy load, getHTLMContent may not complete in time, so for such systems
+  it is desirable to increase the timeout.
