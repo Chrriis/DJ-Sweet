@@ -99,12 +99,12 @@ public enum SweetSystemProperty {
 
 
   /**
-   * nativeswing.vlcplayer.fixPlaylistAutoPlayNext
+   * sweet.vlcplayer.fixPlaylistAutoPlayNext
    * = true/false (default: true)<br/>
    * VLC seems to have a bug: it does not automatically play the next queued item.
    * The fix that was added can be deactivated with this system property.
    */
-  VLCPLAYER_FIXPLAYLISTAUTOPLAYNEXT("nativeswing.vlcplayer.fixPlaylistAutoPlayNext", Type.READ_WRITE),
+  VLCPLAYER_FIXPLAYLISTAUTOPLAYNEXT("sweet.vlcplayer.fixPlaylistAutoPlayNext", Type.READ_WRITE),
 
   ;
 

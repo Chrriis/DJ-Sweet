@@ -54,7 +54,7 @@ are using them get loaded.
 
 --------------------------------------------------------------------------------
 
-* nativeswing.htmleditor.getHTMLContent.timeout
+* sweet.htmleditor.getHTMLContent.timeout
   = &lt;integer&gt; (default: 1500)<br/>
   Under heavy load, getHTLMContent may not complete in time, so for such systems
   it is desirable to increase the timeout.
