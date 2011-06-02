@@ -64,6 +64,8 @@ public enum SweetSystemProperty {
    */
   WEBSERVER_DEBUG_PRINTDATA("sweet.webserver.debug.printData", Type.READ_WRITE),
 
+  WEBSERVER_ACTIVATEOLDRESOURCEMETHOD("sweet.webserver.activateOldResourceMethod", Type.READ_WRITE),
+
 
   /**
    * sweet.components.debug.printOptions

@@ -29,6 +29,7 @@ import chrriis.common.WebServer.HTTPRequest;
 import chrriis.common.WebServer.WebServerContent;
 import chrriis.dj.sweet.EventDispatchUtils;
 import chrriis.dj.sweet.NSOption;
+import chrriis.dj.sweet.SweetSystemProperty;
 
 /**
  * An HTML editor. It is a browser-based component, which relies on the FCKeditor (the default) or the TinyMCE editor.<br/>
@@ -333,7 +334,11 @@ public class JHTMLEditor extends Composite {
     for(Matcher m; (m = p.matcher(html)).find(); ) {
       String resource = html.substring(m.start(2), m.end(2));
       File resourceFile = new File(resource);
-      resource = WebServer.getDefaultWebServer().getResourcePathURL(Utils.encodeURL(resourceFile.getParent()), resourceFile.getName());
+      if(Boolean.parseBoolean(SweetSystemProperty.WEBSERVER_ACTIVATEOLDRESOURCEMETHOD.get())) {
+        resource = WebServer.getDefaultWebServer().getResourcePathURL(Utils.encodeURL(resourceFile.getParent()), resourceFile.getName());
+      } else {
+        resource = WebServer.getDefaultWebServer().getResourcePathURL(resourceFile.getParent(), resourceFile.getName());
+      }
       html = html.substring(0, m.start(1)) + resource + html.substring(m.end(2));
     }
     return html;

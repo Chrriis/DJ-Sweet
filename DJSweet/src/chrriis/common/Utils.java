@@ -46,6 +46,8 @@ public class Utils {
   public static final boolean IS_32_BIT;
   public static final boolean IS_64_BIT;
 
+  public static final boolean IS_WEBSTART = SystemProperty.JAVAWEBSTART_VERSION.get() != null;
+
   static {
     String os = SystemProperty.OS_NAME.get();
     IS_MAC = os.startsWith("Mac") || os.startsWith("Darwin");
@@ -54,6 +56,9 @@ public class Utils {
     IS_64_BIT = "x86_64".equals(arch) || "x64".equals(arch) || "amd64".equals(arch) || "ia64".equals(arch) || "ppc64".equals(arch) || "IA64N".equals(arch) || "64".equals(System.getProperty("sun.arch.data.model")) || "64".equals(System.getProperty("com.ibm.vm.bitmode"));
     IS_32_BIT = !IS_64_BIT;
   }
+
+  public static final boolean IS_WINDOWS_VISTA_OR_GREATER = IS_WINDOWS && SystemProperty.OS_VERSION.get().compareTo("6.0") >= 0;
+  public static final boolean IS_WINDOWS_7_OR_GREATER = IS_WINDOWS && SystemProperty.OS_VERSION.get().compareTo("6.1") >= 0;
 
   public static final String LINE_SEPARATOR = SystemProperty.LINE_SEPARATOR.get();
 
@@ -75,6 +80,14 @@ public class Utils {
       encodedString = URLEncoder.encode(s);
     }
     return encodedString.replaceAll("\\+", "%20");
+  }
+
+  public static String encodeBase64(String s, boolean isURLSafe) {
+    return Base64.encode(s, isURLSafe);
+  }
+
+  public static String decodeBase64(String s) {
+    return Base64.decode(s);
   }
 
   public static String escapeXML(String s) {

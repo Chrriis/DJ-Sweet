@@ -33,6 +33,7 @@ import chrriis.common.WebServer.HTTPRequest;
 import chrriis.common.WebServer.WebServerContent;
 import chrriis.common.WebServer.WebServerContentProvider;
 import chrriis.dj.sweet.NSOption;
+import chrriis.dj.sweet.SweetSystemProperty;
 
 /**
  * A native Flash player. It is a browser-based component, which relies on the Flash plugin.<br/>
@@ -158,7 +159,10 @@ public class JFlashPlayer extends Composite {
     public String getLocalFileURL(File localFile) {
       // Local files cannot be played due to security restrictions. We need to proxy.
       // Moreover, we need to double encode non ASCII characters.
-      return WebServer.getDefaultWebServer().getResourcePathURL(encodeSpecialCharacters(localFile.getParent()), encodeSpecialCharacters(localFile.getName()));
+      if(Boolean.parseBoolean(SweetSystemProperty.WEBSERVER_ACTIVATEOLDRESOURCEMETHOD.get())) {
+        return WebServer.getDefaultWebServer().getResourcePathURL(encodeSpecialCharacters(localFile.getParent()), encodeSpecialCharacters(localFile.getName()));
+      }
+      return WebServer.getDefaultWebServer().getResourcePathURL(localFile.getParent(), localFile.getName());
     }
 
     private String encodeSpecialCharacters(String s) {
