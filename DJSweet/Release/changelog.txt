@@ -7,6 +7,7 @@ Licence terms: LGPL (see licence.txt)
 
 * Version 1.0.1 (xxxxxxxxxxxxxx):
 
+- TinyMCE upgrade to 3.4.3.2.
 - JHTMLEditor timeout is slightly increased and can be changed.
 - Call to display.dispose() when closing the native interface for better cleanup.
 - Web Browser type and version are accessible.
