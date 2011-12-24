@@ -5,6 +5,11 @@ Licence terms: LGPL (see licence.txt)
 
 ---------------------------------- Change log ----------------------------------
 
+* Version 1.0.2 (xxxxxxxxxxxxx):
+
+- IPv6 support in WebServer.
+
+
 * Version 1.0.1 (July 02, 2011):
 
 - TinyMCE upgrade to 3.4.3.2.
