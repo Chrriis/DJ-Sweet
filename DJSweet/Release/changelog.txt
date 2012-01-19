@@ -8,6 +8,7 @@ Licence terms: LGPL (see licence.txt)
 * Version 1.0.2 (xxxxxxxxxxxxx):
 
 - IPv6 support in WebServer.
+- Event listeners do not inherit the SWT internal event class.
 
 
 * Version 1.0.1 (July 02, 2011):

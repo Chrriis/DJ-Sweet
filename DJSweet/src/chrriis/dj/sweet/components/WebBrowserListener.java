@@ -7,12 +7,12 @@
  */
 package chrriis.dj.sweet.components;
 
-import org.eclipse.swt.internal.SWTEventListener;
+import java.util.EventListener;
 
 /**
  * @author Christopher Deckers
  */
-public interface WebBrowserListener extends SWTEventListener {
+public interface WebBrowserListener extends EventListener {
 
   /**
    * This event is sent to the browser that originated the event, and can be consumed.

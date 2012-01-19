@@ -7,12 +7,12 @@
  */
 package chrriis.dj.sweet.components;
 
-import org.eclipse.swt.internal.SWTEventListener;
+import java.util.EventListener;
 
 /**
  * @author Christopher Deckers
  */
-public interface HTMLEditorListener extends SWTEventListener {
+public interface HTMLEditorListener extends EventListener {
 
   /**
    * Invoked when the save action was triggered on an HTML editor.

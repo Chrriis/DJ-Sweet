@@ -7,12 +7,12 @@
  */
 package chrriis.dj.sweet.components;
 
-import org.eclipse.swt.internal.SWTEventListener;
+import java.util.EventListener;
 
 /**
  * @author Christopher Deckers
  */
-public interface FlashPlayerListener extends SWTEventListener {
+public interface FlashPlayerListener extends EventListener {
 
   /**
    * The Flash player can invoke special commands to the application simply by calling:<br>
