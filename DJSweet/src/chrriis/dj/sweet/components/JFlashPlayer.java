@@ -279,10 +279,22 @@ public class JFlashPlayer extends Composite {
     addDisposeListener(new DisposeListener() {
       public void widgetDisposed(DisposeEvent e) {
         webBrowserObject.load(null);
+        disposeButtonImage(stopButton);
+        disposeButtonImage(pauseButton);
+        disposeButtonImage(playButton);
       }
     });
   }
 
+  private void disposeButtonImage(Button button) {
+    if (button != null && !button.isDisposed()) {
+      Image img = button.getImage();
+      if (img != null && !img.isDisposed()) {
+        img.dispose();
+      }
+    }
+  }
+  
   private void adjustBorder() {
     FillLayout layout = (FillLayout)webBrowserPanel.getLayout();
     if(isControlBarVisible()) {

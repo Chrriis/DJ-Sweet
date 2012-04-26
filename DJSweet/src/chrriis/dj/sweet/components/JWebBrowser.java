@@ -31,6 +31,8 @@ import org.eclipse.swt.browser.TitleEvent;
 import org.eclipse.swt.browser.TitleListener;
 import org.eclipse.swt.browser.VisibilityWindowAdapter;
 import org.eclipse.swt.browser.WindowEvent;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MenuAdapter;
@@ -171,7 +173,8 @@ public class JWebBrowser extends Composite {
   private ToolItem forwardButton;
   private ToolItem reloadButton;
   private ToolItem stopButton;
-
+  private ToolItem goButton;
+  
   /**
    * Copy the appearance, the visibility of the various bars, from one web browser to another.
    * @param fromWebBrowser the web browser to copy the appearance from.
@@ -606,8 +609,26 @@ public class JWebBrowser extends Composite {
         updateNavigationButtons();
       }
     });
+    addDisposeListener(new DisposeListener() {
+      public void widgetDisposed(DisposeEvent disposeEvent) {
+        disposeToolItemImage(backButton);
+        disposeToolItemImage(forwardButton);
+        disposeToolItemImage(reloadButton);
+        disposeToolItemImage(stopButton);
+        disposeToolItemImage(goButton);
+      }
+    });
   }
 
+  private void disposeToolItemImage(ToolItem button) {
+    if (button != null && !button.isDisposed()) {
+      Image img = button.getImage();
+      if (img != null && !img.isDisposed()) {
+        img.dispose();
+      }
+    }
+  }
+  
   private void createMenuBarContent() {
     JWebBrowserWindow webBrowserWindow = getWebBrowserWindow();
     MenuItem fileMenuItem = new MenuItem(menuBar, SWT.CASCADE);
@@ -832,7 +853,7 @@ public class JWebBrowser extends Composite {
     gridData.verticalAlignment = SWT.FILL;
     ToolBar goToolBar = new ToolBar(locationBarPane, SWT.FLAT);
     goToolBar.setLayoutData(gridData);
-    ToolItem goButton = new ToolItem(goToolBar, SWT.PUSH);
+    goButton = new ToolItem(goToolBar, SWT.PUSH);
     goButton.setImage(createIcon("GoIcon"));
     goButton.setToolTipText(RESOURCES.getString("GoText"));
     goButton.addSelectionListener(new SelectionAdapter() {
