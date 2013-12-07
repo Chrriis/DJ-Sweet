@@ -5,8 +5,9 @@ Licence terms: LGPL (see licence.txt)
 
 ---------------------------------- Change log ----------------------------------
 
-* Version 1.0.2 (xxxxxxxxxxxxx):
+* Version 1.0.3 (xxxxxxxxxxxxxxxx):
 
+- TinyMCE upgraded to 3.5.10 to work with IE 11.
 - Fixed memory leak when using several web browsers because of image resources.
 - IPv6 support in WebServer.
 - Event listeners do not inherit the SWT internal event class.
