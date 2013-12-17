@@ -11,6 +11,7 @@ Licence terms: LGPL (see licence.txt)
 - Fixed memory leak when using several web browsers because of image resources.
 - IPv6 support in WebServer.
 - Event listeners do not inherit the SWT internal event class.
+- Fixed a WebServer issue with classpath URLs containing a space.
 
 
 * Version 1.0.1 (July 02, 2011):
