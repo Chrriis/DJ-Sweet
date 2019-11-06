@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-import chrriis.common.WebServer;
+import chrriis.dj.sweet.common.WebServer;
 import chrriis.dj.sweet.components.JWebBrowser;
 
 /**

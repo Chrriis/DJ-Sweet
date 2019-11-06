@@ -25,7 +25,7 @@ import org.eclipse.swt.ole.win32.OleParameterDescription;
 import org.eclipse.swt.ole.win32.Variant;
 import org.eclipse.swt.widgets.Composite;
 
-import chrriis.common.Utils;
+import chrriis.dj.sweet.common.Utils;
 
 
 /**

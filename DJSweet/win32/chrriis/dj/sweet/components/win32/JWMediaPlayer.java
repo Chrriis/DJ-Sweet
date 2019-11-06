@@ -18,8 +18,8 @@ import org.eclipse.swt.ole.win32.OleClientSite;
 import org.eclipse.swt.ole.win32.OleFrame;
 import org.eclipse.swt.widgets.Composite;
 
-import chrriis.common.WebServer;
 import chrriis.dj.sweet.NSOption;
+import chrriis.dj.sweet.common.WebServer;
 import chrriis.dj.sweet.components.OleAccess;
 
 /**

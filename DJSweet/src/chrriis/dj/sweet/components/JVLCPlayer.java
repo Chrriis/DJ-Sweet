@@ -24,9 +24,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-import chrriis.common.Utils;
-import chrriis.common.WebServer;
 import chrriis.dj.sweet.NSOption;
+import chrriis.dj.sweet.common.Utils;
+import chrriis.dj.sweet.common.WebServer;
 
 /**
  * A native multimedia player. It is a browser-based component, which relies on the VLC plugin.<br/>

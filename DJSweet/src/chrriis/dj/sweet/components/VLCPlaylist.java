@@ -9,9 +9,9 @@ package chrriis.dj.sweet.components;
 
 import java.io.File;
 
-import chrriis.common.Utils;
-import chrriis.common.WebServer;
 import chrriis.dj.sweet.SweetSystemProperty;
+import chrriis.dj.sweet.common.Utils;
+import chrriis.dj.sweet.common.WebServer;
 import chrriis.dj.sweet.components.VLCInput.VLCMediaState;
 
 /**

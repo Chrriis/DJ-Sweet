@@ -23,13 +23,13 @@ import javax.swing.event.EventListenerList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
-import chrriis.common.ObjectRegistry;
-import chrriis.common.Utils;
-import chrriis.common.WebServer;
-import chrriis.common.WebServer.HTTPData;
-import chrriis.common.WebServer.HTTPRequest;
-import chrriis.common.WebServer.WebServerContent;
 import chrriis.dj.sweet.EventDispatchUtils;
+import chrriis.dj.sweet.common.ObjectRegistry;
+import chrriis.dj.sweet.common.Utils;
+import chrriis.dj.sweet.common.WebServer;
+import chrriis.dj.sweet.common.WebServer.HTTPData;
+import chrriis.dj.sweet.common.WebServer.HTTPRequest;
+import chrriis.dj.sweet.common.WebServer.WebServerContent;
 
 /**
  * A helper class to simplify the development of native components that leverage a web browser plugin (like the JFlashPlayer).

@@ -56,10 +56,10 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
-import chrriis.common.Utils;
 import chrriis.dj.sweet.EventDispatchUtils;
 import chrriis.dj.sweet.NSOption;
 import chrriis.dj.sweet.SweetSystemProperty;
+import chrriis.dj.sweet.common.Utils;
 
 /**
  * A native web browser, using Internet Explorer or Mozilla on Windows, and Mozilla on other platforms.<br/>

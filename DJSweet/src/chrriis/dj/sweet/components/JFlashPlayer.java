@@ -27,13 +27,13 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-import chrriis.common.Utils;
-import chrriis.common.WebServer;
-import chrriis.common.WebServer.HTTPRequest;
-import chrriis.common.WebServer.WebServerContent;
-import chrriis.common.WebServer.WebServerContentProvider;
 import chrriis.dj.sweet.NSOption;
 import chrriis.dj.sweet.SweetSystemProperty;
+import chrriis.dj.sweet.common.Utils;
+import chrriis.dj.sweet.common.WebServer;
+import chrriis.dj.sweet.common.WebServer.HTTPRequest;
+import chrriis.dj.sweet.common.WebServer.WebServerContent;
+import chrriis.dj.sweet.common.WebServer.WebServerContentProvider;
 
 /**
  * A native Flash player. It is a browser-based component, which relies on the Flash plugin.<br/>

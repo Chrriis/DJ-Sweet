@@ -22,14 +22,14 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import chrriis.common.ObjectRegistry;
-import chrriis.common.Utils;
-import chrriis.common.WebServer;
-import chrriis.common.WebServer.HTTPRequest;
-import chrriis.common.WebServer.WebServerContent;
 import chrriis.dj.sweet.EventDispatchUtils;
 import chrriis.dj.sweet.NSOption;
 import chrriis.dj.sweet.SweetSystemProperty;
+import chrriis.dj.sweet.common.ObjectRegistry;
+import chrriis.dj.sweet.common.Utils;
+import chrriis.dj.sweet.common.WebServer;
+import chrriis.dj.sweet.common.WebServer.HTTPRequest;
+import chrriis.dj.sweet.common.WebServer.WebServerContent;
 
 /**
  * An HTML editor. It is a browser-based component, which relies on the FCKeditor (the default) or the TinyMCE editor.<br/>

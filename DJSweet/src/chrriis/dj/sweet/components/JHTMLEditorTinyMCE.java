@@ -14,12 +14,12 @@ import javax.swing.SwingUtilities;
 
 import org.eclipse.swt.browser.Browser;
 
-import chrriis.common.Utils;
-import chrriis.common.WebServer;
-import chrriis.common.WebServer.HTTPRequest;
-import chrriis.common.WebServer.WebServerContent;
 import chrriis.dj.sweet.EventDispatchUtils;
 import chrriis.dj.sweet.SweetSystemProperty;
+import chrriis.dj.sweet.common.Utils;
+import chrriis.dj.sweet.common.WebServer;
+import chrriis.dj.sweet.common.WebServer.HTTPRequest;
+import chrriis.dj.sweet.common.WebServer.WebServerContent;
 import chrriis.dj.sweet.components.JHTMLEditor.JHTMLEditorImplementation;
 
 /**

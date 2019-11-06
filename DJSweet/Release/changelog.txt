@@ -12,6 +12,7 @@ Licence terms: LGPL (see licence.txt)
 - IPv6 support in WebServer.
 - Event listeners do not inherit the SWT internal event class.
 - Fixed a WebServer issue with classpath URLs containing a space.
+- Removed duplicate packages between JAR files.
 
 
 * Version 1.0.1 (July 02, 2011):

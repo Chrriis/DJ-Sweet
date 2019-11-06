@@ -26,7 +26,7 @@
  * http://creativecommons.org/licenses/MIT/
  *
  */
-package chrriis.common;
+package chrriis.dj.sweet.common;
 
 import java.io.File;
 import java.security.AccessController;

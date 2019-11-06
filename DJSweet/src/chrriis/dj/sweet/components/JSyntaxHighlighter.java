@@ -11,9 +11,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import chrriis.common.Utils;
-import chrriis.common.WebServer;
 import chrriis.dj.sweet.NSOption;
+import chrriis.dj.sweet.common.Utils;
+import chrriis.dj.sweet.common.WebServer;
 
 /**
  * A component to display some content with syntax highlighting. It is a browser-based component, which relies on the SyntaxHighlighter library.<br/>
